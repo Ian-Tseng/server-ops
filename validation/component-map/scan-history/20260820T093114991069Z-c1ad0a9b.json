@@ -1,0 +1,192 @@
+{
+  "accepted_map_id": "component-map-05ea1b5518bb",
+  "action": "conflict_detected",
+  "artifacts": {
+    "accepted_map": "accepted-map.json",
+    "candidate": "candidates/20260820T093114991069Z-c1ad0a9b-component-map-eda7fa8d9ec3.json",
+    "delta": "deltas/20260820T093114991069Z-c1ad0a9b.json"
+  },
+  "candidate_map_id": "component-map-eda7fa8d9ec3",
+  "changes": {
+    "added_components": [],
+    "added_elements": [],
+    "changed_components": [],
+    "changed_elements": [
+      {
+        "component_id": "public-skill-interface",
+        "element_id": "routing-install-and-boundaries",
+        "fields": [
+          "evidence_locators"
+        ]
+      },
+      {
+        "component_id": "release-evidence-and-provenance",
+        "element_id": "local-release-candidate-authority",
+        "fields": [
+          "evidence_locators"
+        ]
+      }
+    ],
+    "contract_changes": [
+      "scope"
+    ],
+    "removed_components": [],
+    "removed_elements": [],
+    "source_changes": [
+      {
+        "fields": [
+          "exists",
+          "kind",
+          "sha256",
+          "source"
+        ],
+        "source": ".github/workflows/validate.yml"
+      },
+      {
+        "fields": [
+          "exists",
+          "kind",
+          "sha256",
+          "source"
+        ],
+        "source": "CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "PUBLISHING.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "README.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "SOURCE.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "pyproject.toml"
+      },
+      {
+        "fields": [
+          "exists",
+          "kind",
+          "sha256",
+          "source"
+        ],
+        "source": "skills/server-ops/CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "exists",
+          "kind",
+          "sha256",
+          "source"
+        ],
+        "source": "skills/server-ops/README.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/manifest.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/schemas/adapter.schema.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/scripts/build_manifest.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/scripts/install_skill.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/scripts/package_contract.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/src/server_ops/adapter.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/src/server_ops/health.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_adapter_validation.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_cli_contract.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_health_identity.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_install_lifecycle.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_public_package.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_validation_contract.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "validation/release-candidate-test-receipt.json"
+      }
+    ]
+  },
+  "event_id": "20260820T093114991069Z-c1ad0a9b",
+  "integrity": {
+    "canonical_payload_sha256": "0016579bc1fa8b38519ce367a667abab137da1601701f588a5fa344b64217b45"
+  },
+  "map_state_after": "conflict_candidate",
+  "map_state_before": "accepted",
+  "mapper_version": "1.3.0",
+  "recorded_at_utc": "2026-08-20T09:31:14.991069Z",
+  "schema_version": "1.0",
+  "skill_sha256": "a037edd16f17b7253a4003081c2566838bf5fd195206c371f5e687ff12bdb0bb"
+}

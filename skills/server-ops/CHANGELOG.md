@@ -1,0 +1,22 @@
+# Changelog
+
+## 0.1.1 - 2026-08-20
+
+- Moved update rollback copies outside the active Codex skill registry.
+- Added verified migration of legacy sibling backups and refusal of unverified copies.
+- Staged installations outside the registry and added rollback-safe migration tests.
+- Rejected manifest path traversal and linked destination, backup, and staging boundaries.
+- Restricted health to exact 127.0.0.1/::1 URLs without queries or redirect success.
+- Added truthful recovery-required output when installer rollback cannot be completed.
+- Added schema-checked, digest-verified refusal receipts bound to request and service workspaces.
+- Redacted process arguments and sanitized terminal-facing error text.
+- Pinned the complete Python 3.10/3.12 CI test dependency set.
+
+## 0.1.0 - 2026-08-20
+
+- Added strict versioned adapters and JSON Schema.
+- Added adapter-free workspace discovery, doctor, status, diagnosis, and bounded loopback health.
+- Added exact capability reporting and persistent refusal receipts.
+- Added safe adapter draft generation and stable JSON/exit contracts.
+- Added hash-verified installation, modified-target refusal, and rollback backups.
+- Kept all mutation providers uncertified and unavailable.

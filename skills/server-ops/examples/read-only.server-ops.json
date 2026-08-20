@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "services": [
+    {
+      "id": "example-server",
+      "label": "Example Server",
+      "workspace": ".",
+      "mutation_enabled": false,
+      "strategy": "read_only",
+      "match": {
+        "argv_contains": ["example_server.py"],
+        "ports": [8090]
+      },
+      "health": {
+        "url": "http://127.0.0.1:8090/health",
+        "expected_status": 200,
+        "expected_body": "OK",
+        "timeout_ms": 1500
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "accepted_map_id": "component-map-c8243376143e",
+  "action": "drift_detected",
+  "artifacts": {
+    "accepted_map": "accepted-map.json",
+    "candidate": "candidates/20260820T091003229623Z-0d2c651b-component-map-891ab6732a1a.json",
+    "delta": "deltas/20260820T091003229623Z-0d2c651b.json"
+  },
+  "candidate_map_id": "component-map-891ab6732a1a",
+  "changes": {
+    "added_components": [],
+    "added_elements": [],
+    "changed_components": [],
+    "changed_elements": [],
+    "contract_changes": [],
+    "removed_components": [],
+    "removed_elements": [],
+    "source_changes": [
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/manifest.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/schemas/adapter.schema.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/src/server_ops/state.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_cli_contract.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "validation/release-candidate-test-receipt.json"
+      }
+    ]
+  },
+  "event_id": "20260820T091003229623Z-0d2c651b",
+  "integrity": {
+    "canonical_payload_sha256": "39a5282c79a9848b275fe63cf4d09771cd37b1125d8b111db00788dc8b272a13"
+  },
+  "map_state_after": "drift_candidate",
+  "map_state_before": "accepted",
+  "mapper_version": "1.3.0",
+  "recorded_at_utc": "2026-08-20T09:10:03.229623Z",
+  "schema_version": "1.0",
+  "skill_sha256": "a037edd16f17b7253a4003081c2566838bf5fd195206c371f5e687ff12bdb0bb"
+}

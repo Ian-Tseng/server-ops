@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "product": "server-ops",
+  "version": "0.1.1",
+  "recorded_at_utc": "2026-08-20T09:56:28.4152692Z",
+  "tests": {
+    "command": "py -3 -X utf8 -m pytest -q",
+    "tests_run": 52,
+    "passed": 52,
+    "failed": 0,
+    "skipped": 0,
+    "environment": "local Windows candidate",
+    "status": "PASS"
+  },
+  "package": {
+    "command": "py -3 -X utf8 skills/server-ops/scripts/verify_package.py",
+    "manifest_digest": "d9bb1546b46010013305f15085fe435dc2e62dd97e76a00d5c87595710df2e77",
+    "status": "PACKAGE_VERIFIED"
+  },
+  "official_skill_validator": {
+    "command": "py -3 -X utf8 <skill-creator-root>/scripts/quick_validate.py skills/server-ops",
+    "result": "Skill is valid!",
+    "validator_sha256": "547af3cec2ae71ac2a4ef606365d23a8c58b586862211e9c7a9be7bfd0e30fbb",
+    "status": "PASS"
+  },
+  "github_skill_publisher": {
+    "command": "gh skill publish .\\skills --dry-run",
+    "outbound": "NONE",
+    "status": "PASS"
+  },
+  "pending_external_gates": [
+    "release PR and PR CI",
+    "exact merged-main CI",
+    "tag protection and immutable release verification",
+    "v0.1.1 publication",
+    "fresh public Codex and Claude Code install/update",
+    "fresh live client activation"
+  ]
+}
