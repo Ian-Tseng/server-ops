@@ -3,6 +3,13 @@
 Only Ian-Tseng may accept the release evidence map, merge the release PR, or publish a
 version.
 
+Before enabling managed repair, verify the policy/caller exact SHA agreement, the
+`managed-repair-ready` label, required reviewers on both fixed protected environments,
+explicit `OPENAI_API_KEY` passing, the Actions PR setting, and a successful dry run.
+This repository stays disabled until method and venue canaries pass. A managed draft
+never authorizes evidence acceptance, merge, release, publication, installed
+replacement, or activation. Roll back policy and caller SHA together.
+
 1. Keep root/package `VERSION`, `CHANGELOG.md`, `LICENSE`, `PRIVACY.md`, and
    `CITATION.cff` synchronized.
 2. Rebuild and verify the package manifest:
@@ -23,8 +30,8 @@ version.
    `refs/tags/v*` update/deletion ruleset.
 8. Run `gh skill publish .\skills --dry-run`, then publish exactly once:
 
-       gh skill publish .\skills --tag v0.1.1
-9. Run `gh release verify v0.1.1` and verify the release/tag resolve to exact green main.
+       gh skill publish .\skills --tag v0.1.2
+9. Run `gh release verify v0.1.2` and verify the release/tag resolve to exact green main.
 10. Use fresh disposable repositories to test Codex and Claude Code install, list,
     update dry-run, package verification, and available-client activation.
 

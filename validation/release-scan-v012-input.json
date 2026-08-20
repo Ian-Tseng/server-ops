@@ -1,0 +1,266 @@
+{
+  "schema_version": "2.0",
+  "objective": "Determine which Server Ops 0.1.2 release-candidate claims, including consent-gated managed update maintenance and content-free quality handoff, are directly supported by current local evidence and preserve the boundary around pending remote lifecycle gates.",
+  "scope": [
+    "public skill and agent interfaces",
+    "strict adapter and loopback health runtime",
+    "bounded discovery and mutation refusal",
+    "managed package identity, installer, and default-off privacy",
+    "local release receipt and provenance"
+  ],
+  "authority": [
+    "VERSION",
+    "skills/server-ops/manifest.json",
+    "skills/server-ops/SKILL.md",
+    "skills/server-ops/scripts/package_contract.py",
+    "skills/server-ops/scripts/install_skill.py",
+    "validation/release-candidate-test-receipt.json"
+  ],
+  "evidence_items": [
+    {
+      "evidence_id": "evidence:release-receipt",
+      "source": {"kind": "file", "path": "validation/release-candidate-test-receipt.json"},
+      "locator": {"kind": "whole_file"},
+      "method": "executed_test",
+      "observed_summary": "The local receipt records 58 passing tests, package verification, official skill validation, and an outbound-free GitHub Skill publisher dry-run while leaving remote and managed-repair gates pending."
+    },
+    {
+      "evidence_id": "evidence:managed-lifecycle",
+      "source": {"kind": "file", "path": "skills/server-ops/SKILL.md"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "The skill requires consent-gated managed-update maintenance followed by one content-free owner-bound outcome receipt after substantive use, with no default analytics, reporting, project/process transport, or issue submission."
+    },
+    {
+      "evidence_id": "evidence:skill-interface",
+      "source": {"kind": "file", "path": "skills/server-ops/SKILL.md"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "The skill is explicitly local and read-only, excludes production and remote systems, and forbids bypassing typed mutation refusals."
+    },
+    {
+      "evidence_id": "evidence:adapter-runtime",
+      "source": {"kind": "file", "path": "skills/server-ops/src/server_ops/adapter.py"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "Runtime parsing rejects unknown fields, linked or external explicit adapters, confines configured workspaces, and accepts only credential-free literal-loopback HTTP health URLs."
+    },
+    {
+      "evidence_id": "evidence:health-runtime",
+      "source": {"kind": "file", "path": "skills/server-ops/src/server_ops/health.py"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "Health probing uses explicit timeout and response bounds, disables redirects, and evaluates exact configured predicates."
+    },
+    {
+      "evidence_id": "evidence:discovery-runtime",
+      "source": {"kind": "file", "path": "skills/server-ops/src/server_ops/discovery.py"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "Discovery starts from listeners, requires exact-workspace containment, bounds candidate enrichment, and tolerates process churn."
+    },
+    {
+      "evidence_id": "evidence:public-process-output",
+      "source": {"kind": "file", "path": "skills/server-ops/src/server_ops/models.py"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "Public process observations expose an argument count and canonical digest instead of raw argument values, and human command labels strip terminal controls."
+    },
+    {
+      "evidence_id": "evidence:planner-runtime",
+      "source": {"kind": "file", "path": "skills/server-ops/src/server_ops/planner.py"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "Uncertified lifecycle operations produce typed refusals instead of executable process-mutation plans and record the actual provider availability and request/service workspaces."
+    },
+    {
+      "evidence_id": "evidence:state-runtime",
+      "source": {"kind": "file", "path": "skills/server-ops/src/server_ops/state.py"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "Stored refusal receipts are bounded, regular-file-only, schema-checked, workspace-bound, and canonical-digest-verified before recovery or apply."
+    },
+    {
+      "evidence_id": "evidence:manifest",
+      "source": {"kind": "file", "path": "skills/server-ops/manifest.json"},
+      "locator": {"kind": "whole_file"},
+      "method": "schema_validated",
+      "observed_summary": "The deterministic versioned manifest binds the release-candidate package files with canonical text handling."
+    },
+    {
+      "evidence_id": "evidence:manifest-builder",
+      "source": {"kind": "file", "path": "skills/server-ops/scripts/build_manifest.py"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "Manifest generation traverses only regular no-follow package entries and refuses linked package roots, children, and manifest outputs before reading or writing targets."
+    },
+    {
+      "evidence_id": "evidence:package-contract",
+      "source": {"kind": "file", "path": "skills/server-ops/scripts/package_contract.py"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "Package verification rejects links, non-regular or oversized files, unexpected ordinary files, changed manifest entries, and untrusted GitHub origin/path/ref metadata while ignoring bounded generated caches."
+    },
+    {
+      "evidence_id": "evidence:installer",
+      "source": {"kind": "file", "path": "skills/server-ops/scripts/install_skill.py"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "The custom installer performs bounded no-follow manifest and metadata reads, verifies source and target trees, refuses unmanaged or modified updates, and keeps verified rollback outside active skill discovery."
+    },
+    {
+      "evidence_id": "evidence:privacy",
+      "source": {"kind": "file", "path": "skills/server-ops/PRIVACY.md"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "No lifecycle analytics, reporting, feedback, update check, or installation identity is enabled by default; configured health traffic remains literal loopback."
+    },
+    {
+      "evidence_id": "evidence:public-boundary",
+      "source": {"kind": "file", "path": "README.md"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "The public guide distinguishes installation from activation and disclaims certified mutation, production reliability, and complete cross-platform support."
+    },
+    {
+      "evidence_id": "evidence:source-ledger",
+      "source": {"kind": "file", "path": "skills/server-ops/references/source-ledger.md"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "The ledger pins external source revisions and separates adopted patterns from rejected or deferred operational scope."
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim:read-only-interface",
+      "statement": "Server Ops 0.1.2 presents a local, non-production, read-only skill interface and does not advertise a certified mutation provider.",
+      "element_ref": {"component_id": "public-skill-interface", "element_id": "routing-install-and-boundaries"},
+      "material": true,
+      "status": "supported",
+      "rationale": "The skill and public boundary are explicit, and the local structural suite passes."
+    },
+    {
+      "claim_id": "claim:strict-adapter-health",
+      "statement": "In the tested cases, adapters fail closed and health probes are credential-free literal-loopback HTTP with bounded, redirect-free exact-predicate behavior.",
+      "element_ref": {"component_id": "read-only-runtime", "element_id": "strict-adapter-and-health"},
+      "material": true,
+      "status": "supported",
+      "rationale": "Implementation inspection and the passing adapter/health tests support this bounded statement."
+    },
+    {
+      "claim_id": "claim:discovery-and-refusal",
+      "statement": "On the current Windows candidate, listener discovery is bounded to exact-workspace candidates, public output redacts raw process arguments, and uncertified lifecycle requests return integrity-checked refusal receipts without process mutation in the tested cases.",
+      "element_ref": {"component_id": "read-only-runtime", "element_id": "bounded-discovery-and-mutation-refusal"},
+      "material": true,
+      "status": "supported",
+      "rationale": "The discovery/planner sources and passing subprocess, receipt, and refusal tests directly cover this host-bounded claim."
+    },
+    {
+      "claim_id": "claim:package-origin-integrity",
+      "statement": "The release-candidate package has synchronized version identity and a bounded no-follow verified manifest that permits only the expected Ian-Tseng/server-ops GitHub source metadata in the tested cases.",
+      "element_ref": {"component_id": "managed-package-lifecycle", "element_id": "package-origin-and-integrity"},
+      "material": true,
+      "status": "supported",
+      "rationale": "The manifest verifier, official validator, and origin-negative regression tests pass locally."
+    },
+    {
+      "claim_id": "claim:managed-install-default-off",
+      "statement": "On tested temporary registries, the custom installer fails closed on unsafe or modified state and no lifecycle analytics, reporting, feedback, or update transport is enabled by default.",
+      "element_ref": {"component_id": "managed-package-lifecycle", "element_id": "verified-install-and-default-off-privacy"},
+      "material": true,
+      "status": "partially_supported",
+      "rationale": "Installer tests and static source inspection pass; absence of every possible dependency network path was not established by packet interception."
+    },
+    {
+      "claim_id": "claim:local-candidate-only",
+      "statement": "Version 0.1.2 is locally ready for PR publication gates, but remote CI, public release, consumer installation, and live client activation are not yet verified.",
+      "element_ref": {"component_id": "release-evidence-and-provenance", "element_id": "local-release-candidate-authority"},
+      "material": true,
+      "status": "supported",
+      "rationale": "The release receipt records only completed local gates and explicitly lists every pending remote gate."
+    },
+    {
+      "claim_id": "claim:managed-lifecycle-bounded",
+      "statement": "The local package defines and tests a consent-gated managed-update check plus one content-free owner-bound quality receipt after substantive use, and the repository carries a disabled closed policy plus one thin full-SHA-pinned managed-repair caller, without default outbound transport.",
+      "element_ref": {"component_id": "managed-package-lifecycle", "element_id": "managed-update-and-quality-handoff"},
+      "material": true,
+      "status": "supported",
+      "rationale": "The current skill, policy, caller, updater, receipt emitter, schema, and lifecycle tests support this local bounded claim; protected environments, hosted execution, host routing, and public issue submission remain separate gates."
+    },
+    {
+      "claim_id": "claim:cross-platform-runtime",
+      "statement": "Server Ops 0.1.2 behaves correctly on Linux and macOS.",
+      "element_ref": {"component_id": "read-only-runtime", "element_id": "bounded-discovery-and-mutation-refusal"},
+      "material": true,
+      "status": "untested",
+      "rationale": "The public matrix has not run yet; local execution covers Windows only."
+    }
+  ],
+  "bindings": [
+    {"claim_id": "claim:read-only-interface", "evidence_id": "evidence:skill-interface", "role": "supports"},
+    {"claim_id": "claim:read-only-interface", "evidence_id": "evidence:public-boundary", "role": "supports"},
+    {"claim_id": "claim:read-only-interface", "evidence_id": "evidence:release-receipt", "role": "supports"},
+    {"claim_id": "claim:strict-adapter-health", "evidence_id": "evidence:adapter-runtime", "role": "supports"},
+    {"claim_id": "claim:strict-adapter-health", "evidence_id": "evidence:health-runtime", "role": "supports"},
+    {"claim_id": "claim:strict-adapter-health", "evidence_id": "evidence:release-receipt", "role": "supports"},
+    {"claim_id": "claim:discovery-and-refusal", "evidence_id": "evidence:discovery-runtime", "role": "supports"},
+    {"claim_id": "claim:discovery-and-refusal", "evidence_id": "evidence:public-process-output", "role": "supports"},
+    {"claim_id": "claim:discovery-and-refusal", "evidence_id": "evidence:planner-runtime", "role": "supports"},
+    {"claim_id": "claim:discovery-and-refusal", "evidence_id": "evidence:state-runtime", "role": "supports"},
+    {"claim_id": "claim:discovery-and-refusal", "evidence_id": "evidence:release-receipt", "role": "supports"},
+    {"claim_id": "claim:package-origin-integrity", "evidence_id": "evidence:manifest", "role": "supports"},
+    {"claim_id": "claim:package-origin-integrity", "evidence_id": "evidence:manifest-builder", "role": "supports"},
+    {"claim_id": "claim:package-origin-integrity", "evidence_id": "evidence:package-contract", "role": "supports"},
+    {"claim_id": "claim:package-origin-integrity", "evidence_id": "evidence:release-receipt", "role": "supports"},
+    {"claim_id": "claim:managed-install-default-off", "evidence_id": "evidence:installer", "role": "supports"},
+    {"claim_id": "claim:managed-install-default-off", "evidence_id": "evidence:privacy", "role": "supports"},
+    {"claim_id": "claim:managed-install-default-off", "evidence_id": "evidence:release-receipt", "role": "limits"},
+    {"claim_id": "claim:managed-lifecycle-bounded", "evidence_id": "evidence:managed-lifecycle", "role": "supports"},
+    {"claim_id": "claim:managed-lifecycle-bounded", "evidence_id": "evidence:release-receipt", "role": "supports"},
+    {"claim_id": "claim:local-candidate-only", "evidence_id": "evidence:release-receipt", "role": "supports"},
+    {"claim_id": "claim:local-candidate-only", "evidence_id": "evidence:source-ledger", "role": "context"},
+    {"claim_id": "claim:local-candidate-only", "evidence_id": "evidence:public-boundary", "role": "limits"},
+    {"claim_id": "claim:read-only-interface", "evidence_id": "evidence:planner-runtime", "role": "limits"},
+    {"claim_id": "claim:cross-platform-runtime", "evidence_id": "evidence:public-boundary", "role": "limits"},
+    {"claim_id": "claim:cross-platform-runtime", "evidence_id": "evidence:release-receipt", "role": "limits"}
+  ],
+  "limitations": [
+    {
+      "limitation_id": "limitation:current-host",
+      "text": "Runtime and subprocess evidence currently comes from one Windows host; public Linux and macOS matrix results remain pending.",
+      "claim_ids": ["claim:cross-platform-runtime"],
+      "evidence_ids": ["evidence:release-receipt", "evidence:public-boundary"]
+    },
+    {
+      "limitation_id": "limitation:no-mutation-provider",
+      "text": "Version 0.1.2 intentionally implements no certified start, stop, restart, force, or interrupted-mutation provider.",
+      "claim_ids": ["claim:read-only-interface"],
+      "evidence_ids": ["evidence:planner-runtime"]
+    },
+    {
+      "limitation_id": "limitation:pending-public-lifecycle",
+      "text": "A local publisher dry-run does not establish remote CI, tag immutability, publication, public install, update, or client activation.",
+      "claim_ids": ["claim:local-candidate-only"],
+      "evidence_ids": ["evidence:public-boundary"]
+    },
+    {
+      "limitation_id": "limitation:static-network-proof",
+      "text": "Default-off lifecycle transport is supported by source inspection and tests, not runtime packet interception of every dependency path.",
+      "claim_ids": ["claim:managed-install-default-off"],
+      "evidence_ids": ["evidence:release-receipt"]
+    }
+  ],
+  "summary": {
+    "strongest_safe_claim_id": "claim:package-origin-integrity",
+    "claim_boundary_ids": [],
+    "no_supported_claim": false
+  },
+  "unresolved_uncertainties": [
+    "PR CI and exact merged-main CI have not run.",
+    "No public v0.1.2 tag or immutable release exists.",
+    "Fresh public Codex and Claude Code install/update have not been observed.",
+    "Live Claude Code activation depends on a machine with the Claude executable.",
+    "No dynamic packet capture covers every dependency path."
+    ,"Protected managed-repair environments, hosted canary, agent execution, and draft publication remain unobserved."
+  ]
+}

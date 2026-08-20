@@ -3,7 +3,7 @@
 Local Server Ops is maintained by Yin-Yan Tseng through
 [Ian-Tseng/server-ops](https://github.com/Ian-Tseng/server-ops).
 
-The v0.1.1 release-candidate package was imported from the owner's clean local Git source whose
+The v0.1.2 release-candidate package was imported from the owner's clean local Git source whose
 pre-publication head was `7476f53`. That internal commit is provenance, not a publicly
 retrievable authority. The imported package carried manifest digest
 `badb40f2e3afc73f29cfb332e2787ed89f852c0ec8744e5052e7f2ad2b25c1d0`;

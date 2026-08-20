@@ -41,5 +41,5 @@ automatically during read-only status.
 are persisted because they are useful evidence that no side effect occurred. `apply`
 requires an exact operation ID and digest and fails closed if either changed.
 
-Version 0.1.1 has no certified mutation provider, so every lifecycle plan refuses with
+Version 0.1.2 has no certified mutation provider, so every lifecycle plan refuses with
 `MUTATION_DISABLED` or `CAPABILITY_NOT_CERTIFIED`. This is deliberate product behavior.

@@ -1,7 +1,7 @@
 # Local Server Ops
 
 Local Server Ops is an agent skill and Python CLI for evidence-bound inspection of local
-workspace services. Version 0.1.1 is deliberately read-only: it discovers processes,
+workspace services. Version 0.1.2 is deliberately read-only: it discovers processes,
 strictly validates project adapters, runs bounded literal-loopback health predicates,
 reports exact capability cells, and records mutation refusals without changing processes.
 
@@ -13,7 +13,8 @@ gh skill install Ian-Tseng/server-ops skills/server-ops/SKILL.md --agent claude-
 ```
 
 Start a fresh client session. Use `$server-ops` in Codex or `/server-ops` in
-Claude Code. Managed updates are explicit through `gh skill update server-ops`.
+Claude Code. Managed updates remain consent-gated and are delegated to
+`gh skill update server-ops` after package and installation identity checks.
 
 ```powershell
 py scripts/server_ops.py --workspace C:\path\to\project doctor
@@ -28,9 +29,10 @@ Install the optional process-inspection dependency explicitly:
 py -m pip install "psutil>=5.9,<7"
 ```
 
-No command installs dependencies automatically. No analytics, updater, reporting, or
-diagnostic-upload network behavior is enabled. See `PRIVACY.md` and the references linked
-from `SKILL.md`.
+No command installs dependencies automatically. No analytics, reporting, or
+diagnostic-upload behavior is enabled. Update checks remain off until separately
+enabled and never include workspace content. See `PRIVACY.md` and the references
+linked from `SKILL.md`.
 
 Build the deterministic install manifest and preview a Codex installation:
 
@@ -42,7 +44,7 @@ py scripts/install_skill.py --dry-run --json
 
 Run the installer without `--dry-run` only after reviewing its destination. Updates require
 `--update`, refuse modified installed files, and preserve verified rollback copies under
-`$CODEX_HOME/backups/server-ops`, outside the active skill registry. Version 0.1.1 also
+`$CODEX_HOME/backups/server-ops`, outside the active skill registry. Version 0.1.2 also
 migrates verified legacy `skills/server-ops.backup-*` directories to that location and
 refuses unverified legacy backups.
 
@@ -53,5 +55,5 @@ unknown until manually reconciled.
 ## Evidence boundary
 
 Passing tests establishes only the tested adapter, discovery, health, output, and refusal
-contracts. Version 0.1.1 does not claim a certified start, stop, or restart provider, live
+contracts. Version 0.1.2 does not claim a certified start, stop, or restart provider, live
 production reliability, or complete cross-platform support.

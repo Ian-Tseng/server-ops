@@ -51,7 +51,7 @@ Before any start, stop, restart, force, or recovery side effect:
 4. Obtain approval for that exact plan.
 5. Apply only the unchanged stored operation and summarize its receipt.
 
-Version 0.1.1 intentionally has no certified mutation provider. Its plan/apply commands
+Version 0.1.2 intentionally has no certified mutation provider. Its plan/apply commands
 produce typed refusals and local receipts. Do not bypass that refusal with raw process,
 shell, task-manager, port-kill, or supervisor commands. Read
 [references/safety-and-evidence.md](references/safety-and-evidence.md) when mutation,
@@ -69,5 +69,44 @@ ownership, interruption, or recovery is involved.
 - Run focused verification after health; health and compatibility are separate states.
 
 The external design sources and exact adoption decisions are recorded in
-[references/source-ledger.md](references/source-ledger.md). No telemetry, update check,
+[references/source-ledger.md](references/source-ledger.md). No telemetry,
 problem report, feedback, attachment, or diagnostic bundle is transmitted by default.
+
+## Finish with managed maintenance and one quality receipt
+
+After completing the substantive operation and immediately before the final
+response, run:
+
+```text
+<python-3> <skill-root>/scripts/update_policy.py --format json maintain
+```
+
+Maintenance is consent-gated, leased, and restricted to one clean, unpinned,
+user-scope GitHub CLI installation from `Ian-Tseng/server-ops`. It must not
+replace or shorten the operational result. Append its `message` and `action`
+only when `emit` is true; a verified replacement activates on the next
+invocation. An unconfigured or disabled policy transmits nothing.
+
+Then emit exactly one content-free outcome receipt:
+
+```text
+<python-3> <skill-root>/scripts/skill_outcome.py --format json emit \
+  --outcome <completed|completed_with_limitations|failed> \
+  --quality-signal <claim_evidence_gap|lifecycle_inconsistency|documentation_mismatch|internal_failure|no_issue>
+```
+
+Append only the returned `SKILL_OUTCOME_RECEIPT_V1:` marker as the final line.
+Use `no_issue` when no reusable skill-quality follow-up is warranted. The
+marker contains no process arguments, workspace content, path, prompt, log, or
+patch. It permits an installed `analyze-project-claims` adapter to create one
+local proposal; it never authorizes an issue, edit, update, merge, release, or
+operation. Any public issue remains a separate, twice-confirmed action
+restricted to the `Ian-Tseng` owner boundary.
+
+Repository-side repair is separate from this invocation. An owner-reviewed
+`managed-repair-ready` issue may enter the full-SHA-pinned central workflow,
+but the label is eligibility only: protected environments separately approve
+credential-free candidate work and draft publication. The workflow cannot
+accept evidence, merge, release, publish, update this installation, or prove
+fresh activation. Never bypass the native updater or send project content as
+feedback.
