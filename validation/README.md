@@ -7,14 +7,14 @@ This directory contains the release-candidate evidence for Server Ops 0.1.2.
   `f4bec48344a670d30b6dc93902022b9b1ce398a56f9397e22050ca58149e04b1`,
   and explicit limits.
 - [`component-map/accepted-map.json`](component-map/accepted-map.json) is the
-  owner-accepted map `component-map-9d2207994405` with SHA-256
-  `d4893ecd8ef7ec44885dbaabe67034ccc3c05701fd0b33f97bef1814a16bf4c1`.
+  owner-accepted map `component-map-ff2371924e59` with SHA-256
+  `3cbe90f8994ad09cf919ef1b0e9d32c382b2b2bdaffeff397fe03b28d6f070a3`.
 - [`release-scan-v012-input.json`](release-scan-v012-input.json) is the
   reviewed v2 input.
-- [`history/20260820T161835496304Z-b294247f.json`](history/20260820T161835496304Z-b294247f.json)
+- [`history/20260820T172647921263Z-d5c3fa25.json`](history/20260820T172647921263Z-d5c3fa25.json)
   is the current append-only semantic authority, with deterministic
-  [report](reports/20260820T161835496304Z-b294247f.md) and canonical digest
-  `8df3f657733e1baacd2d13263b1ab98dd8d13d20505912034b11b773866ca5d8`.
+  [report](reports/20260820T172647921263Z-d5c3fa25.md) and canonical digest
+  `69f923b3f47722c7684fc1e08e572dd0daf57911ecef39725e8f941e373661d0`.
 
 Earlier records and maps remain immutable historical states. The current
 `PARTIAL` record does not establish protected managed-repair environments,
