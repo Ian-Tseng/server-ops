@@ -1,0 +1,28 @@
+{
+  "accepted_map_id": "component-map-9a685e09d570",
+  "action": "drift_detected",
+  "candidate_map_id": "component-map-45ec384c16a2",
+  "changes": {
+    "added_components": [],
+    "added_elements": [],
+    "changed_components": [],
+    "changed_elements": [],
+    "contract_changes": [],
+    "removed_components": [],
+    "removed_elements": [],
+    "source_changes": [
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "validation/release-candidate-test-receipt.json"
+      }
+    ]
+  },
+  "integrity": {
+    "canonical_payload_sha256": "9e477f34fb6d461a4717cc95670e777da35ba384ec878986a41aab634902e947"
+  },
+  "recorded_at_utc": "2026-08-20T09:56:51.891000Z",
+  "scan_id": "20260820T095651891000Z-1e9c513a",
+  "schema_version": "1.0"
+}

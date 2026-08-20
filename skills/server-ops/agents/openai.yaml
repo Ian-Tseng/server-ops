@@ -1,0 +1,4 @@
+interface:
+  display_name: "Local Server Ops"
+  short_description: "Safely inspect and operate local workspace services"
+  default_prompt: "Use $server-ops to inspect this workspace's local service and explain what is safe to do."

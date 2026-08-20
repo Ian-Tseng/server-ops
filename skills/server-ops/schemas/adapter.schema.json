@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/server-ops/adapter.schema.json",
+  "title": "Local Server Ops adapter",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "services"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "services": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {"$ref": "#/$defs/service"}
+    }
+  },
+  "$defs": {
+    "argv": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {"type": "string", "minLength": 1, "maxLength": 4096}
+    },
+    "service": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,62}$"},
+        "label": {"type": "string", "minLength": 1, "maxLength": 120},
+        "workspace": {"type": "string", "minLength": 1, "maxLength": 4096},
+        "mutation_enabled": {"type": "boolean", "default": false},
+        "strategy": {"enum": ["read_only", "direct_child", "watchdog_child"]},
+        "match": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "argv_contains": {"type": "array", "maxItems": 16, "items": {"type": "string", "minLength": 1, "maxLength": 256}},
+            "executable": {"type": "string", "minLength": 1, "maxLength": 4096},
+            "ports": {"type": "array", "maxItems": 16, "items": {"type": "integer", "minimum": 1, "maximum": 65535}}
+          }
+        },
+        "launch": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["argv"],
+          "properties": {"argv": {"$ref": "#/$defs/argv"}, "cwd": {"type": "string", "minLength": 1, "maxLength": 4096}}
+        },
+        "health": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["url"],
+          "properties": {
+            "url": {"type": "string", "minLength": 1, "maxLength": 2048},
+            "expected_status": {"type": "integer", "minimum": 200, "maximum": 299},
+            "expected_body": {"type": "string", "minLength": 1, "maxLength": 65536},
+            "expected_json_scalar": {"type": ["string", "number", "boolean", "null"]},
+            "timeout_ms": {"type": "integer", "minimum": 100, "maximum": 2000}
+          },
+          "not": {"required": ["expected_body", "expected_json_scalar"]}
+        },
+        "verification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["argv"],
+          "properties": {"argv": {"$ref": "#/$defs/argv"}, "cwd": {"type": "string", "minLength": 1, "maxLength": 4096}}
+        }
+      }
+    }
+  }
+}
