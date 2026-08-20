@@ -1,21 +1,22 @@
-# Validation authority
+# Validation Authority
 
-This directory contains the release-candidate evidence for Server Ops 0.1.1.
+This directory contains the release-candidate evidence for Server Ops 0.1.2.
 
-- [`release-candidate-test-receipt.json`](release-candidate-test-receipt.json) records
-  52 passing local tests, package digest
-  `d9bb1546b46010013305f15085fe435dc2e62dd97e76a00d5c87595710df2e77`,
+- [`release-candidate-test-receipt.json`](release-candidate-test-receipt.json)
+  records 58 passing local tests, package digest
+  `f4bec48344a670d30b6dc93902022b9b1ce398a56f9397e22050ca58149e04b1`,
   and explicit limits.
 - [`component-map/accepted-map.json`](component-map/accepted-map.json) is the
-  owner-accepted map `component-map-45ec384c16a2` with SHA-256
-  `8555494effce518d12095015530d23907ac3be9b998ac437666750771a1dc213`.
-- `history/` contains append-only evidence-bound JSON records.
-- `reports/` contains deterministic Markdown views of those records.
+  owner-accepted map `component-map-9d2207994405` with SHA-256
+  `d4893ecd8ef7ec44885dbaabe67034ccc3c05701fd0b33f97bef1814a16bf4c1`.
+- [`release-scan-v012-input.json`](release-scan-v012-input.json) is the
+  reviewed v2 input.
+- [`history/20260820T161835496304Z-b294247f.json`](history/20260820T161835496304Z-b294247f.json)
+  is the current append-only semantic authority, with deterministic
+  [report](reports/20260820T161835496304Z-b294247f.md) and canonical digest
+  `8df3f657733e1baacd2d13263b1ab98dd8d13d20505912034b11b773866ca5d8`.
 
-The current local semantic authority is
-[`history/20260820T095705280604Z-6cbdb220.json`](history/20260820T095705280604Z-6cbdb220.json)
-with deterministic
-[`report`](reports/20260820T095705280604Z-6cbdb220.md), canonical digest
-`7119993df62e4776eaaabf83311059e235a0b0beb1cf51ad5ea73943c86a20ca`.
-Its `PARTIAL` status is intentional: it does not establish pending PR CI, exact-main
-CI, publication, public install, or live client activation.
+Earlier records and maps remain immutable historical states. The current
+`PARTIAL` record does not establish protected managed-repair environments,
+hosted canary, agent execution, draft publication, PR/main CI, publication,
+public install/update, or live client activation.

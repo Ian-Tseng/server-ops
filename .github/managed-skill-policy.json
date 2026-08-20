@@ -1,0 +1,65 @@
+{
+  "compatibility": {
+    "maximum": "1.x",
+    "minimum": "1.0"
+  },
+  "enabled": false,
+  "environments": {
+    "agent": "managed-repair-agent",
+    "publish": "managed-repair-publish"
+  },
+  "protocol": "ian-tseng-managed-skill-repair/v1",
+  "publication": {
+    "draft_only": true
+  },
+  "repository": {
+    "default_branch": "main",
+    "full_name": "Ian-Tseng/server-ops",
+    "id": 1340553935
+  },
+  "schema_version": 1,
+  "skill": {
+    "allowed_roots": [
+      "CITATION.cff",
+      "README.md",
+      "VERSION",
+      "docs",
+      "skills/server-ops",
+      "tests"
+    ],
+    "denied_paths": [
+      ".github/actions",
+      ".github/managed-skill-policy.json",
+      ".github/workflows",
+      ".gitmodules",
+      "LICENSE",
+      "PUBLISHING.md",
+      "SECURITY.md",
+      "validation"
+    ],
+    "name": "server-ops",
+    "package_roots": [
+      "skills/server-ops"
+    ],
+    "version_files": [
+      "CITATION.cff",
+      "VERSION",
+      "skills/server-ops/references/package-manifest.json",
+      "skills/server-ops/references/package-version.json"
+    ]
+  },
+  "triage": {
+    "actors": [
+      "Ian-Tseng"
+    ],
+    "label": "managed-repair-ready"
+  },
+  "validation": {
+    "profile": "python-pytest-package-v1"
+  },
+  "workflow": {
+    "path": ".github/workflows/managed-skill-repair.yml",
+    "repository": "Ian-Tseng/analyze-project-claims",
+    "sha": "1412332c1c5a0e7e25e4afc429063f2381598851"
+  }
+}

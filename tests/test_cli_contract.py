@@ -79,7 +79,7 @@ def test_validate_then_plan_writes_refusal_receipt(tmp_path: Path, monkeypatch, 
     assert stored["verification_state"] == "not_run"
     assert stored["side_effect_occurred"] is False
     assert stored["product"] == "server-ops"
-    assert stored["product_version"] == "0.1.1"
+    assert stored["product_version"] == "0.1.2"
     assert stored["workspace"] == str(tmp_path.resolve())
     assert stored["service_workspace"] == str(tmp_path.resolve())
     assert stored["provider_cell"]["provider"] == "none"

@@ -1,5 +1,5 @@
 {
-  "accepted_at_utc": "2026-08-20T16:18:26.451817Z",
+  "accepted_at_utc": "2026-08-20T09:57:03.988174Z",
   "authority": [
     "VERSION",
     "skills/server-ops/manifest.json",
@@ -7,9 +7,6 @@
     "skills/server-ops/schemas/adapter.schema.json",
     "skills/server-ops/scripts/package_contract.py",
     "skills/server-ops/scripts/install_skill.py",
-    "skills/server-ops/scripts/skill_outcome.py",
-    "skills/server-ops/scripts/update_policy.py",
-    "skills/server-ops/references/skill-outcome-receipt.schema.json",
     "validation/release-candidate-test-receipt.json"
   ],
   "components": [
@@ -17,57 +14,6 @@
       "component_id": "managed-package-lifecycle",
       "component_type": "identity-install-update-and-privacy-contract",
       "elements": [
-        {
-          "element_id": "managed-update-and-quality-handoff",
-          "evidence_locators": [
-            {
-              "locator": "whole-file",
-              "source": ".github/managed-skill-policy.json"
-            },
-            {
-              "locator": "whole-file",
-              "source": ".github/workflows/managed-skill-repair.yml"
-            },
-            {
-              "locator": "managed repair release gates",
-              "source": "PUBLISHING.md"
-            },
-            {
-              "locator": "GitHub-managed repair boundary",
-              "source": "README.md"
-            },
-            {
-              "locator": "whole-file",
-              "source": "skills/server-ops/SKILL.md"
-            },
-            {
-              "locator": "whole-file",
-              "source": "skills/server-ops/references/skill-outcome-receipt.schema.json"
-            },
-            {
-              "locator": "whole-file",
-              "source": "skills/server-ops/scripts/_internal/safe_process.py"
-            },
-            {
-              "locator": "whole-file",
-              "source": "skills/server-ops/scripts/skill_outcome.py"
-            },
-            {
-              "locator": "whole-file",
-              "source": "skills/server-ops/scripts/update_policy.py"
-            },
-            {
-              "locator": "whole-file",
-              "source": "tests/test_managed_lifecycle.py"
-            },
-            {
-              "locator": "whole-file",
-              "source": "tests/test_product_identity.py"
-            }
-          ],
-          "relation_type": "validated_by",
-          "target": "After substantive use, the skill runs consent-gated update maintenance and emits one content-free receipt; separately, a disabled closed policy and thin full-SHA-pinned caller preserve owner triage, two protected approvals, draft-only publication, and human evidence/release authority without enabling project or process-data transport."
-        },
         {
           "element_id": "package-origin-and-integrity",
           "evidence_locators": [
@@ -299,21 +245,19 @@
       ]
     }
   ],
-  "created_at_utc": "2026-08-20T16:18:16.144205Z",
+  "created_at_utc": "2026-08-20T09:56:51.891000Z",
   "integrity": {
-    "canonical_payload_sha256": "0ae87108015ffd10122a019868374a48aa8b97774dcd89031129e91cf508000d"
+    "canonical_payload_sha256": "a744bb45561efb8488954507281e48671431625505f5a218dbe5d947c6f863ec"
   },
-  "map_id": "component-map-9d2207994405",
+  "map_id": "component-map-45ec384c16a2",
   "map_state": "accepted",
   "mapper_version": "1.3.0",
-  "objective": "Map Server Ops 0.1.2 public interfaces, read-only runtime, trust-critical package lifecycle, consent-gated update maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, evidence, and release boundaries before publication.",
-  "origin_scan_id": "20260820T161816144205Z-4418d2ad",
-  "previous_map_id": "component-map-a04ec3183738",
+  "objective": "Map Server Ops 0.1.1 public interfaces, read-only runtime, trust-critical package lifecycle, evidence, and release boundaries before publication.",
+  "origin_scan_id": "20260820T095651891000Z-1e9c513a",
+  "previous_map_id": "component-map-9a685e09d570",
   "schema_version": "1.0",
   "scope": [
     ".github/workflows/validate.yml",
-    ".github/workflows/managed-skill-repair.yml",
-    ".github/managed-skill-policy.json",
     "CHANGELOG.md",
     "README.md",
     "PUBLISHING.md",
@@ -336,16 +280,12 @@
     "skills/server-ops/scripts/build_manifest.py",
     "skills/server-ops/scripts/install_skill.py",
     "skills/server-ops/scripts/package_contract.py",
-    "skills/server-ops/scripts/skill_outcome.py",
-    "skills/server-ops/scripts/update_policy.py",
-    "skills/server-ops/scripts/_internal/safe_process.py",
     "skills/server-ops/scripts/verify_package.py",
     "skills/server-ops/manifest.json",
     "skills/server-ops/PRIVACY.md",
     "skills/server-ops/references/operations.md",
     "skills/server-ops/references/product-lifecycle.md",
     "skills/server-ops/references/safety-and-evidence.md",
-    "skills/server-ops/references/skill-outcome-receipt.schema.json",
     "skills/server-ops/references/source-ledger.md",
     "tests/test_adapter_validation.py",
     "tests/test_cli_contract.py",
@@ -353,27 +293,14 @@
     "tests/test_generality_and_performance.py",
     "tests/test_health_identity.py",
     "tests/test_install_lifecycle.py",
-    "tests/test_managed_lifecycle.py",
     "tests/test_product_identity.py",
     "tests/test_public_package.py",
     "tests/test_validation_contract.py",
     "validation/release-candidate-test-receipt.json"
   ],
   "skill_name": "analyze-project-claims",
-  "skill_sha256": "d892da7147f2d4ab01bf60a45f9425af3c81970fb979f29af7ee9cbee86ac999",
+  "skill_sha256": "a037edd16f17b7253a4003081c2566838bf5fd195206c371f5e687ff12bdb0bb",
   "source_snapshot": [
-    {
-      "exists": true,
-      "kind": "file",
-      "sha256": "d47a041a99930950cc95dc3565e42d244bca59ecad822c9cba5296eefa110f82",
-      "source": ".github/managed-skill-policy.json"
-    },
-    {
-      "exists": true,
-      "kind": "file",
-      "sha256": "54699a350ac166859aa1e1598b1f6cec0a82eccf132fbc6445fc7038a2b363e7",
-      "source": ".github/workflows/managed-skill-repair.yml"
-    },
     {
       "exists": true,
       "kind": "file",
@@ -383,67 +310,67 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "9b50dac1e9ded6c5dcc99613656d5c1495822e2d95048458c45f903685b970b0",
+      "sha256": "194c8283750f242724dc390d87c56446cf7f664546f8fa27831e74d942287205",
       "source": "CHANGELOG.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "e74fa32f1aab2c3294195f0b604a4dcd5306b7d6e661d87a9c698aefa47c61de",
+      "sha256": "3ddb30f711db04e52f1ecca47265f7d43d3ade6843cead12dc21490d16f732c1",
       "source": "PUBLISHING.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "61a1103047f2b5e80e7b62f0aed062241c1474b6f0b3ccd3e9b6d5b803580a15",
+      "sha256": "c8d496c5af83202e9190e795137f083150f0cf2722c2762f6805af6bb3108259",
       "source": "README.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "d2d9311b16e92125aab206bd7d6ccc364a3dafe6160f8571807f028c58231ad0",
+      "sha256": "02b178bf5f8b5f7437f98395c3bf0ab72ec0aa413dbf4ab6dc29defe06fa2129",
       "source": "SECURITY.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "a48d79f9f2e87d8979970d06727ac9a99a25aa0b95990fb3a04ce55251817497",
+      "sha256": "a413e782ae5db6553f8b04656d2acb401a42d783021d80631d940cb63d2c966d",
       "source": "SOURCE.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "297b50f08386d3521f8fdaf2f78eb8d9d0acdf452d2e61596905fba37208c792",
+      "sha256": "80447316529fc62014fbaa047fb67c51ac30e32830cda370405349d8d66d196c",
       "source": "VERSION"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "d2a78b393bc9aaf6a09ff9537cbfe0a5f58aeeb645b850bad77baab133e7e784",
+      "sha256": "884cb17dd088e52826b78e78aa09dda15a4da339e8e918f1d73ba85be6fe2e8e",
       "source": "pyproject.toml"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "9b50dac1e9ded6c5dcc99613656d5c1495822e2d95048458c45f903685b970b0",
+      "sha256": "194c8283750f242724dc390d87c56446cf7f664546f8fa27831e74d942287205",
       "source": "skills/server-ops/CHANGELOG.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "2476171624bd7c31a638f0bececde465777c81d3127a203ae55f487f560c03b3",
+      "sha256": "44346224439311a157962b7095a8d9c4e0050d6bb853f984fcb7c47633ed6b9b",
       "source": "skills/server-ops/PRIVACY.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "ac9d16bb33aefa523096083ad1a8835ed023c3d28a66e2ac8f6bf2359570fdba",
+      "sha256": "54efe90f9e75ad6b720a86f2cfb8ffc6701405a174fb9c82914dec5c8b222884",
       "source": "skills/server-ops/README.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "61559a69e6f65db10508098926e9510ee28521101e836ff2b02805d25e88a021",
+      "sha256": "5ed831a55d4955e6fc8885788b232a7796b8a0749075ba140ad891e6e8f21bcd",
       "source": "skills/server-ops/SKILL.md"
     },
     {
@@ -455,13 +382,13 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "51876c0d9709d7d1389f772a401ebdfe1947a632aa61a37cf161584c7daf1a48",
+      "sha256": "2bcc93697cf5962eb3c14ab694bb521d70c9a9ffdb1c73c8948baf4479377fd0",
       "source": "skills/server-ops/manifest.json"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "65412e5b50a9ab4d0665db7784ceb31ff56a215ca98fa5be6dae3e0a27d1a3f9",
+      "sha256": "963e9065ee7956d30e1937eb75ad32c58c6af25f55594070db031babc4cd5a66",
       "source": "skills/server-ops/references/operations.md"
     },
     {
@@ -479,12 +406,6 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "3e4a4e8187eb94472454558f4c57ead56d764ed9921cbad27e8bc66846b29d96",
-      "source": "skills/server-ops/references/skill-outcome-receipt.schema.json"
-    },
-    {
-      "exists": true,
-      "kind": "file",
       "sha256": "2a780157eeb2b6971ce1217d67088f878e6a21f7ca8a4b4e770d03cf2a51ef75",
       "source": "skills/server-ops/references/source-ledger.md"
     },
@@ -497,13 +418,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "a2042ec7d6c52523ffe6f053c15660632697454c366bf0d709f4b00eb92a0a13",
-      "source": "skills/server-ops/scripts/_internal/safe_process.py"
-    },
-    {
-      "exists": true,
-      "kind": "file",
-      "sha256": "5c8c1c8bcd6218fae2dc532cd7042023c75c60f1a9be2d8a0fbb24826bc20c40",
+      "sha256": "e1c3c736d15092f55ef541ac3819fe0b46685bf899671cebb095b2fe9719ca1e",
       "source": "skills/server-ops/scripts/build_manifest.py"
     },
     {
@@ -515,20 +430,8 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "41a80c7b9d08e2bb25d2038eee52a1c8bdb9062262d85ddd365683070f53d9fe",
+      "sha256": "e057d239fbcfc409bfa701ef4a1abf259d08efc7879514069e7b13fe8e66c6f0",
       "source": "skills/server-ops/scripts/package_contract.py"
-    },
-    {
-      "exists": true,
-      "kind": "file",
-      "sha256": "950a47cd43bd25fbde5fd42203b947206df2b2113535818f2136b35ca9878e40",
-      "source": "skills/server-ops/scripts/skill_outcome.py"
-    },
-    {
-      "exists": true,
-      "kind": "file",
-      "sha256": "3d04616e908f5b975d268e448b93cbc96eb419288590457f6fd1d58b9be8223f",
-      "source": "skills/server-ops/scripts/update_policy.py"
     },
     {
       "exists": true,
@@ -545,7 +448,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "af3635e05aa6dce9138b7e8f94c4ad2221d695b599d60e48d57bdefce7dc64a2",
+      "sha256": "cd83308117ba37e51bf957972b655523760dcfa3029f3be2f2a2bc788df99249",
       "source": "skills/server-ops/src/server_ops/cli.py"
     },
     {
@@ -569,7 +472,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "291b9a1c93c85f8090654f825a87c950c7742685d9d1e02659500839e5dadf18",
+      "sha256": "b068d0676389bde8f5fcd0a19661d9ccd78d04130084a228f2e7754d165d53a0",
       "source": "skills/server-ops/src/server_ops/planner.py"
     },
     {
@@ -587,7 +490,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "89fcec89ecde0974b72f257a30e76a33d8077cf0773d4b0ad0e25202ff9b9b90",
+      "sha256": "fc447576f19e25427d3722c496a125b598c9319dcdc302185be466e5b38c26b5",
       "source": "tests/test_cli_contract.py"
     },
     {
@@ -611,14 +514,8 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "994290d6335ad2095bf88212ed890677c22abd4152683d299ea5605a7a5d9f84",
+      "sha256": "6fb0c9ff486db63f772f09890cafaacd16b06d24f305be3ee8b124c7bbddcb07",
       "source": "tests/test_install_lifecycle.py"
-    },
-    {
-      "exists": true,
-      "kind": "file",
-      "sha256": "7a2576214bf2a56449a2d85cbdf4d826610a236bcfbfbc36161ca5fdd463238d",
-      "source": "tests/test_managed_lifecycle.py"
     },
     {
       "exists": true,
@@ -629,19 +526,19 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "75c3885b5fabeb1ff21114f9f4a8c798dffe637cfa1981aa1261240fddd9752c",
+      "sha256": "52e7508ff56b487030bbf182f2276f3861a6cffd22a2a1f432ab7f3d300ecc6c",
       "source": "tests/test_public_package.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "77f846fa99f81478d0f040fe9a29356c933d3ea6c49beb246fe6c0a25c08a986",
+      "sha256": "e89a9868bc1c77b476709c239d4613f8e12abfbd9ecc77f77934affd0fe58298",
       "source": "tests/test_validation_contract.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "9209aa12ba25ea37954d07544b737ea0f92c037695280f40403e03157828d56e",
+      "sha256": "00e8f423227a64651ea8a555fb4170efef7c70b7a865efcf8b19960bac342a2e",
       "source": "validation/release-candidate-test-receipt.json"
     }
   ]

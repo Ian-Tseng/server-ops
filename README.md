@@ -1,7 +1,7 @@
 # Local Server Ops
 
 Local Server Ops is an evidence-bound agent skill and Python CLI for inspecting local
-workspace HTTP services. Version 0.1.1 is deliberately read-only: it discovers candidate
+workspace HTTP services. Version 0.1.2 is deliberately read-only: it discovers candidate
 processes, validates strict project adapters, runs bounded literal-loopback health checks,
 reports exact capability cells, and records mutation refusals without changing processes.
 
@@ -19,14 +19,16 @@ Start a fresh client session. Invoke `$server-ops` in Codex or `/server-ops` in
 Claude Code. Installation establishes distribution, not client discovery or a successful
 live invocation.
 
-Updates are explicit:
+Updates remain user-controlled. The installed skill asks once before enabling
+notification or automatic replacement, verifies one clean GitHub-managed user
+installation, and checks through a 24-hour lease after substantive use:
 
     gh skill update server-ops --dry-run
     gh skill update server-ops
 
 Pin the release when reproducibility matters:
 
-    gh skill install Ian-Tseng/server-ops skills/server-ops/SKILL.md --agent codex --scope user --pin v0.1.1
+    gh skill install Ian-Tseng/server-ops skills/server-ops/SKILL.md --agent codex --scope user --pin v0.1.2
 
 ## Read-only quickstart
 
@@ -42,8 +44,19 @@ Verify the installed package:
 
     py "<skill-root>\scripts\verify_package.py"
 
-Version 0.1.1 has no certified start, stop, or restart provider. Plans for those actions
+Version 0.1.2 has no certified start, stop, or restart provider. Plans for those actions
 return typed refusals; do not bypass them with raw process-management commands.
+
+## GitHub-managed repair boundary
+
+This repository carries one closed policy and one thin caller pinned to analyzer
+workflow commit `1412332c1c5a0e7e25e4afc429063f2381598851`. It copies no central repair implementation. A
+label is triage eligibility only; protected environments gate the agent and
+draft publication separately. Repair remains disabled until both method and
+venue hosted canaries pass.
+
+See the immutable [managed fleet quickstart](https://github.com/Ian-Tseng/analyze-project-claims/blob/1412332c1c5a0e7e25e4afc429063f2381598851/docs/MANAGED_FLEET_QUICKSTART.md)
+and [operations runbook](https://github.com/Ian-Tseng/analyze-project-claims/blob/1412332c1c5a0e7e25e4afc429063f2381598851/docs/MANAGED_FLEET_OPERATIONS.md).
 
 ## Development
 

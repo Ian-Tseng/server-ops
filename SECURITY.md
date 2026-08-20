@@ -5,7 +5,7 @@ this repository. Do not include credentials, private process arguments, or sensi
 workspace receipts in public issues.
 
 Local Server Ops accepts only explicit local workspace adapters and credential-free
-literal loopback HTTP health URLs. Version 0.1.1 has no certified mutation provider and
+literal loopback HTTP health URLs. Version 0.1.2 has no certified mutation provider and
 must not be used to bypass native process, supervisor, production, container, database,
 or operating-system service controls.
 

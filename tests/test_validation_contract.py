@@ -18,11 +18,11 @@ PACKAGE = ROOT / "skills" / "server-ops"
 def test_release_evidence_contract_is_current() -> None:
     receipt = json.loads((VALIDATION / "release-candidate-test-receipt.json").read_text(encoding="utf-8"))
     manifest = json.loads((PACKAGE / "manifest.json").read_text(encoding="utf-8"))
-    assert receipt["version"] == manifest["version"] == "0.1.1"
+    assert receipt["version"] == manifest["version"] == "0.1.2"
     assert receipt["tests"] == {
         "command": "py -3 -X utf8 -m pytest -q",
-        "tests_run": 52,
-        "passed": 52,
+        "tests_run": 58,
+        "passed": 58,
         "failed": 0,
         "skipped": 0,
         "environment": "local Windows candidate",

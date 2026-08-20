@@ -31,7 +31,7 @@ def github_installed_skill(repo: str = "https://github.com/Ian-Tseng/server-ops"
         "license: MIT\n"
         "metadata:\n"
         "    github-path: skills/server-ops\n"
-        "    github-ref: refs/tags/v0.1.1\n"
+        "    github-ref: refs/tags/v0.1.2\n"
         f"    github-repo: {repo}\n"
         "    github-tree-sha: 0123456789abcdef0123456789abcdef01234567\n"
         "    short-description: Evidence-bound local server operations\n"
@@ -159,6 +159,6 @@ def test_public_install_docs_and_ci_contract() -> None:
 def test_manifest_declares_current_release_and_citation() -> None:
     manifest = json.loads((PACKAGE / "manifest.json").read_text(encoding="utf-8"))
     citation = (PACKAGE / "CITATION.cff").read_text(encoding="utf-8")
-    assert manifest["version"] == "0.1.1"
+    assert manifest["version"] == "0.1.2"
     assert "CITATION.cff" in manifest["files"]
-    assert "version: 0.1.1" in citation
+    assert "version: 0.1.2" in citation

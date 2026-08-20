@@ -19,6 +19,9 @@ INCLUDE_SCRIPTS = {
     "scripts/build_manifest.py",
     "scripts/package_contract.py",
     "scripts/verify_package.py",
+    "scripts/update_policy.py",
+    "scripts/skill_outcome.py",
+    "scripts/_internal/safe_process.py",
 }
 
 

@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "product": "server-ops",
-  "version": "0.1.1",
-  "recorded_at_utc": "2026-08-20T09:56:28.4152692Z",
+  "version": "0.1.2",
+  "recorded_at_utc": "2026-08-20T16:16:00Z",
   "tests": {
     "command": "py -3 -X utf8 -m pytest -q",
-    "tests_run": 52,
-    "passed": 52,
+    "tests_run": 58,
+    "passed": 58,
     "failed": 0,
     "skipped": 0,
     "environment": "local Windows candidate",
@@ -14,7 +14,7 @@
   },
   "package": {
     "command": "py -3 -X utf8 skills/server-ops/scripts/verify_package.py",
-    "manifest_digest": "d9bb1546b46010013305f15085fe435dc2e62dd97e76a00d5c87595710df2e77",
+    "manifest_digest": "f4bec48344a670d30b6dc93902022b9b1ce398a56f9397e22050ca58149e04b1",
     "status": "PACKAGE_VERIFIED"
   },
   "official_skill_validator": {
@@ -32,8 +32,9 @@
     "release PR and PR CI",
     "exact merged-main CI",
     "tag protection and immutable release verification",
-    "v0.1.1 publication",
+    "v0.1.2 publication",
     "fresh public Codex and Claude Code install/update",
     "fresh live client activation"
+    ,"protected managed-repair environments, hosted canary, agent execution, and draft publication"
   ]
 }

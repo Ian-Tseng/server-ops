@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.2 - 2026-08-20
+
+- Add a consent-gated GitHub-managed updater with a 24-hour lease and verified
+  source, package, path, scope, pin, and tree postconditions.
+- Emit one bounded, content-free `SkillOutcomeReceipt` after substantive use
+  for optional local review by `analyze-project-claims`.
+- Keep all service operations read-only and keep public issue creation behind
+  separate exact confirmation within the `Ian-Tseng` owner boundary.
+
 ## 0.1.1 - 2026-08-20
 
 - Moved update rollback copies outside the active Codex skill registry.
