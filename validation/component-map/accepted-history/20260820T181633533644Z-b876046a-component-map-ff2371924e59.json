@@ -1,5 +1,5 @@
 {
-  "accepted_at_utc": "2026-08-20T18:16:33.533644Z",
+  "accepted_at_utc": "2026-08-20T17:25:00.502583Z",
   "authority": [
     "VERSION",
     "skills/server-ops/manifest.json",
@@ -299,16 +299,16 @@
       ]
     }
   ],
-  "created_at_utc": "2026-08-20T18:15:29.332508Z",
+  "created_at_utc": "2026-08-20T16:53:45.661990Z",
   "integrity": {
-    "canonical_payload_sha256": "21ace76013f4f5ec7cc50a5a23d938329e5ed405d5b7285f7d3591c49e8e9bd9"
+    "canonical_payload_sha256": "c2137983c17f1e4b8cbb24717b15b9cc0913a9c790ef9090a5362cf1ecb2f063"
   },
-  "map_id": "component-map-9338aa4e9535",
+  "map_id": "component-map-ff2371924e59",
   "map_state": "accepted",
   "mapper_version": "1.3.0",
   "objective": "Map Server Ops 0.1.2 public interfaces, read-only runtime, trust-critical package lifecycle, consent-gated update maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, evidence, and release boundaries before publication.",
-  "origin_scan_id": "20260820T181529332508Z-ee4f8218",
-  "previous_map_id": "component-map-ff2371924e59",
+  "origin_scan_id": "20260820T165345661990Z-a8112174",
+  "previous_map_id": "component-map-9d2207994405",
   "schema_version": "1.0",
   "scope": [
     ".github/workflows/validate.yml",
@@ -365,13 +365,13 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "636b320ba995a94f5716d63f7202f777ab8cd5f9689b43b5f98409a3e629598b",
+      "sha256": "18fa97ff4c56f30782231fdd20afe547ef4c90200663ca0bc162d6e74c7b29a9",
       "source": ".github/managed-skill-policy.json"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "a3ee8dd9e408a46b4dc54a71fe5b5f6c52275810243f8aac4a39d923a9122307",
+      "sha256": "7a76321b5dc05fb39791ba3d6e8e7e44fdeff4643b7f6cb5fe1b8494f065bade",
       "source": ".github/workflows/managed-skill-repair.yml"
     },
     {
@@ -395,7 +395,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "757106d9a263163e2bf8546a568b68edf66b4f1fd5e4273d16277824420f7638",
+      "sha256": "0e8580c8883c6d5fd06b8c654101534874a04fb2f1a5a72cbd335a17173ad7e6",
       "source": "README.md"
     },
     {
@@ -617,7 +617,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "2099e642f2c458e989b87989d4d0e2c647fa4c15582b82837d1f63561e5fc15f",
+      "sha256": "712780aa7f719ba879cfd70a0438dacb289891d1aa68bf0197e30e28e13966fa",
       "source": "tests/test_managed_lifecycle.py"
     },
     {

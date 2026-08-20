@@ -1,0 +1,46 @@
+{
+  "accepted_map_id": "component-map-ff2371924e59",
+  "action": "drift_detected",
+  "candidate_map_id": "component-map-9338aa4e9535",
+  "changes": {
+    "added_components": [],
+    "added_elements": [],
+    "changed_components": [],
+    "changed_elements": [],
+    "contract_changes": [],
+    "removed_components": [],
+    "removed_elements": [],
+    "source_changes": [
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": ".github/managed-skill-policy.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": ".github/workflows/managed-skill-repair.yml"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "README.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_managed_lifecycle.py"
+      }
+    ]
+  },
+  "integrity": {
+    "canonical_payload_sha256": "d7a86c2ec9f9de4b7099fb372ef92ec26dc75fe8698e616b3dd8ba213b6fa935"
+  },
+  "recorded_at_utc": "2026-08-20T18:15:29.332508Z",
+  "scan_id": "20260820T181529332508Z-ee4f8218",
+  "schema_version": "1.0"
+}
