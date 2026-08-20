@@ -1,5 +1,5 @@
 {
-  "accepted_at_utc": "2026-08-20T18:16:33.533644Z",
+  "accepted_at_utc": null,
   "authority": [
     "VERSION",
     "skills/server-ops/manifest.json",
@@ -301,10 +301,10 @@
   ],
   "created_at_utc": "2026-08-20T18:15:29.332508Z",
   "integrity": {
-    "canonical_payload_sha256": "21ace76013f4f5ec7cc50a5a23d938329e5ed405d5b7285f7d3591c49e8e9bd9"
+    "canonical_payload_sha256": "b60e49dd1c0f7093e15e692cbc779419b0af90263014568089bde75da6c13845"
   },
   "map_id": "component-map-9338aa4e9535",
-  "map_state": "accepted",
+  "map_state": "drift_candidate",
   "mapper_version": "1.3.0",
   "objective": "Map Server Ops 0.1.2 public interfaces, read-only runtime, trust-critical package lifecycle, consent-gated update maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, evidence, and release boundaries before publication.",
   "origin_scan_id": "20260820T181529332508Z-ee4f8218",
