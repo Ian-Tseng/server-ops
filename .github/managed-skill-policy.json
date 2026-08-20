@@ -60,6 +60,6 @@
   "workflow": {
     "path": ".github/workflows/managed-skill-repair.yml",
     "repository": "Ian-Tseng/analyze-project-claims",
-    "sha": "1412332c1c5a0e7e25e4afc429063f2381598851"
+    "sha": "a8b137b33535b585b4ebbb5f92852a79148db071"
   }
 }
