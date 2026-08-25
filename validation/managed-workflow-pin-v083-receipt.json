@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "product": "server-ops",
+  "recorded_at_utc": "2026-08-25T04:45:52Z",
+  "central_workflow": {
+    "repository": "Ian-Tseng/analyze-project-claims",
+    "workflow": ".github/workflows/managed-skill-repair.yml",
+    "commit_sha": "0fb28f50d9ed84ba47fdbdf2b7d0001f8b4e05b4",
+    "release": "v0.8.3",
+    "release_immutable": true,
+    "exact_main_ci_run": 32807711735,
+    "exact_main_ci_status": "PASS"
+  },
+  "producer_binding": {
+    "policy": ".github/managed-skill-policy.json",
+    "caller": ".github/workflows/managed-skill-repair.yml",
+    "documentation": "README.md",
+    "contract_test": "tests/test_managed_lifecycle.py",
+    "accepted_map": "component-map-cdc677b9e2a7",
+    "accepted_map_sha256": "e9ca67cc89713c5ac5cc370d5bb244a6120094bb951e26c8695df696d8d16abe"
+  },
+  "checks": {
+    "focused_managed_lifecycle": {
+      "command": "py -3 -X utf8 -m pytest tests/test_managed_lifecycle.py -q",
+      "status": "PASS",
+      "tests_run": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    "substantive_suite": {
+      "command": "py -3 -X utf8 -m pytest -q --ignore=tests/test_validation_contract.py",
+      "status": "PASS",
+      "tests_run": 57,
+      "failed": 0,
+      "skipped": 0
+    },
+    "package_manifest": {
+      "command": "py -3 -X utf8 skills/server-ops/scripts/verify_package.py",
+      "status": "PACKAGE_VERIFIED",
+      "digest_sha256": "f4bec48344a670d30b6dc93902022b9b1ce398a56f9397e22050ca58149e04b1"
+    },
+    "managed_fleet_validate": {
+      "status": "LOCAL_READY",
+      "effect": "NONE",
+      "workflow_sha": "0fb28f50d9ed84ba47fdbdf2b7d0001f8b4e05b4",
+      "policy_sha256": "ae5d2468a2cd0e3a120cbe522e48ecca1c5ec4f4a5ef9d81d741bff533f954e2"
+    },
+    "map_reconciliation": {
+      "acceptance": "accepted_candidate",
+      "second_reconciliation": "checked_unchanged",
+      "preflight": "READY"
+    }
+  },
+  "boundaries": [
+    "This receipt establishes only the local exact caller/policy/documentation/test binding to the immutable central workflow commit.",
+    "It does not establish protected-environment configuration, hosted dry-run or repair execution, draft publication, producer PR/main CI, merge, release, installed replacement, or fresh activation.",
+    "The installable server-ops package bytes and version did not change in this caller-pin update."
+  ]
+}

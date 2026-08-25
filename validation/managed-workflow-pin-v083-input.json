@@ -1,0 +1,90 @@
+{
+  "schema_version": "2.0",
+  "objective": "Determine whether the local server-ops managed-repair policy, caller, documentation, and contract test consistently bind the immutable analyze-project-claims v0.8.3 workflow commit while preserving the boundary around pending hosted and publication gates.",
+  "scope": [
+    "managed-repair workflow pin identity",
+    "local policy/caller agreement",
+    "focused deterministic validation",
+    "pending hosted and publication lifecycle"
+  ],
+  "authority": [
+    ".github/managed-skill-policy.json",
+    ".github/workflows/managed-skill-repair.yml",
+    "README.md",
+    "tests/test_managed_lifecycle.py",
+    "validation/managed-workflow-pin-v083-receipt.json"
+  ],
+  "evidence_items": [
+    {
+      "evidence_id": "evidence:pin-validation-receipt",
+      "source": {"kind": "file", "path": "validation/managed-workflow-pin-v083-receipt.json"},
+      "locator": {"kind": "whole_file"},
+      "method": "executed_test",
+      "observed_summary": "The persisted receipt records six passing focused lifecycle tests, 57 passing substantive tests, package verification, LOCAL_READY policy validation, exact owner map acceptance, unchanged reconciliation, and formal preflight for the immutable central v0.8.3 workflow commit."
+    },
+    {
+      "evidence_id": "evidence:managed-policy",
+      "source": {"kind": "file", "path": ".github/managed-skill-policy.json"},
+      "locator": {"kind": "json_pointer", "value": "/workflow"},
+      "method": "schema_validated",
+      "observed_summary": "The closed Ian-Tseng policy binds the central workflow path and commit 0fb28f50d9ed84ba47fdbdf2b7d0001f8b4e05b4."
+    },
+    {
+      "evidence_id": "evidence:thin-caller",
+      "source": {"kind": "file", "path": ".github/workflows/managed-skill-repair.yml"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "The thin caller repeats the same full commit in its reusable-workflow ref and workflow-sha input and passes only the explicit OPENAI_API_KEY secret."
+    },
+    {
+      "evidence_id": "evidence:public-boundary",
+      "source": {"kind": "file", "path": "README.md"},
+      "locator": {"kind": "whole_file"},
+      "method": "inspected",
+      "observed_summary": "The README identifies the exact immutable central workflow commit and keeps protected environments, hosted canary, and draft publication separate."
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim:local-v083-workflow-pin-consistent",
+      "statement": "The local server-ops policy, thin caller, public documentation, and contract test consistently bind the immutable analyze-project-claims v0.8.3 workflow commit.",
+      "element_ref": {"component_id": "managed-package-lifecycle", "element_id": "managed-update-and-quality-handoff"},
+      "material": true,
+      "status": "supported",
+      "rationale": "The exact files are owner-mapped, the focused and substantive suites plus package verifier pass, and managed_fleet validate returns LOCAL_READY with the same full commit."
+    },
+    {
+      "claim_id": "claim:hosted-v083-repair-complete",
+      "statement": "The producer has completed a protected hosted repair and draft-publication canary through the v0.8.3 workflow.",
+      "element_ref": {"component_id": "managed-package-lifecycle", "element_id": "managed-update-and-quality-handoff"},
+      "material": true,
+      "status": "untested",
+      "rationale": "No protected-environment read-back, workflow_dispatch canary, agent execution, or draft publication was observed for this new pin."
+    }
+  ],
+  "bindings": [
+    {"claim_id": "claim:local-v083-workflow-pin-consistent", "evidence_id": "evidence:pin-validation-receipt", "role": "supports"},
+    {"claim_id": "claim:local-v083-workflow-pin-consistent", "evidence_id": "evidence:managed-policy", "role": "supports"},
+    {"claim_id": "claim:local-v083-workflow-pin-consistent", "evidence_id": "evidence:thin-caller", "role": "supports"},
+    {"claim_id": "claim:local-v083-workflow-pin-consistent", "evidence_id": "evidence:public-boundary", "role": "supports"},
+    {"claim_id": "claim:hosted-v083-repair-complete", "evidence_id": "evidence:pin-validation-receipt", "role": "limits"}
+  ],
+  "limitations": [
+    {
+      "limitation_id": "limitation:pending-hosted-v083-canary",
+      "text": "LOCAL_READY does not establish protected environments, hosted agent execution, draft publication, merge, release, installation, or activation.",
+      "claim_ids": ["claim:hosted-v083-repair-complete"],
+      "evidence_ids": ["evidence:pin-validation-receipt"]
+    }
+  ],
+  "summary": {
+    "strongest_safe_claim_id": "claim:local-v083-workflow-pin-consistent",
+    "claim_boundary_ids": [],
+    "no_supported_claim": false
+  },
+  "unresolved_uncertainties": [
+    "Protected managed-repair environments have not been read back for this exact pin.",
+    "The hosted workflow_dispatch dry run and protected agent/publish gates have not run for this exact pin.",
+    "Producer PR CI, exact-main CI, merge, and any later package lifecycle remain pending."
+  ]
+}

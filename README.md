@@ -50,13 +50,13 @@ return typed refusals; do not bypass them with raw process-management commands.
 ## GitHub-managed repair boundary
 
 This repository carries one closed policy and one thin caller pinned to analyzer
-workflow commit `f15311473e33d15f0ab9eee5a4bfca385ff4c5db`. It copies no central repair implementation. A
+workflow commit `0fb28f50d9ed84ba47fdbdf2b7d0001f8b4e05b4`. It copies no central repair implementation. A
 label is triage eligibility only; protected environments gate the agent and
 draft publication separately. Repair remains disabled until both method and
 venue hosted canaries pass.
 
-See the immutable [managed fleet quickstart](https://github.com/Ian-Tseng/analyze-project-claims/blob/f15311473e33d15f0ab9eee5a4bfca385ff4c5db/docs/MANAGED_FLEET_QUICKSTART.md)
-and [operations runbook](https://github.com/Ian-Tseng/analyze-project-claims/blob/f15311473e33d15f0ab9eee5a4bfca385ff4c5db/docs/MANAGED_FLEET_OPERATIONS.md).
+See the immutable [managed fleet quickstart](https://github.com/Ian-Tseng/analyze-project-claims/blob/0fb28f50d9ed84ba47fdbdf2b7d0001f8b4e05b4/docs/MANAGED_FLEET_QUICKSTART.md)
+and [operations runbook](https://github.com/Ian-Tseng/analyze-project-claims/blob/0fb28f50d9ed84ba47fdbdf2b7d0001f8b4e05b4/docs/MANAGED_FLEET_OPERATIONS.md).
 
 ## Development
 
