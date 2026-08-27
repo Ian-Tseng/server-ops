@@ -1,5 +1,5 @@
 {
-  "accepted_at_utc": "2026-08-27T05:15:59.564954Z",
+  "accepted_at_utc": "2026-08-25T04:43:55.973283Z",
   "authority": [
     "VERSION",
     "skills/server-ops/manifest.json",
@@ -9,7 +9,8 @@
     "skills/server-ops/scripts/install_skill.py",
     "skills/server-ops/scripts/skill_outcome.py",
     "skills/server-ops/scripts/update_policy.py",
-    "skills/server-ops/references/skill-outcome-receipt.schema.json"
+    "skills/server-ops/references/skill-outcome-receipt.schema.json",
+    "validation/release-candidate-test-receipt.json"
   ],
   "components": [
     {
@@ -224,37 +225,6 @@
           "target": "Listener-first exact-workspace discovery is bounded, public output redacts raw process arguments, and uncertified lifecycle mutations return typed, schema-checked, digest-verified local refusal receipts without process side effects."
         },
         {
-          "element_id": "focused-stability-verification",
-          "evidence_locators": [
-            {
-              "locator": "whole-file",
-              "source": "skills/server-ops/references/operations.md"
-            },
-            {
-              "locator": "whole-file",
-              "source": "skills/server-ops/references/source-ledger.md"
-            },
-            {
-              "locator": "whole-file",
-              "source": "skills/server-ops/src/server_ops/cli.py"
-            },
-            {
-              "locator": "whole-file",
-              "source": "skills/server-ops/src/server_ops/health.py"
-            },
-            {
-              "locator": "whole-file",
-              "source": "tests/test_cli_contract.py"
-            },
-            {
-              "locator": "whole-file",
-              "source": "tests/test_health_identity.py"
-            }
-          ],
-          "relation_type": "validated_by",
-          "target": "An explicit read-only verify command evaluates only the configured strict loopback health predicate until a bounded consecutive-success condition is met or the deadline expires, and diagnosis keeps symptom, recent-change evidence, hypothesis, health, stability, ownership, and compatibility distinct."
-        },
-        {
           "element_id": "strict-adapter-and-health",
           "evidence_locators": [
             {
@@ -317,6 +287,10 @@
             {
               "locator": "whole-file",
               "source": "tests/test_validation_contract.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "validation/release-candidate-test-receipt.json"
             }
           ],
           "relation_type": "documented_and_validated_by",
@@ -325,16 +299,16 @@
       ]
     }
   ],
-  "created_at_utc": "2026-08-27T05:11:19.857987Z",
+  "created_at_utc": "2026-08-25T04:23:41.339155Z",
   "integrity": {
-    "canonical_payload_sha256": "adf430e43d44373290147b5ffe5da48c27f4333108ef119029b64c0c83f916e5"
+    "canonical_payload_sha256": "bdd8595606cb360a3e64b0ebe59ad7a8b49a399d7c191da890f8a4718465464a"
   },
-  "map_id": "component-map-90e4a2a3c26d",
+  "map_id": "component-map-cdc677b9e2a7",
   "map_state": "accepted",
   "mapper_version": "1.3.0",
-  "objective": "Map Server Ops 0.2.0 public interfaces, bounded read-only health-stability verification, evidence-led diagnosis, trust-critical package lifecycle, consent-gated update maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, and public release boundaries.",
-  "origin_scan_id": "20260827T051119857987Z-63a2e889",
-  "previous_map_id": "component-map-0fa215684bb7",
+  "objective": "Map Server Ops 0.1.2 public interfaces, read-only runtime, trust-critical package lifecycle, consent-gated update maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, evidence, and release boundaries before publication.",
+  "origin_scan_id": "20260825T042341339155Z-d040e7e3",
+  "previous_map_id": "component-map-9338aa4e9535",
   "schema_version": "1.0",
   "scope": [
     ".github/workflows/validate.yml",
@@ -382,10 +356,11 @@
     "tests/test_managed_lifecycle.py",
     "tests/test_product_identity.py",
     "tests/test_public_package.py",
-    "tests/test_validation_contract.py"
+    "tests/test_validation_contract.py",
+    "validation/release-candidate-test-receipt.json"
   ],
   "skill_name": "analyze-project-claims",
-  "skill_sha256": "b0c29b21680f02657af6533fba19c94067b44f1e651408c7b1f835c920b9a260",
+  "skill_sha256": "c30585a2c54b9ed2e92049ceefa06f9b3a6efb886313cbfb592825e74156d451",
   "source_snapshot": [
     {
       "exists": true,
@@ -408,67 +383,67 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "928d6124b631531fb5f100210f6ff1e06e69137b73a4702140e475ca97fdaf01",
+      "sha256": "9b50dac1e9ded6c5dcc99613656d5c1495822e2d95048458c45f903685b970b0",
       "source": "CHANGELOG.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "30419bcee1e766ffdbbac8e7f3a8c21b5c1d868b0159d2568e92832e64613f33",
+      "sha256": "e74fa32f1aab2c3294195f0b604a4dcd5306b7d6e661d87a9c698aefa47c61de",
       "source": "PUBLISHING.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "1e67217757613a07f99f90df87a72e90360e2536d6e59189a1e5576c4f71220c",
+      "sha256": "20962369bfdbf15369abe4e8e791eb745bb55ec90cbf28bff17af1a57f7b15fe",
       "source": "README.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "df44be65b4c39f4fbaa2fa5ab77e51556c95b0e2d7a94b98795c403744ed0775",
+      "sha256": "d2d9311b16e92125aab206bd7d6ccc364a3dafe6160f8571807f028c58231ad0",
       "source": "SECURITY.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "22d413d2d7c2bb87530d387a723b0d9393d72029e8b6b7a1a83b0bd7307d3f10",
+      "sha256": "a48d79f9f2e87d8979970d06727ac9a99a25aa0b95990fb3a04ce55251817497",
       "source": "SOURCE.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9",
+      "sha256": "297b50f08386d3521f8fdaf2f78eb8d9d0acdf452d2e61596905fba37208c792",
       "source": "VERSION"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "3941143a05c467b59036f054001f3576aae342977f149f5a1590a7f3a481f92a",
+      "sha256": "d2a78b393bc9aaf6a09ff9537cbfe0a5f58aeeb645b850bad77baab133e7e784",
       "source": "pyproject.toml"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "928d6124b631531fb5f100210f6ff1e06e69137b73a4702140e475ca97fdaf01",
+      "sha256": "9b50dac1e9ded6c5dcc99613656d5c1495822e2d95048458c45f903685b970b0",
       "source": "skills/server-ops/CHANGELOG.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "307fbcb6e5a16fcde8664c61d1d3ea46e2dd6f02af68ca5cb4c79bc775ae7dcc",
+      "sha256": "2476171624bd7c31a638f0bececde465777c81d3127a203ae55f487f560c03b3",
       "source": "skills/server-ops/PRIVACY.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "6d6fd5384d5793e5a7834e7d879cafbc3ce53dd475bafd40aba541decf8d0e2c",
+      "sha256": "ac9d16bb33aefa523096083ad1a8835ed023c3d28a66e2ac8f6bf2359570fdba",
       "source": "skills/server-ops/README.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "1ca2fd47886ee11b14e45138366fc099ae50f5ab20eb8f193dc3113aa00a7ba1",
+      "sha256": "61559a69e6f65db10508098926e9510ee28521101e836ff2b02805d25e88a021",
       "source": "skills/server-ops/SKILL.md"
     },
     {
@@ -480,13 +455,13 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "47a5282d628cfe08c5a5c0f5a32f66889c202570fec2d956255a837471a1ddad",
+      "sha256": "51876c0d9709d7d1389f772a401ebdfe1947a632aa61a37cf161584c7daf1a48",
       "source": "skills/server-ops/manifest.json"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "7ff34d0cfa7c83ced932110b551c5c4a306210fa0e7379ac1d7fbe9633b24f8e",
+      "sha256": "65412e5b50a9ab4d0665db7784ceb31ff56a215ca98fa5be6dae3e0a27d1a3f9",
       "source": "skills/server-ops/references/operations.md"
     },
     {
@@ -510,7 +485,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "c3191390445bd58b585d265be7d98f3c4f214c1e55c37568ed74054fad426a49",
+      "sha256": "2a780157eeb2b6971ce1217d67088f878e6a21f7ca8a4b4e770d03cf2a51ef75",
       "source": "skills/server-ops/references/source-ledger.md"
     },
     {
@@ -540,7 +515,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "6dc05333e2c43f31e112eec3a4620bc418052c97f4abf428a8cb49bba4ab5772",
+      "sha256": "41a80c7b9d08e2bb25d2038eee52a1c8bdb9062262d85ddd365683070f53d9fe",
       "source": "skills/server-ops/scripts/package_contract.py"
     },
     {
@@ -570,7 +545,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "4299f62cd384dea12370563bfab4bcf2d4ac0d3e194da66825adc83bf4530139",
+      "sha256": "af3635e05aa6dce9138b7e8f94c4ad2221d695b599d60e48d57bdefce7dc64a2",
       "source": "skills/server-ops/src/server_ops/cli.py"
     },
     {
@@ -594,7 +569,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "f54d9ce4cfa7420a0681b65f7c77f7966fd0f77a8dac4d334d1e96cb24bb0576",
+      "sha256": "291b9a1c93c85f8090654f825a87c950c7742685d9d1e02659500839e5dadf18",
       "source": "skills/server-ops/src/server_ops/planner.py"
     },
     {
@@ -612,7 +587,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "d42d780f5d80babe2d0baa3bf06a35c25ff2501075fd4ce307be684d0730a7a9",
+      "sha256": "89fcec89ecde0974b72f257a30e76a33d8077cf0773d4b0ad0e25202ff9b9b90",
       "source": "tests/test_cli_contract.py"
     },
     {
@@ -636,32 +611,38 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "6c08fbd23e2083300d6bb55622c46249e2b3d0e98851b7861657bbe9450675c7",
+      "sha256": "994290d6335ad2095bf88212ed890677c22abd4152683d299ea5605a7a5d9f84",
       "source": "tests/test_install_lifecycle.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "205a11fd4540e50bbb83bb46d2e91a89d94d83fb8573388039dc5f6d87661f55",
+      "sha256": "69c9484dc7f0df679877c2fbfa0a3953aa10011da40dab0aaaf62d604a493f8e",
       "source": "tests/test_managed_lifecycle.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "219abd0677a353e5883f0b9c762c6b1c3783164dd233c8633d82308e7072892a",
+      "sha256": "86cd92c0585ce6e2fe00a648bb1ef31833b642500d3dcfe35b63aa8d256c89ed",
       "source": "tests/test_product_identity.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "cc111da90cdf6da173e8e6fdc0b0b66172df40434b388edaf114cdda57302ee4",
+      "sha256": "75c3885b5fabeb1ff21114f9f4a8c798dffe637cfa1981aa1261240fddd9752c",
       "source": "tests/test_public_package.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "cc2b01d46153084d164ff7b3d2896fb320fcc6879ebf1aa4ea657e2125e41370",
+      "sha256": "77f846fa99f81478d0f040fe9a29356c933d3ea6c49beb246fe6c0a25c08a986",
       "source": "tests/test_validation_contract.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "9209aa12ba25ea37954d07544b737ea0f92c037695280f40403e03157828d56e",
+      "source": "validation/release-candidate-test-receipt.json"
     }
   ]
 }

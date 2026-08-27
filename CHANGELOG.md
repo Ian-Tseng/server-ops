@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 - 2026-08-27
+
+- Add an explicit read-only `verify` command with bounded deadlines and
+  consecutive-success stability conditions.
+- Document one-hypothesis-at-a-time diagnosis, recent-change evidence, and the
+  separate meanings of health, stability, ownership, and compatibility.
+- Expand the reviewed source ledger with popular condition-waiting,
+  systematic-debugging, and service-health skill patterns.
+
 ## 0.1.2 - 2026-08-20
 
 - Add a consent-gated GitHub-managed updater with a 24-hour lease and verified

@@ -64,7 +64,7 @@ def plan_mutation(adapter: Adapter, service: ServiceSpec, action: str, candidate
         raise OpsError("MUTATION_DISABLED", f"Mutation is disabled for service `{service.service_id}`.", "Review the adapter and keep using read-only status, or explicitly enable mutation after provider certification.", EXIT_REFUSED)
     raise OpsError(
         "CAPABILITY_NOT_CERTIFIED",
-        f"No mutation provider is certified for `{service.strategy}.{action}` in Local Server Ops 0.1.2.",
+        f"No mutation provider is certified for `{service.strategy}.{action}` in Local Server Ops 0.2.0.",
         "Use `server-ops capabilities`; do not bypass the provider gate.",
         EXIT_REFUSED,
         {"strategy": service.strategy, "action": action},

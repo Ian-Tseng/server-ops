@@ -38,7 +38,7 @@ def test_manifest_verifies_and_fresh_install_is_rediscoverable(tmp_path: Path) -
     assert (destination / "SKILL.md").is_file()
     assert (destination / "scripts" / "server_ops.py").is_file()
     metadata = json.loads((destination / ".server-ops-install.json").read_text(encoding="utf-8"))
-    assert metadata["version"] == "0.1.2"
+    assert metadata["version"] == "0.2.0"
 
 
 def test_installer_refuses_unmanaged_or_modified_target(tmp_path: Path) -> None:

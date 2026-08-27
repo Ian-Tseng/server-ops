@@ -12,6 +12,9 @@ server-ops [--workspace PATH] [--adapter FILE] [--json] [--no-color] COMMAND
   and exact mutation availability.
 - `status [SERVICE]`: configured service card/table or adapter-free workspace candidates.
 - `diagnose [SERVICE]`: status plus matched and missing ownership evidence.
+- `verify [SERVICE] [--deadline-ms N] [--interval-ms N] [--stable-successes N]`:
+  repeatedly evaluate only the configured loopback health predicate until the requested
+  consecutive-success condition is met or the bounded deadline expires.
 - `validate`: strict adapter validation and digest.
 - `capabilities`: exact OS/provider/strategy/action cells. Never infer an OS-wide promise.
 - `migrate --check`: read-only schema compatibility.
@@ -35,11 +38,27 @@ Fast status uses one bounded attempt. A status match establishes only the config
 predicate. Focused verification is a separate executable-intent surface and never runs
 automatically during read-only status.
 
+Focused verification accepts a 100..60000 ms deadline, a 10..5000 ms interval no longer
+than the deadline, and 1..20 consecutive successes. It uses monotonic elapsed time,
+resets the consecutive count after any unhealthy observation, performs no mutation, and
+returns exit 5 when the condition is not established. It proves only the configured
+health predicate remained true for the observed sequence; it does not prove ownership,
+compatibility, production reliability, or future availability.
+
+## Diagnosis sequence
+
+Do not jump from a symptom to a repair. Capture the failing predicate and timestamp,
+inspect the smallest relevant recent-change surface, state one falsifiable hypothesis,
+run one read-only observation that can distinguish it, then update or reject the
+hypothesis. After an authorized repair, rerun the same focused verification contract.
+Do not hide a timeout by increasing the deadline unless the service's documented startup
+condition justifies the change.
+
 ## Plans and receipts
 
 `plan start|stop|restart SERVICE` either emits an exact plan or a typed refusal. Refusals
 are persisted because they are useful evidence that no side effect occurred. `apply`
 requires an exact operation ID and digest and fails closed if either changed.
 
-Version 0.1.2 has no certified mutation provider, so every lifecycle plan refuses with
+Version 0.2.0 has no certified mutation provider, so every lifecycle plan refuses with
 `MUTATION_DISABLED` or `CAPABILITY_NOT_CERTIFIED`. This is deliberate product behavior.
