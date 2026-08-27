@@ -1,5 +1,5 @@
 {
-  "accepted_at_utc": "2026-08-27T05:15:59.564954Z",
+  "accepted_at_utc": null,
   "authority": [
     "VERSION",
     "skills/server-ops/manifest.json",
@@ -325,16 +325,16 @@
       ]
     }
   ],
-  "created_at_utc": "2026-08-27T05:11:19.857987Z",
+  "created_at_utc": "2026-08-27T04:26:45.597011Z",
   "integrity": {
-    "canonical_payload_sha256": "adf430e43d44373290147b5ffe5da48c27f4333108ef119029b64c0c83f916e5"
+    "canonical_payload_sha256": "82d58633ff83e97ea8572b0579959440a04d10e2471bfbaade7bc2f08a40b9e1"
   },
-  "map_id": "component-map-90e4a2a3c26d",
-  "map_state": "accepted",
+  "map_id": "component-map-0fa215684bb7",
+  "map_state": "conflict_candidate",
   "mapper_version": "1.3.0",
   "objective": "Map Server Ops 0.2.0 public interfaces, bounded read-only health-stability verification, evidence-led diagnosis, trust-critical package lifecycle, consent-gated update maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, and public release boundaries.",
-  "origin_scan_id": "20260827T051119857987Z-63a2e889",
-  "previous_map_id": "component-map-0fa215684bb7",
+  "origin_scan_id": "20260827T042645597011Z-16bdead0",
+  "previous_map_id": "component-map-cdc677b9e2a7",
   "schema_version": "1.0",
   "scope": [
     ".github/workflows/validate.yml",
@@ -480,7 +480,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "47a5282d628cfe08c5a5c0f5a32f66889c202570fec2d956255a837471a1ddad",
+      "sha256": "e5f37e90617168273e64005eeff1f1c92afbeec2e93b7acf55cd33eab4be8c69",
       "source": "skills/server-ops/manifest.json"
     },
     {
@@ -570,7 +570,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "4299f62cd384dea12370563bfab4bcf2d4ac0d3e194da66825adc83bf4530139",
+      "sha256": "3c44ea6e2c3d9129275edd3d480f8e85f6ccaa37a7563f7085fc963115cc1099",
       "source": "skills/server-ops/src/server_ops/cli.py"
     },
     {
@@ -612,7 +612,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "d42d780f5d80babe2d0baa3bf06a35c25ff2501075fd4ce307be684d0730a7a9",
+      "sha256": "fd559a940297a96971b3162c4f1e04e07f3a79dec57568a0ba8b540c998d1e93",
       "source": "tests/test_cli_contract.py"
     },
     {
@@ -654,13 +654,13 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "cc111da90cdf6da173e8e6fdc0b0b66172df40434b388edaf114cdda57302ee4",
+      "sha256": "e17def997e509d9658a42fec8a8e8bc9f938739bb527842a587d74ff38fd85f2",
       "source": "tests/test_public_package.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "cc2b01d46153084d164ff7b3d2896fb320fcc6879ebf1aa4ea657e2125e41370",
+      "sha256": "7f138e4eed515dd78c76e7c9eb9e564ddaa36bb652eded81b9258f6d1f1da49d",
       "source": "tests/test_validation_contract.py"
     }
   ]

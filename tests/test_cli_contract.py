@@ -3,9 +3,12 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 import server_ops.cli as cli
 import server_ops.planner as planner
 from server_ops.cli import main
+from server_ops.health import HealthResult
 from server_ops.models import ProcessCandidate
 from server_ops.state import canonical_digest
 
@@ -14,6 +17,28 @@ def json_output(capsys) -> dict:
     captured = capsys.readouterr()
     assert captured.err == ""
     return json.loads(captured.out)
+
+
+def write_health_adapter(workspace: Path, *, services: int = 1, health: bool = True) -> None:
+    configured = []
+    for index in range(services):
+        service = {
+            "id": f"demo-{index + 1}",
+            "workspace": ".",
+            "mutation_enabled": False,
+            "strategy": "read_only",
+            "match": {},
+        }
+        if health:
+            service["health"] = {
+                "url": f"http://127.0.0.1:{8090 + index}/health",
+                "expected_status": 200,
+            }
+        configured.append(service)
+    (workspace / ".server-ops.json").write_text(
+        json.dumps({"schema_version": 1, "services": configured}),
+        encoding="utf-8",
+    )
 
 
 def test_doctor_is_read_only_and_versioned(tmp_path: Path, monkeypatch, capsys) -> None:
@@ -79,7 +104,7 @@ def test_validate_then_plan_writes_refusal_receipt(tmp_path: Path, monkeypatch, 
     assert stored["verification_state"] == "not_run"
     assert stored["side_effect_occurred"] is False
     assert stored["product"] == "server-ops"
-    assert stored["product_version"] == "0.1.2"
+    assert stored["product_version"] == "0.2.0"
     assert stored["workspace"] == str(tmp_path.resolve())
     assert stored["service_workspace"] == str(tmp_path.resolve())
     assert stored["provider_cell"]["provider"] == "none"
@@ -188,3 +213,181 @@ def test_capabilities_never_advertise_mutation(tmp_path: Path, capsys) -> None:
     output = json_output(capsys)
     assert output["mutation"] == "unavailable"
     assert all(cell["status"] != "certified" for cell in output["cells"] if cell["action"] != "inspect")
+
+
+def test_focused_verify_requires_consecutive_healthy_observations(tmp_path: Path, monkeypatch, capsys) -> None:
+    adapter = {
+        "schema_version": 1,
+        "services": [{
+            "id": "demo",
+            "workspace": ".",
+            "mutation_enabled": False,
+            "strategy": "read_only",
+            "match": {},
+            "health": {"url": "http://127.0.0.1:8090/health", "expected_status": 200},
+        }],
+    }
+    (tmp_path / ".server-ops.json").write_text(json.dumps(adapter), encoding="utf-8")
+    observations = iter([
+        HealthResult("healthy", 200, 1, "status", "status matched"),
+        HealthResult("unhealthy", 503, 1, "status", "expected 200"),
+        HealthResult("healthy", 200, 1, "status", "status matched"),
+        HealthResult("healthy", 200, 1, "status", "status matched"),
+    ])
+    monkeypatch.setattr(cli, "probe_health", lambda _spec: next(observations))
+
+    code = main([
+        "--workspace", str(tmp_path), "--json", "verify", "demo",
+        "--deadline-ms", "1000", "--interval-ms", "10", "--stable-successes", "2",
+    ])
+    output = json_output(capsys)
+    assert code == 0
+    assert output["outcome"] == "verified"
+    assert output["verification"] == "focused_health_stability"
+    assert output["attempts"] == 4
+    assert output["consecutive_healthy"] == 2
+    assert output["last_health"]["state"] == "healthy"
+    assert output["changed"] == "nothing"
+
+
+def test_focused_verify_rejects_unbounded_poll_contract(tmp_path: Path, capsys) -> None:
+    code = main([
+        "--workspace", str(tmp_path), "--json", "verify", "demo",
+        "--deadline-ms", "100", "--interval-ms", "200",
+    ])
+    output = json_output(capsys)
+    assert code == 2
+    assert output["error"]["code"] == "VERIFICATION_BOUNDS"
+    assert output["side_effect_occurred"] is False
+
+
+@pytest.mark.parametrize(
+    "arguments",
+    [
+        ["--deadline-ms", "99"],
+        ["--deadline-ms", "60001"],
+        ["--interval-ms", "9"],
+        ["--interval-ms", "5001"],
+        ["--stable-successes", "0"],
+        ["--stable-successes", "21"],
+        ["--deadline-ms", "100", "--interval-ms", "101"],
+    ],
+)
+def test_focused_verify_rejects_each_invalid_bound(tmp_path: Path, capsys, arguments: list[str]) -> None:
+    code = main(["--workspace", str(tmp_path), "--json", "verify", "demo-1", *arguments])
+    output = json_output(capsys)
+    assert code == 2
+    assert output["error"]["code"] == "VERIFICATION_BOUNDS"
+    assert output["side_effect_occurred"] is False
+
+
+def test_focused_verify_requires_adapter_exact_target_and_health(tmp_path: Path, capsys) -> None:
+    assert main(["--workspace", str(tmp_path), "--json", "verify", "demo-1"]) == 2
+    assert json_output(capsys)["error"]["code"] == "ADAPTER_NOT_FOUND"
+
+    write_health_adapter(tmp_path, services=2)
+    assert main(["--workspace", str(tmp_path), "--json", "verify"]) == 2
+    assert json_output(capsys)["error"]["code"] == "SERVICE_REQUIRED"
+    assert main(["--workspace", str(tmp_path), "--json", "verify", "unknown"]) == 2
+    assert json_output(capsys)["error"]["code"] == "SERVICE_NOT_FOUND"
+
+    write_health_adapter(tmp_path, health=False)
+    assert main(["--workspace", str(tmp_path), "--json", "verify", "demo-1"]) == 2
+    assert json_output(capsys)["error"]["code"] == "HEALTH_UNCONFIGURED"
+
+
+def test_focused_verify_reports_not_stable_with_exit_five(tmp_path: Path, monkeypatch, capsys) -> None:
+    write_health_adapter(tmp_path)
+    clock = {"now": 0.0}
+
+    def monotonic() -> float:
+        return clock["now"]
+
+    def probe(_spec) -> HealthResult:
+        clock["now"] += 0.04
+        return HealthResult("unhealthy", 503, 40, "status", "expected 200")
+
+    monkeypatch.setattr(cli.time, "monotonic", monotonic)
+    monkeypatch.setattr(cli.time, "sleep", lambda seconds: clock.__setitem__("now", clock["now"] + seconds))
+    monkeypatch.setattr(cli, "probe_health", probe)
+    code = main([
+        "--workspace", str(tmp_path), "--json", "verify", "demo-1",
+        "--deadline-ms", "100", "--interval-ms", "50", "--stable-successes", "2",
+    ])
+    output = json_output(capsys)
+    assert code == 5
+    assert output["error"]["code"] == "HEALTH_NOT_STABLE"
+    assert output["error"]["details"]["attempts"] == 2
+    assert output["error"]["details"]["elapsed_ms"] >= 100
+    assert output["side_effect_occurred"] is False
+
+
+def test_focused_verify_does_not_count_a_late_healthy_probe(tmp_path: Path, monkeypatch, capsys) -> None:
+    write_health_adapter(tmp_path)
+    clock = {"now": 0.0}
+    monkeypatch.setattr(cli.time, "monotonic", lambda: clock["now"])
+
+    def late_probe(spec) -> HealthResult:
+        assert spec.timeout_ms <= 100
+        clock["now"] = 0.101
+        return HealthResult("healthy", 200, 101, "status", "status matched")
+
+    monkeypatch.setattr(cli, "probe_health", late_probe)
+    code = main([
+        "--workspace", str(tmp_path), "--json", "verify", "demo-1",
+        "--deadline-ms", "100", "--interval-ms", "10", "--stable-successes", "1",
+    ])
+    output = json_output(capsys)
+    assert code == 5
+    assert output["error"]["code"] == "HEALTH_NOT_STABLE"
+    assert output["error"]["details"]["consecutive_healthy"] == 0
+
+
+def test_focused_verify_reports_timeout_if_deadline_expires_before_first_probe(tmp_path: Path, monkeypatch, capsys) -> None:
+    write_health_adapter(tmp_path)
+    clock = iter([0.0, 0.101])
+    monkeypatch.setattr(cli.time, "monotonic", lambda: next(clock))
+    monkeypatch.setattr(
+        cli,
+        "probe_health",
+        lambda _spec: (_ for _ in ()).throw(AssertionError("probe started after deadline")),
+    )
+    code = main([
+        "--workspace", str(tmp_path), "--json", "verify", "demo-1",
+        "--deadline-ms", "100", "--interval-ms", "10", "--stable-successes", "1",
+    ])
+    output = json_output(capsys)
+    assert code == 5
+    assert output["error"]["code"] == "HEALTH_NOT_STABLE"
+    assert output["error"]["details"]["attempts"] == 0
+    assert output["error"]["details"]["last_health"] == {"state": "not_observed"}
+
+
+def test_focused_verify_defaults_and_human_output(tmp_path: Path, monkeypatch, capsys) -> None:
+    write_health_adapter(tmp_path)
+    observed_timeouts: list[int] = []
+
+    def healthy(spec) -> HealthResult:
+        observed_timeouts.append(spec.timeout_ms)
+        return HealthResult("healthy", 200, 1, "status", "status matched")
+
+    monkeypatch.setattr(cli, "probe_health", healthy)
+    monkeypatch.setattr(cli.time, "sleep", lambda _seconds: None)
+    code = main(["--workspace", str(tmp_path), "verify", "demo-1"])
+    captured = capsys.readouterr()
+    assert code == 0
+    assert captured.err == ""
+    assert "FOCUSED VERIFICATION" in captured.out
+    assert "Condition: 3/3 consecutive healthy" in captured.out
+    assert "Changed: nothing" in captured.out
+    assert len(observed_timeouts) == 3
+    assert all(timeout <= 1500 for timeout in observed_timeouts)
+
+
+def test_version_flag_reports_current_product_version(capsys) -> None:
+    with pytest.raises(SystemExit) as raised:
+        main(["--version"])
+    captured = capsys.readouterr()
+    assert raised.value.code == 0
+    assert captured.out.strip() == "server-ops 0.2.0"
+    assert captured.err == ""

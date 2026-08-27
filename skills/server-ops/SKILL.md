@@ -18,6 +18,7 @@ Run from the exact workspace root; do not search parent directories:
 ```powershell
 py <skill-root>/scripts/server_ops.py --workspace <workspace> doctor
 py <skill-root>/scripts/server_ops.py --workspace <workspace> status
+py <skill-root>/scripts/server_ops.py --workspace <workspace> verify <service>
 ```
 
 Report what is observed, what is only corroboration, whether ownership is proven, what
@@ -51,7 +52,7 @@ Before any start, stop, restart, force, or recovery side effect:
 4. Obtain approval for that exact plan.
 5. Apply only the unchanged stored operation and summarize its receipt.
 
-Version 0.1.2 intentionally has no certified mutation provider. Its plan/apply commands
+Version 0.2.0 intentionally has no certified mutation provider. Its plan/apply commands
 produce typed refusals and local receipts. Do not bypass that refusal with raw process,
 shell, task-manager, port-kill, or supervisor commands. Read
 [references/safety-and-evidence.md](references/safety-and-evidence.md) when mutation,
@@ -66,7 +67,12 @@ ownership, interruption, or recovery is involved.
   presentation; this skill owns local service identity and operation evidence.
 - Missing `psutil`, hidden process fields, ambiguous matches, changed adapters, or failed
   receipt persistence downgrade capability and never trigger installation or fallback.
-- Run focused verification after health; health and compatibility are separate states.
+- Keep fast status to one bounded probe. When the user asks to wait for readiness or
+  verify stability, run `verify SERVICE`: it requires consecutive healthy observations
+  within a bounded deadline and changes nothing.
+- Diagnose from observed evidence: record the symptom, inspect relevant recent changes,
+  test one explicit hypothesis at a time, and rerun focused verification. Health,
+  stability, ownership, and schema compatibility are separate states.
 
 The external design sources and exact adoption decisions are recorded in
 [references/source-ledger.md](references/source-ledger.md). No telemetry,

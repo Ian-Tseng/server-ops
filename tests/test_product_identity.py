@@ -33,7 +33,7 @@ def test_skill_metadata_and_ui_are_consistent() -> None:
 def test_source_ledger_uses_immutable_commit_links() -> None:
     ledger = (PACKAGE / "references" / "source-ledger.md").read_text(encoding="utf-8")
     hashes = re.findall(r"/blob/([0-9a-f]{40})/", ledger)
-    assert len(hashes) == 6
+    assert len(hashes) == 9
     assert "External text was not\ncopied" in ledger
 
 

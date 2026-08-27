@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "local-server-ops"
-version = "0.1.2"
+version = "0.2.0"
 description = "Evidence-bound local workspace service inspection"
 readme = "README.md"
 requires-python = ">=3.10,<4"

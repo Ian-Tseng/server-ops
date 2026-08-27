@@ -1,0 +1,199 @@
+{
+  "bindings": [
+    {
+      "claim_id": "claim:focused-stability-verification",
+      "evidence_id": "evidence:focused-verification-receipt",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:focused-stability-verification",
+      "evidence_id": "evidence:focused-verification-runtime",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:package-candidate-verified",
+      "evidence_id": "evidence:focused-verification-receipt",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:public-release-complete",
+      "evidence_id": "evidence:publishing-boundary",
+      "role": "context"
+    }
+  ],
+  "claims": [
+    {
+      "claim_digest": "8e9593b22943c05a477ea017fdd2d781a1dff528139e7e7d9844fa8315cc53ce",
+      "claim_id": "claim:focused-stability-verification",
+      "element_ref": {
+        "component_id": "read-only-runtime",
+        "element_id": "focused-stability-verification"
+      },
+      "material": true,
+      "rationale": "The bounded runtime, operations reference, and 30 focused tests agree on consecutive-health stability, deadline and interval bounds, late-observation refusal, typed target errors, exit code 5, and no mutation.",
+      "statement": "The v0.2.0 release candidate provides bounded read-only focused verification that requires consecutive healthy observations within the declared deadline.",
+      "status": "supported"
+    },
+    {
+      "claim_digest": "6186358ceb8193914fe89ec26d744c3c6679db5d6364da6a4dcb854c484952f1",
+      "claim_id": "claim:package-candidate-verified",
+      "element_ref": {
+        "component_id": "managed-package-lifecycle",
+        "element_id": "package-origin-and-integrity"
+      },
+      "material": true,
+      "rationale": "The persisted bootstrap receipt records package verification, official skill validation, and an outbound-free publisher dry-run for the local candidate.",
+      "statement": "The local Server Ops v0.2.0 package candidate matches its deterministic manifest and passes the official skill validator.",
+      "status": "supported"
+    },
+    {
+      "claim_digest": "e2c392c8748cf15f4fdfc2dcf69a6e007c8d2bfdc74a13348cb7294b8a31b1a5",
+      "claim_id": "claim:public-release-complete",
+      "element_ref": {
+        "component_id": "public-skill-interface",
+        "element_id": "routing-install-and-boundaries"
+      },
+      "material": true,
+      "rationale": "The PR, exact-main, protected-tag, publication, public install/update, and fresh activation gates have not yet run for v0.2.0.",
+      "statement": "The v0.2.0 public release and fresh consumer activation have completed.",
+      "status": "untested"
+    }
+  ],
+  "evidence_items": [
+    {
+      "evidence_id": "evidence:focused-verification-receipt",
+      "freshness": "current",
+      "identity_sha256": "7dd2d0345d3190d7bcc6435cd3f998c6dfb0465401bd8dcd847dd66e26adcae3",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "executed_test",
+      "observed_summary": "The persisted local receipt records 30 passing focused verification and health tests, package verification, official validation, and an outbound-free publisher dry-run while leaving the full current-record suite and remote lifecycle gates pending.",
+      "selection_sha256": "89b68be419833619833051510e02c20529c2cd99a87abb39e84bec672fc15c61",
+      "source": {
+        "byte_size": 1340,
+        "kind": "file",
+        "media_type": "application/json",
+        "path": "validation/v0.2.0-preacceptance-receipt.json",
+        "sha256": "89b68be419833619833051510e02c20529c2cd99a87abb39e84bec672fc15c61"
+      }
+    },
+    {
+      "evidence_id": "evidence:focused-verification-runtime",
+      "freshness": "current",
+      "identity_sha256": "722f7b6f9942270006ca091f7979c4c8f815d8d00137b781030d0debb85f0bd1",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The focused verifier bounds deadline, interval, and stability count, clamps probe timeout to remaining time, rejects late observations, resets consecutive success after failure, reports typed exit code 5, and performs no mutation.",
+      "selection_sha256": "4299f62cd384dea12370563bfab4bcf2d4ac0d3e194da66825adc83bf4530139",
+      "source": {
+        "byte_size": 24264,
+        "kind": "file",
+        "media_type": "text/x-python",
+        "path": "skills/server-ops/src/server_ops/cli.py",
+        "sha256": "4299f62cd384dea12370563bfab4bcf2d4ac0d3e194da66825adc83bf4530139"
+      }
+    },
+    {
+      "evidence_id": "evidence:operations-reference",
+      "freshness": "current",
+      "identity_sha256": "11ee1f660222c26df155b475c05a5803499aecf8d278e748efd0e6c3c03332c6",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The packaged operations reference defines focused verification as a bounded condition contract and keeps lifecycle mutation unavailable.",
+      "selection_sha256": "7ff34d0cfa7c83ced932110b551c5c4a306210fa0e7379ac1d7fbe9633b24f8e",
+      "source": {
+        "byte_size": 3320,
+        "kind": "file",
+        "media_type": "application/octet-stream",
+        "path": "skills/server-ops/references/operations.md",
+        "sha256": "7ff34d0cfa7c83ced932110b551c5c4a306210fa0e7379ac1d7fbe9633b24f8e"
+      }
+    },
+    {
+      "evidence_id": "evidence:publishing-boundary",
+      "freshness": "current",
+      "identity_sha256": "34b28c35ccc33999888b142649fc64f0917b1fd4e80ca0982a702f21b27669b9",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "not_tested",
+      "observed_summary": "The publishing guide keeps PR CI, exact-main CI, tag protection, publication, public installation, update, and fresh activation as separate future gates.",
+      "selection_sha256": "30419bcee1e766ffdbbac8e7f3a8c21b5c1d868b0159d2568e92832e64613f33",
+      "source": {
+        "byte_size": 2034,
+        "kind": "file",
+        "media_type": "application/octet-stream",
+        "path": "PUBLISHING.md",
+        "sha256": "30419bcee1e766ffdbbac8e7f3a8c21b5c1d868b0159d2568e92832e64613f33"
+      }
+    }
+  ],
+  "integrity": {
+    "canonical_payload_sha256": "1376ffd578573b9cd7d8efb0ecbeb198da1a2d2e97eec4705df734ece253e73a",
+    "output_schema_sha256": "a2a009aeb319922010cdf3e5702884fbe55d013dc3f2f09c3f64914299820e65",
+    "recorder_sha256": "c95e9ac13e8156b5c959153556a86d4e182ffeba5195530133cda9c675fb5d63",
+    "renderer_id": "evidence-bound-markdown-v1",
+    "renderer_sha256": "c95e9ac13e8156b5c959153556a86d4e182ffeba5195530133cda9c675fb5d63"
+  },
+  "limitations": [],
+  "record_kind": "evidence_bound_audit_record",
+  "scan": {
+    "accepted_map": {
+      "map_id": "component-map-90e4a2a3c26d",
+      "path": "validation/component-map/accepted-map.json",
+      "sha256": "760d461d12c467d7b52f0adf5e87f03f4f3d4c3880a0965406220e59dcd1e7c0"
+    },
+    "authority": [
+      "VERSION",
+      "skills/server-ops/SKILL.md",
+      "skills/server-ops/src/server_ops/cli.py",
+      "skills/server-ops/references/operations.md",
+      "skills/server-ops/manifest.json",
+      "validation/v0.2.0-preacceptance-receipt.json"
+    ],
+    "engine_identity": {
+      "engine_digest": "7e713ae78e8bd0008926008c75fc4ae0a977f82cc9cc23158cc927c212255f6b",
+      "engine_name": "component-evidence",
+      "engine_version": "1.3.0",
+      "map_schema_version": "1.0",
+      "provider_kind": "embedded",
+      "receipt_protocol_version": "2.0",
+      "status": "verified"
+    },
+    "objective": "Determine which local Server Ops v0.2.0 focused-verification and package claims are supported before the full-suite and public lifecycle gates.",
+    "recorded_at_utc": "2026-08-27T05:23:20.306877Z",
+    "recorder_version": "2.1.0",
+    "scan_id": "20260827T052320306877Z-da7155a9",
+    "scope": [
+      "focused stability verification",
+      "read-only mutation boundary",
+      "local package integrity and validation",
+      "pending public release lifecycle"
+    ],
+    "skill_name": "analyze-project-claims",
+    "skill_sha256": "b0c29b21680f02657af6533fba19c94067b44f1e651408c7b1f835c920b9a260"
+  },
+  "schema_version": "2.0",
+  "summary": {
+    "claim_boundary_ids": [],
+    "claim_count": 3,
+    "claim_counts": {
+      "supported": 2,
+      "untested": 1
+    },
+    "evidence_count": 4,
+    "material_claim_count": 3,
+    "no_supported_claim": false,
+    "scan_status": "PARTIAL",
+    "strongest_safe_claim": "The v0.2.0 release candidate provides bounded read-only focused verification that requires consecutive healthy observations within the declared deadline.",
+    "strongest_safe_claim_id": "claim:focused-stability-verification",
+    "unresolved_uncertainties": [
+      "PR CI, exact merged-main CI, immutable publication, public install/update, and fresh client activation have not yet been observed."
+    ]
+  }
+}

@@ -5,15 +5,17 @@ import json
 import os
 import platform
 import sys
+import time
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
 from . import __version__
 from .adapter import ADAPTER_NAME, find_adapter, load_adapter
 from .discovery import discover_workspace, match_candidates, psutil_available
-from .errors import EXIT_INTERNAL_ERROR, EXIT_REFUSED, EXIT_SUCCESS, OpsError
+from .errors import EXIT_INTERNAL_ERROR, EXIT_REFUSED, EXIT_SUCCESS, EXIT_VERIFICATION_FAILED, OpsError
 from .health import HealthResult, probe_health
 from .models import Adapter, ServiceSpec
 from .planner import plan_mutation, refusal_receipt
@@ -43,6 +45,11 @@ def build_parser() -> argparse.ArgumentParser:
     status.add_argument("service", nargs="?")
     diagnose = commands.add_parser("diagnose", help="Explain service evidence and safe next actions")
     diagnose.add_argument("service", nargs="?")
+    verify = commands.add_parser("verify", help="Require bounded consecutive healthy observations")
+    verify.add_argument("service", nargs="?")
+    verify.add_argument("--deadline-ms", type=int, default=5000)
+    verify.add_argument("--interval-ms", type=int, default=250)
+    verify.add_argument("--stable-successes", type=int, default=3)
     commands.add_parser("validate", help="Strictly validate the selected adapter")
     commands.add_parser("capabilities", help="Show exact supported and refused capability cells")
 
@@ -176,6 +183,93 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
     }
 
 
+def _verify(args: argparse.Namespace) -> dict[str, Any]:
+    deadline_ms = args.deadline_ms
+    interval_ms = args.interval_ms
+    stable_successes = args.stable_successes
+    if (
+        not 100 <= deadline_ms <= 60_000
+        or not 10 <= interval_ms <= 5_000
+        or interval_ms > deadline_ms
+        or not 1 <= stable_successes <= 20
+    ):
+        raise OpsError(
+            "VERIFICATION_BOUNDS",
+            "Focused verification requires deadline 100..60000 ms, interval 10..5000 ms not exceeding the deadline, and 1..20 stable successes.",
+            "Choose a bounded condition contract and retry.",
+        )
+    adapter = _adapter(args, required=True)
+    assert adapter is not None
+    service = _service(adapter, args.service)
+    if service.health is None:
+        raise OpsError(
+            "HEALTH_UNCONFIGURED",
+            f"Service `{service.service_id}` has no health predicate.",
+            "Add one strict loopback health predicate, validate the adapter, then retry.",
+        )
+
+    started = time.monotonic()
+    deadline_seconds = deadline_ms / 1000.0
+    attempts = 0
+    consecutive = 0
+    last: HealthResult | None = None
+    elapsed_ms = 0
+    while True:
+        elapsed_before_probe = time.monotonic() - started
+        remaining_ms = int((deadline_seconds - elapsed_before_probe) * 1000)
+        if remaining_ms <= 0:
+            elapsed_ms = int(elapsed_before_probe * 1000)
+            break
+        attempts += 1
+        bounded_health = replace(
+            service.health,
+            timeout_ms=min(service.health.timeout_ms, max(1, remaining_ms)),
+        )
+        last = probe_health(bounded_health)
+        elapsed_seconds = time.monotonic() - started
+        elapsed_ms = int(elapsed_seconds * 1000)
+        within_deadline = elapsed_seconds <= deadline_seconds
+        consecutive = consecutive + 1 if last.state == "healthy" and within_deadline else 0
+        if consecutive >= stable_successes and within_deadline:
+            return {
+                "outcome": "verified",
+                "service": service.service_id,
+                "verification": "focused_health_stability",
+                "predicate": "consecutive_healthy_observations",
+                "required_consecutive_healthy": stable_successes,
+                "consecutive_healthy": consecutive,
+                "attempts": attempts,
+                "elapsed_ms": elapsed_ms,
+                "deadline_ms": deadline_ms,
+                "interval_ms": interval_ms,
+                "last_health": last.as_dict(),
+                "mutation": "unavailable",
+                "changed": "nothing",
+            }
+        remaining_ms = int((deadline_seconds - elapsed_seconds) * 1000)
+        if remaining_ms <= 0:
+            break
+        time.sleep(min(interval_ms, remaining_ms) / 1000.0)
+
+    raise OpsError(
+        "HEALTH_NOT_STABLE",
+        f"Service `{service.service_id}` did not satisfy the bounded stability condition.",
+        "Inspect the last predicate, diagnose one hypothesis, then run a fresh focused verification.",
+        EXIT_VERIFICATION_FAILED,
+        {
+            "service": service.service_id,
+            "verification": "focused_health_stability",
+            "attempts": attempts,
+            "consecutive_healthy": consecutive,
+            "required_consecutive_healthy": stable_successes,
+            "elapsed_ms": elapsed_ms,
+            "deadline_ms": deadline_ms,
+            "interval_ms": interval_ms,
+            "last_health": last.as_dict() if last is not None else {"state": "not_observed"},
+        },
+    )
+
+
 def _doctor(args: argparse.Namespace) -> dict[str, Any]:
     workspace = _workspace(args)
     path = find_adapter(workspace, args.adapter)
@@ -195,7 +289,7 @@ def _doctor(args: argparse.Namespace) -> dict[str, Any]:
         "process_provider": {"name": "psutil", "available": psutil_available()},
         "state_root": str(state_root()),
         "network_policy": "no outbound transmission; configured loopback health probes only",
-        "mutation": "no certified providers in 0.1.2",
+        "mutation": "no certified providers in 0.2.0",
         "changed": "nothing",
     }
 
@@ -285,7 +379,7 @@ def _apply(args: argparse.Namespace) -> dict[str, Any]:
     actual = receipt.get("receipt_digest")
     if actual != args.expect_digest:
         raise OpsError("PLAN_DIGEST_MISMATCH", "Expected digest does not match the stored operation receipt.", "Inspect the receipt and request a fresh plan.", EXIT_REFUSED, {"operation_id": args.operation_id})
-    raise OpsError("OPERATION_NOT_APPLICABLE", "The stored operation is a refusal receipt, not an executable mutation plan.", "Use `server-ops capabilities`; Local Server Ops 0.1.2 has no certified mutation provider.", EXIT_REFUSED, {"operation_id": args.operation_id})
+    raise OpsError("OPERATION_NOT_APPLICABLE", "The stored operation is a refusal receipt, not an executable mutation plan.", "Use `server-ops capabilities`; Local Server Ops 0.2.0 has no certified mutation provider.", EXIT_REFUSED, {"operation_id": args.operation_id})
 
 
 def _recover(args: argparse.Namespace) -> dict[str, Any]:
@@ -309,6 +403,8 @@ def dispatch(args: argparse.Namespace) -> dict[str, Any]:
         return _status(args)
     if args.command == "diagnose":
         return _status(args, diagnose=True)
+    if args.command == "verify":
+        return _verify(args)
     if args.command == "validate":
         return _validate(args)
     if args.command == "capabilities":
@@ -379,6 +475,17 @@ def render_human(command: str, data: dict[str, Any]) -> str:
         lines.extend(f"{cell['os']} | {cell['provider']} | {cell['strategy']} | {cell['action']} | {cell['status']}" for cell in data["cells"])
         lines.extend(["Mutation: unavailable", "Changed: nothing"])
         return "\n".join(lines)
+    if command == "verify":
+        return "\n".join([
+            "LOCAL SERVER OPS - FOCUSED VERIFICATION",
+            f"Service: {_terminal_safe(data['service'])}",
+            f"Outcome: {_terminal_safe(data['outcome'])}",
+            f"Condition: {data['consecutive_healthy']}/{data['required_consecutive_healthy']} consecutive healthy",
+            f"Attempts: {data['attempts']}",
+            f"Elapsed: {data['elapsed_ms']} ms",
+            "Mutation: unavailable",
+            "Changed: nothing",
+        ])
     return json.dumps(data, ensure_ascii=False, indent=2)
 
 

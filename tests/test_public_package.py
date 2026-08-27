@@ -22,7 +22,10 @@ from package_contract import PackageContractError  # noqa: E402
 sys.path.remove(str(SCRIPTS))
 
 
-def github_installed_skill(repo: str = "https://github.com/Ian-Tseng/server-ops") -> str:
+def github_installed_skill(
+    repo: str = "https://github.com/Ian-Tseng/server-ops",
+    ref: str = "refs/tags/v0.2.0",
+) -> str:
     source = (PACKAGE / "SKILL.md").read_text(encoding="utf-8")
     body = source.split("---", 2)[2].lstrip()
     return (
@@ -31,7 +34,7 @@ def github_installed_skill(repo: str = "https://github.com/Ian-Tseng/server-ops"
         "license: MIT\n"
         "metadata:\n"
         "    github-path: skills/server-ops\n"
-        "    github-ref: refs/tags/v0.1.2\n"
+        f"    github-ref: {ref}\n"
         f"    github-repo: {repo}\n"
         "    github-tree-sha: 0123456789abcdef0123456789abcdef01234567\n"
         "    short-description: Evidence-bound local server operations\n"
@@ -77,6 +80,24 @@ def test_wrong_github_origin_and_extra_files_are_rejected(tmp_path: Path) -> Non
     with pytest.raises(PackageContractError):
         copy_manifest_tree(tmp_path / "nested" / "destination", malicious)
     assert not escaped.exists()
+
+
+def test_github_update_refs_accept_main_and_reject_stale_release(tmp_path: Path) -> None:
+    installed = tmp_path / "server-ops"
+    shutil.copytree(PACKAGE, installed)
+    (installed / "SKILL.md").write_text(
+        github_installed_skill(ref="refs/heads/main"),
+        encoding="utf-8",
+        newline="\n",
+    )
+    assert verify_tree(installed, load_manifest()) == []
+
+    (installed / "SKILL.md").write_text(
+        github_installed_skill(ref="refs/tags/v0.1.2"),
+        encoding="utf-8",
+        newline="\n",
+    )
+    assert any(problem.startswith("invalid:SKILL.md:") for problem in verify_tree(installed, load_manifest()))
 
 
 def test_manifest_ignores_generated_python_metadata(
@@ -159,6 +180,6 @@ def test_public_install_docs_and_ci_contract() -> None:
 def test_manifest_declares_current_release_and_citation() -> None:
     manifest = json.loads((PACKAGE / "manifest.json").read_text(encoding="utf-8"))
     citation = (PACKAGE / "CITATION.cff").read_text(encoding="utf-8")
-    assert manifest["version"] == "0.1.2"
+    assert manifest["version"] == "0.2.0"
     assert "CITATION.cff" in manifest["files"]
-    assert "version: 0.1.2" in citation
+    assert "version: 0.2.0" in citation
