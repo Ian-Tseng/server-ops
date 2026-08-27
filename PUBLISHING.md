@@ -30,8 +30,8 @@ replacement, or activation. Roll back policy and caller SHA together.
    `refs/tags/v*` update/deletion ruleset.
 8. Run `gh skill publish .\skills --dry-run`, then publish exactly once:
 
-       gh skill publish .\skills --tag v0.2.1
-9. Run `gh release verify v0.2.1` and verify the release/tag resolve to exact green main.
+       gh skill publish .\skills --tag v0.3.0
+9. Run `gh release verify v0.3.0` and verify the release/tag resolve to exact green main.
 10. Use fresh disposable repositories to test Codex and Claude Code install, list,
     update dry-run, package verification, and available-client activation.
 

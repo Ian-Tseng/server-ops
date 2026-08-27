@@ -60,5 +60,10 @@ condition justifies the change.
 are persisted because they are useful evidence that no side effect occurred. `apply`
 requires an exact operation ID and digest and fails closed if either changed.
 
-Version 0.2.1 has no certified mutation provider, so every lifecycle plan refuses with
-`MUTATION_DISABLED` or `CAPABILITY_NOT_CERTIFIED`. This is deliberate product behavior.
+Version 0.3.0 certifies only Windows `psutil/direct_child/start`. A successful plan is
+stored for ten minutes, contains no raw argv, and binds the adapter, canonical workspaces,
+resolved executable, argv digest, provider cell, verification scope, and operation digest.
+`apply` requires the exact stored operation ID and digest, rejects input drift or replay,
+journals before launch, starts one direct child without a shell, and records identity and
+result receipts. Stop, restart, watchdog, and non-Windows cells still refuse with
+`CAPABILITY_NOT_CERTIFIED`.

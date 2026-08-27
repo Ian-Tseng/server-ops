@@ -35,6 +35,14 @@ One owner-scoped workspace lock serializes mutation in v1. If state cannot be pe
 identity drifts, a provider is uncertified, or authorization does not match the plan,
 stop mutation and continue only bounded read-only observation.
 
+The v0.3.0 Windows direct-child start cell implements this sequence with one workspace
+lock, a pre-launch transition, shell-free `Popen`, and exact child observation. A plan is
+single-use even if the child later exits. If post-launch identity verification or receipt
+persistence fails, the provider terminates only the exact child handle it just created,
+records the rollback outcome, and returns mutation failure with
+`side_effect_occurred=true`. This rollback is failure containment, not stop-provider
+certification.
+
 ## Claim boundary
 
 Package validation proves structure. Deterministic tests prove only their fixtures.

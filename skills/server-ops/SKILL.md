@@ -52,9 +52,14 @@ Before any start, stop, restart, force, or recovery side effect:
 4. Obtain approval for that exact plan.
 5. Apply only the unchanged stored operation and summarize its receipt.
 
-Version 0.2.1 intentionally has no certified mutation provider. Its plan/apply commands
-produce typed refusals and local receipts. Do not bypass that refusal with raw process,
-shell, task-manager, port-kill, or supervisor commands. Read
+Version 0.3.0 certifies only the Windows + psutil + direct-child + start cell. It
+requires a mutation-enabled `direct_child` adapter, an absolute or trusted-PATH
+executable, a bounded launch argv/cwd, an absent target, an unexpired immutable plan,
+and the exact plan digest at apply. It journals intent before one child start, verifies
+PID, creation time, executable, argv, cwd, and the adapter match, then persists launch
+and result receipts. Stop, restart, watchdog, non-Windows, missing-psutil, ambiguous,
+drifted, replayed, or unverifiable operations remain typed refusals. Do not bypass those
+refusals with raw process, shell, task-manager, port-kill, or supervisor commands. Read
 [references/safety-and-evidence.md](references/safety-and-evidence.md) when mutation,
 ownership, interruption, or recovery is involved.
 

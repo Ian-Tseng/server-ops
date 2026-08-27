@@ -1,9 +1,9 @@
 # Local Server Ops
 
 Local Server Ops is an evidence-bound agent skill and Python CLI for inspecting local
-workspace HTTP services. Version 0.2.1 is deliberately read-only: it discovers candidate
-processes, validates strict project adapters, runs bounded literal-loopback health checks,
-reports exact capability cells, and records mutation refusals without changing processes.
+workspace HTTP services. Version 0.3.0 preserves deterministic read-only inspection and
+adds one narrowly certified mutation cell: Windows `psutil/direct_child/start`. Every
+other lifecycle cell remains refused.
 
 ## Install
 
@@ -28,7 +28,7 @@ installation, and checks through a 24-hour lease after substantive use:
 
 Pin the release when reproducibility matters:
 
-    gh skill install Ian-Tseng/server-ops skills/server-ops/SKILL.md --agent codex --scope user --pin v0.2.1
+    gh skill install Ian-Tseng/server-ops skills/server-ops/SKILL.md --agent codex --scope user --pin v0.3.0
 
 ## Read-only quickstart
 
@@ -45,8 +45,10 @@ Verify the installed package:
 
     py "<skill-root>\scripts\verify_package.py"
 
-Version 0.2.1 has no certified start, stop, or restart provider. Plans for those actions
-return typed refusals; do not bypass them with raw process-management commands.
+Version 0.3.0 can plan and apply only Windows direct-child start after adapter opt-in and
+exact-plan approval. It journals before launch, verifies the spawned child's complete
+identity, and records local launch/result receipts. Stop, restart, watchdog, non-Windows,
+and unverifiable operations return typed refusals; do not bypass them with raw commands.
 
 ## GitHub-managed repair boundary
 
@@ -73,6 +75,7 @@ Project policy: [contributing](CONTRIBUTING.md), [security](SECURITY.md),
 The standalone package carries synchronized release authorities, including its
 [privacy contract](skills/server-ops/PRIVACY.md).
 
-Passing tests establishes only the tested adapter, discovery, health, output, and refusal
-contracts. It does not establish production reliability, mutation safety, complete
-cross-platform support, or ownership of an observed process.
+Passing tests establishes only the tested adapter, discovery, health, output, refusal,
+and Windows direct-child start contracts. It does not establish production reliability,
+stop/restart safety, complete cross-platform support, or ownership without an exact
+matching launch receipt.

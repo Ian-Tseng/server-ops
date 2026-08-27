@@ -1,9 +1,8 @@
 # Local Server Ops
 
 Local Server Ops is an agent skill and Python CLI for evidence-bound inspection of local
-workspace services. Version 0.2.1 is deliberately read-only: it discovers processes,
-strictly validates project adapters, runs bounded literal-loopback health predicates,
-reports exact capability cells, and records mutation refusals without changing processes.
+workspace services. Version 0.3.0 preserves strict read-only inspection and adds one
+narrowly certified mutation cell: Windows `psutil/direct_child/start`.
 
 Install from GitHub:
 
@@ -45,7 +44,7 @@ py scripts/install_skill.py --dry-run --json
 
 Run the installer without `--dry-run` only after reviewing its destination. Updates require
 `--update`, refuse modified installed files, and preserve verified rollback copies under
-`$CODEX_HOME/backups/server-ops`, outside the active skill registry. Version 0.2.1 also
+`$CODEX_HOME/backups/server-ops`, outside the active skill registry. Version 0.3.0 also
 migrates verified legacy `skills/server-ops.backup-*` directories to that location and
 refuses unverified legacy backups.
 
@@ -55,6 +54,7 @@ unknown until manually reconciled.
 
 ## Evidence boundary
 
-Passing tests establishes only the tested adapter, discovery, health, output, and refusal
-contracts. Version 0.2.1 does not claim a certified start, stop, or restart provider, live
-production reliability, or complete cross-platform support.
+Passing tests establishes only the tested adapter, discovery, health, output, refusal,
+and Windows direct-child start contracts. Version 0.3.0 does not claim certified stop,
+restart, watchdog, non-Windows mutation, live production reliability, or ownership when
+the exact launch receipt and process identity do not match.

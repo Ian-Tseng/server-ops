@@ -104,7 +104,7 @@ def test_validate_then_plan_writes_refusal_receipt(tmp_path: Path, monkeypatch, 
     assert stored["verification_state"] == "not_run"
     assert stored["side_effect_occurred"] is False
     assert stored["product"] == "server-ops"
-    assert stored["product_version"] == "0.2.1"
+    assert stored["product_version"] == "0.3.0"
     assert stored["workspace"] == str(tmp_path.resolve())
     assert stored["service_workspace"] == str(tmp_path.resolve())
     assert stored["provider_cell"]["provider"] == "none"
@@ -208,11 +208,18 @@ def test_process_output_redacts_arguments_and_terminal_controls(tmp_path: Path, 
     assert "\x1b" not in human.out
 
 
-def test_capabilities_never_advertise_mutation(tmp_path: Path, capsys) -> None:
+def test_capabilities_advertise_only_the_certified_start_cell(tmp_path: Path, capsys) -> None:
     assert main(["--workspace", str(tmp_path), "--json", "capabilities"]) == 0
     output = json_output(capsys)
-    assert output["mutation"] == "unavailable"
-    assert all(cell["status"] != "certified" for cell in output["cells"] if cell["action"] != "inspect")
+    assert output["mutation"] == "certified_start_only"
+    certified = [cell for cell in output["cells"] if cell["status"] == "certified"]
+    assert certified == [{
+        "os": "windows",
+        "provider": "psutil",
+        "strategy": "direct_child",
+        "action": "start",
+        "status": "certified",
+    }]
 
 
 def test_focused_verify_requires_consecutive_healthy_observations(tmp_path: Path, monkeypatch, capsys) -> None:
@@ -389,5 +396,5 @@ def test_version_flag_reports_current_product_version(capsys) -> None:
         main(["--version"])
     captured = capsys.readouterr()
     assert raised.value.code == 0
-    assert captured.out.strip() == "server-ops 0.2.1"
+    assert captured.out.strip() == "server-ops 0.3.0"
     assert captured.err == ""

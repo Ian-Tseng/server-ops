@@ -8,6 +8,7 @@ import re
 import stat
 import tempfile
 import uuid
+from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -27,7 +28,14 @@ RECEIPT_KEYS = {
     "side_effect_occurred", "target_candidates", "error", "next_action",
     "receipt_digest",
 }
+PLAN_RECEIPT_KEYS = RECEIPT_KEYS | {"expires_at", "launch_intent"}
 PROVIDER_KEYS = {"provider", "provider_available", "strategy", "action", "certification"}
+LAUNCH_INTENT_KEYS = {"executable", "command", "argv_count", "argv_digest", "cwd"}
+LAUNCH_RECEIPT_KEYS = {
+    "schema_version", "product", "operation_id", "service_id", "adapter_digest",
+    "provider_cell", "launched_at", "pid", "create_time", "executable",
+    "argv_digest", "cwd", "receipt_digest",
+}
 
 
 def state_root() -> Path:
@@ -102,9 +110,13 @@ def validate_receipt(
     operation_id: str,
     workspace: Path,
 ) -> dict[str, Any]:
-    if not isinstance(value, dict) or set(value) != RECEIPT_KEYS:
-        raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt fields do not match schema version 1.")
-    if value["schema_version"] != 1 or value["product"] != "server-ops":
+    if not isinstance(value, dict):
+        raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt must be a JSON object.")
+    is_plan = value.get("schema_version") == 2
+    expected_keys = PLAN_RECEIPT_KEYS if is_plan else RECEIPT_KEYS
+    if set(value) != expected_keys:
+        raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt fields do not match its schema version.")
+    if value["schema_version"] not in {1, 2} or value["product"] != "server-ops":
         raise _receipt_error("RECEIPT_IDENTITY", "Stored receipt product identity is unsupported.")
     if not isinstance(value["product_version"], str) or not VERSION.fullmatch(value["product_version"]):
         raise _receipt_error("RECEIPT_IDENTITY", "Stored receipt product version is invalid.")
@@ -146,17 +158,55 @@ def validate_receipt(
         or (provider["provider"] == "psutil" and not provider["provider_available"])
         or not _one_of(provider["strategy"], {"read_only", "direct_child", "watchdog_child"})
         or provider["action"] != value["action"]
-        or not _one_of(provider["certification"], {"disabled_by_adapter", "not_certified"})
+        or not _one_of(provider["certification"], {"disabled_by_adapter", "not_certified", "certified"})
     ):
         raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt provider cell is invalid.")
-    if value["verification_scope"] != "refusal_only_no_side_effect":
-        raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt verification scope is invalid.")
-    if value["mutation_state"] != "refused" or value["verification_state"] != "not_run":
-        raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt lifecycle states are invalid.")
-    if not _one_of(value["process_state"], {"observed", "absent_or_unproven"}) or value["health_state"] != "not_checked":
-        raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt observation states are invalid.")
-    if value["side_effect_occurred"] is not False:
-        raise _receipt_error("RECEIPT_SCHEMA", "Stored refusal receipt has an invalid side-effect state.")
+    if is_plan:
+        if provider["certification"] != "certified" or provider["strategy"] != "direct_child" or value["action"] != "start":
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored plan does not use the certified Windows direct-child start cell.")
+        if value["verification_scope"] != "process_identity_and_optional_health_after_apply":
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored plan verification scope is invalid.")
+        if value["mutation_state"] != "planned" or value["verification_state"] != "not_run":
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored plan lifecycle states are invalid.")
+        if value["process_state"] != "absent" or value["health_state"] != "not_checked":
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored plan observation states are invalid.")
+        if value["side_effect_occurred"] is not False or value["error"] is not None:
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored plan must not claim a side effect or error.")
+        try:
+            expires_at = datetime.fromisoformat(value["expires_at"])
+        except (TypeError, ValueError):
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored plan expiry is invalid.")
+        if expires_at.tzinfo is None or expires_at <= created_at:
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored plan expiry must follow creation time.")
+        intent = value["launch_intent"]
+        if (
+            not isinstance(intent, dict)
+            or set(intent) != LAUNCH_INTENT_KEYS
+            or not isinstance(intent["executable"], str)
+            or not Path(intent["executable"]).is_absolute()
+            or not isinstance(intent["command"], str)
+            or type(intent["argv_count"]) is not int
+            or not 1 <= intent["argv_count"] <= 64
+            or not isinstance(intent["argv_digest"], str)
+            or not SHA256.fullmatch(intent["argv_digest"])
+            or not isinstance(intent["cwd"], str)
+        ):
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored plan launch intent is invalid.")
+        try:
+            intent_cwd = str(Path(intent["cwd"]).resolve())
+            if intent["cwd"] != intent_cwd or os.path.commonpath((service_workspace, intent_cwd)) != service_workspace:
+                raise ValueError
+        except (OSError, ValueError):
+            raise _receipt_error("RECEIPT_WORKSPACE_MISMATCH", "Stored plan launch cwd is outside its service workspace.")
+    else:
+        if value["verification_scope"] != "refusal_only_no_side_effect":
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt verification scope is invalid.")
+        if value["mutation_state"] != "refused" or value["verification_state"] != "not_run":
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt lifecycle states are invalid.")
+        if not _one_of(value["process_state"], {"observed", "absent_or_unproven"}) or value["health_state"] != "not_checked":
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt observation states are invalid.")
+        if value["side_effect_occurred"] is not False:
+            raise _receipt_error("RECEIPT_SCHEMA", "Stored refusal receipt has an invalid side-effect state.")
     if (
         not isinstance(value["target_candidates"], list)
         or len(value["target_candidates"]) > 8
@@ -164,7 +214,7 @@ def validate_receipt(
     ):
         raise _receipt_error("RECEIPT_SCHEMA", "Stored receipt candidates are invalid.")
     error = value["error"]
-    if (
+    if not is_plan and (
         not isinstance(error, dict)
         or set(error) != {"code", "message", "details"}
         or not isinstance(error["code"], str)
@@ -216,3 +266,126 @@ def read_receipt(workspace: Path, operation_id: str) -> dict[str, Any]:
     except (UnicodeDecodeError, json.JSONDecodeError):
         raise _receipt_error("RECEIPT_JSON", "Stored receipt is not valid UTF-8 JSON.")
     return validate_receipt(value, operation_id=operation_id, workspace=workspace)
+
+
+@contextmanager
+def workspace_lock(workspace: Path, operation_id: str):
+    root = workspace_state(workspace)
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / "mutation.lock"
+    try:
+        descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError as exc:
+        raise OpsError(
+            "WORKSPACE_LOCKED",
+            "Another server-ops mutation is already recorded for this workspace.",
+            "Run recovery inspection; do not delete the lock until the owner operation is understood.",
+            EXIT_REFUSED,
+        ) from exc
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            stream.write(operation_id + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        yield
+    finally:
+        try:
+            path.unlink()
+        except FileNotFoundError:
+            pass
+
+
+def write_transition(workspace: Path, operation_id: str, value: dict[str, Any]) -> Path:
+    path = workspace_state(workspace) / "transitions" / f"{operation_id}.json"
+    atomic_write_json(path, value)
+    return path
+
+
+def write_launch_receipt(workspace: Path, service_id: str, value: dict[str, Any]) -> Path:
+    if not SERVICE_ID.fullmatch(service_id):
+        raise _receipt_error("SERVICE_ID", "Launch receipt service ID is invalid.")
+    path = workspace_state(workspace) / "launches" / f"{service_id}.json"
+    atomic_write_json(path, value)
+    return path
+
+
+def validate_launch_receipt(value: Any, *, workspace: Path, service_id: str) -> dict[str, Any]:
+    if not isinstance(value, dict) or set(value) != LAUNCH_RECEIPT_KEYS:
+        raise _receipt_error("LAUNCH_RECEIPT_SCHEMA", "Stored launch receipt fields are invalid.")
+    if value["schema_version"] != 1 or value["product"] != "server-ops" or value["service_id"] != service_id:
+        raise _receipt_error("LAUNCH_RECEIPT_IDENTITY", "Stored launch receipt identity is invalid.")
+    if not _valid_operation_id(value["operation_id"]):
+        raise _receipt_error("LAUNCH_RECEIPT_IDENTITY", "Stored launch operation ID is invalid.")
+    if not isinstance(value["adapter_digest"], str) or not SHA256.fullmatch(value["adapter_digest"]):
+        raise _receipt_error("LAUNCH_RECEIPT_SCHEMA", "Stored launch adapter digest is invalid.")
+    provider = value["provider_cell"]
+    if (
+        not isinstance(provider, dict)
+        or set(provider) != PROVIDER_KEYS
+        or provider != {
+            "provider": "psutil",
+            "provider_available": True,
+            "strategy": "direct_child",
+            "action": "start",
+            "certification": "certified",
+        }
+    ):
+        raise _receipt_error("LAUNCH_RECEIPT_SCHEMA", "Stored launch provider cell is invalid.")
+    try:
+        launched_at = datetime.fromisoformat(value["launched_at"])
+    except (TypeError, ValueError):
+        raise _receipt_error("LAUNCH_RECEIPT_SCHEMA", "Stored launch timestamp is invalid.")
+    if launched_at.tzinfo is None:
+        raise _receipt_error("LAUNCH_RECEIPT_SCHEMA", "Stored launch timestamp must include a timezone.")
+    if type(value["pid"]) is not int or value["pid"] <= 0 or not isinstance(value["create_time"], (int, float)):
+        raise _receipt_error("LAUNCH_RECEIPT_SCHEMA", "Stored launch process identity is invalid.")
+    if not isinstance(value["executable"], str) or not Path(value["executable"]).is_absolute():
+        raise _receipt_error("LAUNCH_RECEIPT_SCHEMA", "Stored launch executable is invalid.")
+    if not isinstance(value["argv_digest"], str) or not SHA256.fullmatch(value["argv_digest"]):
+        raise _receipt_error("LAUNCH_RECEIPT_SCHEMA", "Stored launch argv digest is invalid.")
+    root = str(workspace.resolve())
+    if not isinstance(value["cwd"], str):
+        raise _receipt_error("LAUNCH_RECEIPT_SCHEMA", "Stored launch cwd is invalid.")
+    try:
+        cwd = str(Path(value["cwd"]).resolve())
+        if value["cwd"] != cwd or os.path.commonpath((root, cwd)) != root:
+            raise ValueError
+    except (OSError, ValueError):
+        raise _receipt_error("LAUNCH_RECEIPT_WORKSPACE", "Stored launch cwd is outside its workspace.")
+    supplied_digest = value["receipt_digest"]
+    if not isinstance(supplied_digest, str) or not SHA256.fullmatch(supplied_digest):
+        raise _receipt_error("LAUNCH_RECEIPT_DIGEST_INVALID", "Stored launch receipt digest is invalid.")
+    body = dict(value)
+    body.pop("receipt_digest")
+    if not hmac.compare_digest(canonical_digest(body), supplied_digest):
+        raise _receipt_error("LAUNCH_RECEIPT_DIGEST_MISMATCH", "Stored launch receipt content does not match its digest.")
+    return value
+
+
+def read_launch_receipt(workspace: Path, service_id: str) -> dict[str, Any] | None:
+    if not SERVICE_ID.fullmatch(service_id):
+        raise _receipt_error("SERVICE_ID", "Launch receipt service ID is invalid.")
+    path = workspace_state(workspace) / "launches" / f"{service_id}.json"
+    try:
+        attributes = path.lstat()
+    except FileNotFoundError:
+        return None
+    file_attributes = getattr(attributes, "st_file_attributes", 0)
+    reparse_flag = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0)
+    if path.is_symlink() or bool(reparse_flag and file_attributes & reparse_flag) or not stat.S_ISREG(attributes.st_mode):
+        raise _receipt_error("LAUNCH_RECEIPT_LINK", "Stored launch receipt must be a regular file.")
+    with path.open("rb") as stream:
+        raw = stream.read(MAX_RECEIPT_BYTES + 1)
+    if len(raw) > MAX_RECEIPT_BYTES:
+        raise _receipt_error("LAUNCH_RECEIPT_TOO_LARGE", "Stored launch receipt exceeds the size limit.")
+    try:
+        value = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        raise _receipt_error("LAUNCH_RECEIPT_JSON", "Stored launch receipt is not valid UTF-8 JSON.")
+    return validate_launch_receipt(value, workspace=workspace, service_id=service_id)
+
+
+def write_result_receipt(workspace: Path, operation_id: str, value: dict[str, Any]) -> Path:
+    path = workspace_state(workspace) / "results" / f"{operation_id}.json"
+    atomic_write_json(path, value)
+    return path

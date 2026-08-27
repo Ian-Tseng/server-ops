@@ -1,6 +1,6 @@
 # Privacy
 
-Local Server Ops 0.2.1 performs no analytics, problem-report submission,
+Local Server Ops 0.3.0 performs no analytics, problem-report submission,
 feedback submission, diagnostic upload, or other outbound transmission by default.
 Managed update checks remain off until separately enabled. They delegate only package
 identity and version discovery to GitHub CLI, never workspace content, process details,

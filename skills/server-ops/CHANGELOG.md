@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 - 2026-08-28
+
+- Certify only the Windows `psutil/direct_child/start` cell with explicit adapter opt-in,
+  ten-minute immutable plans, exact-digest consent, and single-use replay protection.
+- Journal before one shell-free child launch; verify PID, creation time, executable, argv,
+  cwd, and adapter match; persist launch/result evidence and prove ownership in status.
+- Roll back only the exact spawned child when post-launch identity evidence fails.
+- Keep stop, restart, watchdog, non-Windows, drifted, ambiguous, and unverifiable cells
+  fail-closed.
+
 ## 0.2.1 - 2026-08-27
 
 - Accept and integrity-bind GitHub CLI's installer-added `github-pinned` metadata so

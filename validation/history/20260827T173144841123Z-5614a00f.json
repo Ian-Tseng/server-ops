@@ -1,0 +1,175 @@
+{
+  "bindings": [
+    {
+      "claim_id": "claim:v030-local-candidate",
+      "evidence_id": "evidence:local-test-receipt",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-candidate",
+      "evidence_id": "evidence:package-manifest",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-candidate",
+      "evidence_id": "evidence:component-map-candidate",
+      "role": "limits"
+    }
+  ],
+  "claims": [
+    {
+      "claim_digest": "5b6cd3cdf2a6d7cc7881c6d4fec28ccc1423271a005c8c1e547b9ee8ecd259c8",
+      "claim_id": "claim:v030-local-candidate",
+      "element_ref": {
+        "component_id": "release-evidence-and-provenance",
+        "element_id": "local-release-candidate-authority"
+      },
+      "material": true,
+      "rationale": "The deterministic package verifies and the local Windows suite passes 83 of 84 tests, including the focused provider matrix. The remaining failure is the intentional accepted-map freshness gate; the exact successor exists but has not been accepted.",
+      "statement": "Server Ops v0.3.0 is a package-verified local candidate whose tested implementation is blocked from release-candidate acceptance only by the pending structural component-map transition.",
+      "status": "partially_supported"
+    }
+  ],
+  "evidence_items": [
+    {
+      "evidence_id": "evidence:local-test-receipt",
+      "freshness": "current",
+      "identity_sha256": "889c95732d2d98b1956eb0cf74c5c64abd26ed3da9f47b0c49d7d738d6ec7399",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "executed_test",
+      "observed_summary": "Local Windows candidate: 83 of 84 tests passed; the only failure is pending component-map acceptance.",
+      "selection_sha256": "0320bf3e2c0b6125673f5d85123e5c25feb53590ddb809f1584c34b2a975fd53",
+      "source": {
+        "byte_size": 1361,
+        "kind": "file",
+        "media_type": "application/json",
+        "path": "validation/release-candidate-test-receipt.json",
+        "sha256": "0320bf3e2c0b6125673f5d85123e5c25feb53590ddb809f1584c34b2a975fd53"
+      }
+    },
+    {
+      "evidence_id": "evidence:package-manifest",
+      "freshness": "current",
+      "identity_sha256": "93f17063811c2dd16865b38c62e2bd8d834c9c8edbefa5d3fd2aeb67d25c157c",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "Package verifier reports PACKAGE_VERIFIED for the v0.3.0 candidate manifest.",
+      "selection_sha256": "19ab9f5f3326cc575e97d1a359294a8f2313f422f6d0fe7ab8cce2594d56d63d",
+      "source": {
+        "byte_size": 3648,
+        "kind": "file",
+        "media_type": "application/json",
+        "path": "skills/server-ops/manifest.json",
+        "sha256": "19ab9f5f3326cc575e97d1a359294a8f2313f422f6d0fe7ab8cce2594d56d63d"
+      }
+    },
+    {
+      "evidence_id": "evidence:component-map-candidate",
+      "freshness": "current",
+      "identity_sha256": "a913761c41d7b0e52ac28c2c7a28a8031027b40132f6427b51411d095411a0cc",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "Exact v0.3.0 successor is a conflict_candidate pending explicit human acceptance.",
+      "selection_sha256": "0b7c4a22fafc207415f3d876065dfd697f55276c73121f2f371a73b856ae80a4",
+      "source": {
+        "byte_size": 28115,
+        "kind": "file",
+        "media_type": "application/json",
+        "path": "validation/component-map/candidates/20260827T172923845681Z-419d19d9-component-map-9f1011b674b7.json",
+        "sha256": "0b7c4a22fafc207415f3d876065dfd697f55276c73121f2f371a73b856ae80a4"
+      }
+    }
+  ],
+  "integrity": {
+    "canonical_payload_sha256": "855358bbe6bcfd0885ff240c7deaf40f36cf64037e40c9a6221394c0a50ab36e",
+    "output_schema_sha256": "a2a009aeb319922010cdf3e5702884fbe55d013dc3f2f09c3f64914299820e65",
+    "recorder_sha256": "c95e9ac13e8156b5c959153556a86d4e182ffeba5195530133cda9c675fb5d63",
+    "renderer_id": "evidence-bound-markdown-v1",
+    "renderer_sha256": "c95e9ac13e8156b5c959153556a86d4e182ffeba5195530133cda9c675fb5d63"
+  },
+  "limitations": [
+    {
+      "claim_ids": [
+        "claim:v030-local-candidate"
+      ],
+      "evidence_ids": [
+        "evidence:component-map-candidate"
+      ],
+      "limitation_id": "limitation:component-map-pending",
+      "text": "The accepted component map is still v0.2.1 authority; exact successor component-map-9f1011b674b7 is pending explicit review and acceptance."
+    },
+    {
+      "claim_ids": [
+        "claim:v030-local-candidate"
+      ],
+      "evidence_ids": [],
+      "limitation_id": "limitation:public-lifecycle-unobserved",
+      "text": "PR CI, exact-main CI, tag protection, immutable v0.3.0 publication, public install or update, and fresh client activation remain unobserved."
+    }
+  ],
+  "record_kind": "evidence_bound_audit_record",
+  "scan": {
+    "accepted_map": {
+      "map_id": "component-map-09678f4a5fc5",
+      "path": "validation/component-map/accepted-map.json",
+      "sha256": "0d44a002c1763c3dac8252e6e6287e277d184dd0e4138f7d157f507c1afb81bb"
+    },
+    "authority": [
+      "VERSION",
+      "skills/server-ops/manifest.json",
+      "validation/component-map/accepted-map.json",
+      "validation/component-map/candidates/20260827T172923845681Z-419d19d9-component-map-9f1011b674b7.json",
+      "validation/release-candidate-test-receipt.json"
+    ],
+    "engine_identity": {
+      "engine_digest": "7e713ae78e8bd0008926008c75fc4ae0a977f82cc9cc23158cc927c212255f6b",
+      "engine_name": "component-evidence",
+      "engine_version": "1.3.0",
+      "map_schema_version": "1.0",
+      "provider_kind": "embedded",
+      "receipt_protocol_version": "2.0",
+      "status": "verified"
+    },
+    "objective": "Determine the strongest safe local claim for the Server Ops v0.3.0 Windows direct-child start provider candidate before component-map acceptance and public release.",
+    "recorded_at_utc": "2026-08-27T17:31:44.841123Z",
+    "recorder_version": "2.1.0",
+    "scan_id": "20260827T173144841123Z-5614a00f",
+    "scope": [
+      "Windows psutil direct-child start provider",
+      "immutable plan, replay, drift, rollback, and ownership evidence",
+      "local package integrity and 84-test gate",
+      "pending component-map and public release lifecycle"
+    ],
+    "skill_name": "analyze-project-claims",
+    "skill_sha256": "b0c29b21680f02657af6533fba19c94067b44f1e651408c7b1f835c920b9a260"
+  },
+  "schema_version": "2.0",
+  "summary": {
+    "claim_boundary_ids": [
+      "limitation:component-map-pending",
+      "limitation:public-lifecycle-unobserved"
+    ],
+    "claim_count": 1,
+    "claim_counts": {
+      "partially_supported": 1
+    },
+    "evidence_count": 3,
+    "material_claim_count": 1,
+    "no_supported_claim": false,
+    "scan_status": "PARTIAL",
+    "strongest_safe_claim": "Server Ops v0.3.0 is a package-verified local candidate whose tested implementation is blocked from release-candidate acceptance only by the pending structural component-map transition.",
+    "strongest_safe_claim_id": "claim:v030-local-candidate",
+    "unresolved_uncertainties": [
+      "Whether the exact successor component map will be accepted.",
+      "Whether hosted Windows CI reproduces the local provider and performance results.",
+      "Whether v0.3.0 will be merged, tagged, published, installed, and activated.",
+      "Stop, restart, watchdog, and non-Windows mutation cells remain uncertified."
+    ]
+  }
+}

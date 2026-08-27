@@ -19,7 +19,9 @@ from .errors import EXIT_INTERNAL_ERROR, EXIT_REFUSED, EXIT_SUCCESS, EXIT_VERIFI
 from .health import HealthResult, probe_health
 from .models import Adapter, ServiceSpec
 from .planner import plan_mutation, refusal_receipt
-from .state import read_receipt, state_root, write_receipt
+from .provider import apply_start_plan, certified_start_available
+from .state import read_launch_receipt, read_receipt, state_root, write_receipt
+from .models import argv_digest
 
 
 SCHEMA_VERSION = 1
@@ -135,17 +137,31 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
         if service.match.configured:
             candidates = workspace_candidates.setdefault(
                 service.workspace,
-                discover_workspace(service.workspace, include_ports=True),
+                discover_workspace(service.workspace, include_ports=bool(service.match.ports)),
             )
         matched = match_candidates(candidates, service.match)
+        launch_receipt = read_launch_receipt(workspace, service.service_id)
+        ownership_proven = False
+        if len(matched) == 1 and launch_receipt is not None:
+            candidate = matched[0]
+            ownership_proven = (
+                launch_receipt["adapter_digest"] == adapter.digest
+                and launch_receipt["pid"] == candidate.pid
+                and abs(float(launch_receipt["create_time"]) - float(candidate.create_time or -1)) < 0.001
+                and os.path.normcase(str(Path(launch_receipt["executable"]).resolve()))
+                == os.path.normcase(str(Path(candidate.executable or "").resolve()))
+                and launch_receipt["argv_digest"] == argv_digest(candidate.argv)
+                and os.path.normcase(str(Path(launch_receipt["cwd"]).resolve()))
+                == os.path.normcase(str(Path(candidate.cwd or "").resolve()))
+            )
         if not service.match.configured:
             identity = "unbound"
             process = "unknown"
             next_action = f"Add bounded match evidence for `{service.service_id}`."
         elif len(matched) == 1:
-            identity = "partial"
+            identity = "owned" if ownership_proven else "partial"
             process = "running"
-            next_action = "Read-only match observed; ownership is not proven."
+            next_action = "Run focused health verification." if ownership_proven else "Read-only match observed; ownership is not proven."
         elif len(matched) > 1:
             identity = "ambiguous"
             process = "multiple"
@@ -161,16 +177,20 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
             "identity": identity,
             "process": process,
             "health": health_result.as_dict() if health_result else {"state": "unconfigured"},
-            "mutation": "disabled" if not service.mutation_enabled else "not_certified",
+            "mutation": (
+                "disabled" if not service.mutation_enabled
+                else "certified_start_only" if service.strategy == "direct_child" and certified_start_available()
+                else "not_certified"
+            ),
             "verification": "not_run",
             "matched_candidates": [candidate.public_dict() for candidate in matched[:8]],
             "next_action": next_action,
         }
         if diagnose:
             row["explanation"] = {
-                "ownership_proven": False,
+                "ownership_proven": ownership_proven,
                 "matched_evidence": sorted({evidence for candidate in matched for evidence in candidate.evidence}),
-                "missing_evidence": ["trusted launch receipt or attestation", "capability-cell certification"],
+                "missing_evidence": [] if ownership_proven else ["matching trusted launch receipt", "complete process identity match"],
             }
         rows.append(row)
     return {
@@ -289,7 +309,7 @@ def _doctor(args: argparse.Namespace) -> dict[str, Any]:
         "process_provider": {"name": "psutil", "available": psutil_available()},
         "state_root": str(state_root()),
         "network_policy": "no outbound transmission; configured loopback health probes only",
-        "mutation": "no certified providers in 0.2.1",
+        "mutation": "windows direct_child.start certified" if certified_start_available() else "certified provider unavailable on this host",
         "changed": "nothing",
     }
 
@@ -301,9 +321,10 @@ def _capabilities() -> dict[str, Any]:
         "cells": [
             {"os": "windows|macos|linux", "provider": "psutil", "strategy": "read_only", "action": "inspect", "status": "available" if psutil_available() else "dependency_missing"},
             {"os": "windows", "provider": "psutil", "strategy": "watchdog_child", "action": "restart", "status": "planned_not_certified"},
-            {"os": "windows|macos|linux", "provider": "psutil", "strategy": "direct_child", "action": "start|stop|restart", "status": "planned_not_certified"},
+            {"os": "windows", "provider": "psutil", "strategy": "direct_child", "action": "start", "status": "certified" if certified_start_available() else "dependency_or_os_unavailable"},
+            {"os": "windows|macos|linux", "provider": "psutil", "strategy": "direct_child", "action": "stop|restart", "status": "planned_not_certified"},
         ],
-        "mutation": "unavailable",
+        "mutation": "certified_start_only" if certified_start_available() else "unavailable",
         "changed": "nothing",
     }
 
@@ -361,11 +382,13 @@ def _plan(args: argparse.Namespace, action: str, service_id: str) -> dict[str, A
     candidates = []
     if service.match.configured:
         candidates = match_candidates(
-            discover_workspace(service.workspace, include_ports=True),
+            discover_workspace(service.workspace, include_ports=bool(service.match.ports)),
             service.match,
         )
     try:
-        return plan_mutation(adapter, service, action, candidates)
+        plan = plan_mutation(adapter, service, action, candidates, str(_workspace(args)))
+        path = write_receipt(_workspace(args), plan["operation_id"], plan)
+        return {"outcome": "planned", **plan, "receipt": str(path)}
     except OpsError as error:
         workspace = _workspace(args)
         receipt = refusal_receipt(adapter, service, action, candidates, error, str(workspace))
@@ -379,7 +402,22 @@ def _apply(args: argparse.Namespace) -> dict[str, Any]:
     actual = receipt.get("receipt_digest")
     if actual != args.expect_digest:
         raise OpsError("PLAN_DIGEST_MISMATCH", "Expected digest does not match the stored operation receipt.", "Inspect the receipt and request a fresh plan.", EXIT_REFUSED, {"operation_id": args.operation_id})
-    raise OpsError("OPERATION_NOT_APPLICABLE", "The stored operation is a refusal receipt, not an executable mutation plan.", "Use `server-ops capabilities`; Local Server Ops 0.2.1 has no certified mutation provider.", EXIT_REFUSED, {"operation_id": args.operation_id})
+    if receipt["schema_version"] != 2 or receipt["mutation_state"] != "planned":
+        raise OpsError("OPERATION_NOT_APPLICABLE", "The stored operation is a refusal receipt, not an executable mutation plan.", "Use `server-ops capabilities` and request a fresh certified plan.", EXIT_REFUSED, {"operation_id": args.operation_id})
+    adapter = _adapter(args, required=True)
+    assert adapter is not None
+    service = _service(adapter, receipt["service_id"])
+    candidates = match_candidates(
+        discover_workspace(service.workspace, include_ports=bool(service.match.ports)),
+        service.match,
+    )
+    return apply_start_plan(
+        workspace=_workspace(args),
+        adapter=adapter,
+        service=service,
+        plan=receipt,
+        current_candidates=candidates,
+    )
 
 
 def _recover(args: argparse.Namespace) -> dict[str, Any]:
@@ -473,7 +511,7 @@ def render_human(command: str, data: dict[str, Any]) -> str:
     if command == "capabilities":
         lines = ["LOCAL SERVER OPS CAPABILITIES"]
         lines.extend(f"{cell['os']} | {cell['provider']} | {cell['strategy']} | {cell['action']} | {cell['status']}" for cell in data["cells"])
-        lines.extend(["Mutation: unavailable", "Changed: nothing"])
+        lines.extend([f"Mutation: {data['mutation']}", "Changed: nothing"])
         return "\n".join(lines)
     if command == "verify":
         return "\n".join([

@@ -24,7 +24,7 @@ sys.path.remove(str(SCRIPTS))
 
 def github_installed_skill(
     repo: str = "https://github.com/Ian-Tseng/server-ops",
-    ref: str = "refs/tags/v0.2.1",
+    ref: str = "refs/tags/v0.3.0",
     pinned: str | None = None,
 ) -> str:
     source = (PACKAGE / "SKILL.md").read_text(encoding="utf-8")
@@ -62,7 +62,7 @@ def test_pinned_github_metadata_is_normalized_and_bound_to_ref(tmp_path: Path) -
     installed = tmp_path / "server-ops"
     shutil.copytree(PACKAGE, installed)
     (installed / "SKILL.md").write_text(
-        github_installed_skill(pinned="v0.2.1"),
+        github_installed_skill(pinned="v0.3.0"),
         encoding="utf-8",
         newline="\n",
     )
@@ -201,6 +201,6 @@ def test_public_install_docs_and_ci_contract() -> None:
 def test_manifest_declares_current_release_and_citation() -> None:
     manifest = json.loads((PACKAGE / "manifest.json").read_text(encoding="utf-8"))
     citation = (PACKAGE / "CITATION.cff").read_text(encoding="utf-8")
-    assert manifest["version"] == "0.2.1"
+    assert manifest["version"] == "0.3.0"
     assert "CITATION.cff" in manifest["files"]
-    assert "version: 0.2.1" in citation
+    assert "version: 0.3.0" in citation

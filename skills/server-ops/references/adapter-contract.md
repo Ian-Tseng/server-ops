@@ -35,3 +35,10 @@ Unknown fields are rejected.
 Argument arrays are executable intent even without a shell. Do not store credentials,
 tokens, passwords, arbitrary environment values, or commands copied from untrusted output.
 Working directory, argv substrings, ports, and health remain corroboration only.
+
+For the certified Windows start cell, set `mutation_enabled` to true, use strategy
+`direct_child`, configure `launch.argv` and `launch.cwd`, and keep a match predicate that
+the launched process will satisfy. Use an absolute `.exe`/`.com` path when reproducibility
+matters. The adapter enables planning only; it does not approve a plan or prove ownership.
+An exact launch receipt must match PID, creation time, executable, argv digest, cwd, and
+adapter digest before status reports `identity=owned`.
