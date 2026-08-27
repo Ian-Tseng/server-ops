@@ -1,7 +1,7 @@
 # Local Server Ops
 
 Local Server Ops is an evidence-bound agent skill and Python CLI for inspecting local
-workspace HTTP services. Version 0.2.0 is deliberately read-only: it discovers candidate
+workspace HTTP services. Version 0.2.1 is deliberately read-only: it discovers candidate
 processes, validates strict project adapters, runs bounded literal-loopback health checks,
 reports exact capability cells, and records mutation refusals without changing processes.
 
@@ -28,7 +28,7 @@ installation, and checks through a 24-hour lease after substantive use:
 
 Pin the release when reproducibility matters:
 
-    gh skill install Ian-Tseng/server-ops skills/server-ops/SKILL.md --agent codex --scope user --pin v0.2.0
+    gh skill install Ian-Tseng/server-ops skills/server-ops/SKILL.md --agent codex --scope user --pin v0.2.1
 
 ## Read-only quickstart
 
@@ -45,7 +45,7 @@ Verify the installed package:
 
     py "<skill-root>\scripts\verify_package.py"
 
-Version 0.2.0 has no certified start, stop, or restart provider. Plans for those actions
+Version 0.2.1 has no certified start, stop, or restart provider. Plans for those actions
 return typed refusals; do not bypass them with raw process-management commands.
 
 ## GitHub-managed repair boundary

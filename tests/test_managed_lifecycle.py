@@ -87,7 +87,7 @@ class ManagedLifecycleTests(unittest.TestCase):
                 "owner": "Ian-Tseng",
                 "repository": "server-ops",
                 "skill": "server-ops",
-                "version": "0.2.0",
+                "version": "0.2.1",
                 "package_digest_sha256": payload["package_digest_sha256"],
                 "identity_authority": "producer_declared_untrusted",
             },

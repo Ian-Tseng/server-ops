@@ -104,7 +104,7 @@ def test_validate_then_plan_writes_refusal_receipt(tmp_path: Path, monkeypatch, 
     assert stored["verification_state"] == "not_run"
     assert stored["side_effect_occurred"] is False
     assert stored["product"] == "server-ops"
-    assert stored["product_version"] == "0.2.0"
+    assert stored["product_version"] == "0.2.1"
     assert stored["workspace"] == str(tmp_path.resolve())
     assert stored["service_workspace"] == str(tmp_path.resolve())
     assert stored["provider_cell"]["provider"] == "none"
@@ -389,5 +389,5 @@ def test_version_flag_reports_current_product_version(capsys) -> None:
         main(["--version"])
     captured = capsys.readouterr()
     assert raised.value.code == 0
-    assert captured.out.strip() == "server-ops 0.2.0"
+    assert captured.out.strip() == "server-ops 0.2.1"
     assert captured.err == ""

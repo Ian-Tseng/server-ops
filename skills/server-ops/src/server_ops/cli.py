@@ -289,7 +289,7 @@ def _doctor(args: argparse.Namespace) -> dict[str, Any]:
         "process_provider": {"name": "psutil", "available": psutil_available()},
         "state_root": str(state_root()),
         "network_policy": "no outbound transmission; configured loopback health probes only",
-        "mutation": "no certified providers in 0.2.0",
+        "mutation": "no certified providers in 0.2.1",
         "changed": "nothing",
     }
 
@@ -379,7 +379,7 @@ def _apply(args: argparse.Namespace) -> dict[str, Any]:
     actual = receipt.get("receipt_digest")
     if actual != args.expect_digest:
         raise OpsError("PLAN_DIGEST_MISMATCH", "Expected digest does not match the stored operation receipt.", "Inspect the receipt and request a fresh plan.", EXIT_REFUSED, {"operation_id": args.operation_id})
-    raise OpsError("OPERATION_NOT_APPLICABLE", "The stored operation is a refusal receipt, not an executable mutation plan.", "Use `server-ops capabilities`; Local Server Ops 0.2.0 has no certified mutation provider.", EXIT_REFUSED, {"operation_id": args.operation_id})
+    raise OpsError("OPERATION_NOT_APPLICABLE", "The stored operation is a refusal receipt, not an executable mutation plan.", "Use `server-ops capabilities`; Local Server Ops 0.2.1 has no certified mutation provider.", EXIT_REFUSED, {"operation_id": args.operation_id})
 
 
 def _recover(args: argparse.Namespace) -> dict[str, Any]:

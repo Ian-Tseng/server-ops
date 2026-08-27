@@ -24,16 +24,19 @@ sys.path.remove(str(SCRIPTS))
 
 def github_installed_skill(
     repo: str = "https://github.com/Ian-Tseng/server-ops",
-    ref: str = "refs/tags/v0.2.0",
+    ref: str = "refs/tags/v0.2.1",
+    pinned: str | None = None,
 ) -> str:
     source = (PACKAGE / "SKILL.md").read_text(encoding="utf-8")
     body = source.split("---", 2)[2].lstrip()
+    pinned_line = f"    github-pinned: {pinned}\n" if pinned is not None else ""
     return (
         "---\n"
         "description: Inspect, diagnose, validate, and safely plan operations for local workspace HTTP services. Use when a developer asks whether a local server is running, healthy, bound to the intended checkout, or should be started, stopped, or restarted. Excludes production, remote hosts, containers/orchestrators, databases, and operating-system services.\n"
         "license: MIT\n"
         "metadata:\n"
         "    github-path: skills/server-ops\n"
+        f"{pinned_line}"
         f"    github-ref: {ref}\n"
         f"    github-repo: {repo}\n"
         "    github-tree-sha: 0123456789abcdef0123456789abcdef01234567\n"
@@ -53,6 +56,24 @@ def test_expected_github_metadata_is_normalized(tmp_path: Path) -> None:
     shutil.copytree(PACKAGE, installed)
     (installed / "SKILL.md").write_text(github_installed_skill(), encoding="utf-8", newline="\n")
     assert verify_tree(installed, load_manifest()) == []
+
+
+def test_pinned_github_metadata_is_normalized_and_bound_to_ref(tmp_path: Path) -> None:
+    installed = tmp_path / "server-ops"
+    shutil.copytree(PACKAGE, installed)
+    (installed / "SKILL.md").write_text(
+        github_installed_skill(pinned="v0.2.1"),
+        encoding="utf-8",
+        newline="\n",
+    )
+    assert verify_tree(installed, load_manifest()) == []
+
+    (installed / "SKILL.md").write_text(
+        github_installed_skill(pinned="v0.1.2"),
+        encoding="utf-8",
+        newline="\n",
+    )
+    assert any(problem.startswith("invalid:SKILL.md:") for problem in verify_tree(installed, load_manifest()))
 
 
 def test_wrong_github_origin_and_extra_files_are_rejected(tmp_path: Path) -> None:
@@ -180,6 +201,6 @@ def test_public_install_docs_and_ci_contract() -> None:
 def test_manifest_declares_current_release_and_citation() -> None:
     manifest = json.loads((PACKAGE / "manifest.json").read_text(encoding="utf-8"))
     citation = (PACKAGE / "CITATION.cff").read_text(encoding="utf-8")
-    assert manifest["version"] == "0.2.0"
+    assert manifest["version"] == "0.2.1"
     assert "CITATION.cff" in manifest["files"]
-    assert "version: 0.2.0" in citation
+    assert "version: 0.2.1" in citation

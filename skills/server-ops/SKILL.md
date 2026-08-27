@@ -52,7 +52,7 @@ Before any start, stop, restart, force, or recovery side effect:
 4. Obtain approval for that exact plan.
 5. Apply only the unchanged stored operation and summarize its receipt.
 
-Version 0.2.0 intentionally has no certified mutation provider. Its plan/apply commands
+Version 0.2.1 intentionally has no certified mutation provider. Its plan/apply commands
 produce typed refusals and local receipts. Do not bypass that refusal with raw process,
 shell, task-manager, port-kill, or supervisor commands. Read
 [references/safety-and-evidence.md](references/safety-and-evidence.md) when mutation,
