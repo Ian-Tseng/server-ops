@@ -1,0 +1,134 @@
+{
+  "authority": [
+    "VERSION",
+    "skills/server-ops/SKILL.md",
+    "skills/server-ops/src/server_ops/cli.py",
+    "skills/server-ops/references/operations.md",
+    "skills/server-ops/manifest.json",
+    "validation/release-candidate-test-receipt.json"
+  ],
+  "bindings": [
+    {
+      "claim_id": "claim:focused-stability-verification",
+      "evidence_id": "evidence:focused-verification-receipt",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:focused-stability-verification",
+      "evidence_id": "evidence:focused-verification-runtime",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:package-candidate-verified",
+      "evidence_id": "evidence:focused-verification-receipt",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:public-release-complete",
+      "evidence_id": "evidence:publishing-boundary",
+      "role": "context"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim:focused-stability-verification",
+      "element_ref": {
+        "component_id": "read-only-runtime",
+        "element_id": "focused-stability-verification"
+      },
+      "material": true,
+      "rationale": "The bounded runtime, operations reference, focused tests, and full 75-test suite agree on consecutive-health stability, deadline and interval bounds, late-observation refusal, typed target errors, exit code 5, and no mutation.",
+      "statement": "The v0.2.1 release candidate provides bounded read-only focused verification that requires consecutive healthy observations within the declared deadline.",
+      "status": "supported"
+    },
+    {
+      "claim_id": "claim:package-candidate-verified",
+      "element_ref": {
+        "component_id": "managed-package-lifecycle",
+        "element_id": "package-origin-and-integrity"
+      },
+      "material": true,
+      "rationale": "The persisted final receipt records 75 passing tests, package verification, official skill validation, and an outbound-free publisher dry-run for the local candidate.",
+      "statement": "The local Server Ops v0.2.1 package candidate matches its deterministic manifest and passes the official skill validator.",
+      "status": "supported"
+    },
+    {
+      "claim_id": "claim:public-release-complete",
+      "element_ref": {
+        "component_id": "public-skill-interface",
+        "element_id": "routing-install-and-boundaries"
+      },
+      "material": true,
+      "rationale": "The PR, exact-main, protected-tag, publication, public install/update, and fresh activation gates have not yet run for v0.2.1.",
+      "statement": "The v0.2.1 public release and fresh consumer activation have completed.",
+      "status": "untested"
+    }
+  ],
+  "evidence_items": [
+    {
+      "evidence_id": "evidence:focused-verification-receipt",
+      "source": {
+        "kind": "file",
+        "path": "validation/release-candidate-test-receipt.json"
+      },
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "executed_test",
+      "observed_summary": "The persisted local receipt records 75 passing tests, package verification, official validation, and an outbound-free publisher dry-run while leaving remote lifecycle gates pending."
+    },
+    {
+      "evidence_id": "evidence:focused-verification-runtime",
+      "source": {
+        "kind": "file",
+        "path": "skills/server-ops/src/server_ops/cli.py"
+      },
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The focused verifier bounds deadline, interval, and stability count, clamps probe timeout to remaining time, rejects late observations, resets consecutive success after failure, reports typed exit code 5, and performs no mutation."
+    },
+    {
+      "evidence_id": "evidence:operations-reference",
+      "source": {
+        "kind": "file",
+        "path": "skills/server-ops/references/operations.md"
+      },
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The packaged operations reference defines focused verification as a bounded condition contract and keeps lifecycle mutation unavailable."
+    },
+    {
+      "evidence_id": "evidence:publishing-boundary",
+      "source": {
+        "kind": "file",
+        "path": "PUBLISHING.md"
+      },
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "not_tested",
+      "observed_summary": "The publishing guide keeps PR CI, exact-main CI, tag protection, publication, public installation, update, and fresh activation as separate future gates."
+    }
+  ],
+  "limitations": [],
+  "objective": "Determine which local Server Ops v0.2.1 package and focused-verification claims are supported before public lifecycle gates.",
+  "schema_version": "2.0",
+  "scope": [
+    "focused stability verification",
+    "read-only mutation boundary",
+    "local package integrity and validation",
+    "pending public release lifecycle"
+  ],
+  "summary": {
+    "claim_boundary_ids": [],
+    "no_supported_claim": false,
+    "strongest_safe_claim_id": "claim:focused-stability-verification"
+  },
+  "unresolved_uncertainties": [
+    "PR CI, exact merged-main CI, immutable v0.2.1 publication, public install/update, and fresh client activation have not yet been observed."
+  ]
+}

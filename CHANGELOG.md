@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 - 2026-08-27
+
+- Accept and integrity-bind GitHub CLI's installer-added `github-pinned` metadata so
+  pinned public installs verify without weakening repository or ref checks.
+
 ## 0.2.0 - 2026-08-27
 
 - Add an explicit read-only `verify` command with bounded deadlines and

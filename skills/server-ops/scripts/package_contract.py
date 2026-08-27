@@ -8,13 +8,15 @@ from pathlib import Path
 from typing import Any
 
 
-GITHUB_KEYS = {"github-path", "github-ref", "github-repo", "github-tree-sha"}
+GITHUB_REQUIRED_KEYS = {"github-path", "github-ref", "github-repo", "github-tree-sha"}
+GITHUB_OPTIONAL_KEYS = {"github-pinned"}
+GITHUB_KEYS = GITHUB_REQUIRED_KEYS | GITHUB_OPTIONAL_KEYS
 GITHUB_KEY = re.compile(r"^github-[a-z0-9-]+$")
 TREE_SHA = re.compile(r"^[0-9a-f]{40}$")
 DIGEST_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 EXPECTED_PATH = "skills/server-ops"
 EXPECTED_REPO = "https://github.com/Ian-Tseng/server-ops"
-EXPECTED_REFS = {"refs/heads/main", "refs/tags/v0.2.0"}
+EXPECTED_REFS = {"refs/heads/main", "refs/tags/v0.2.1"}
 TEXT_NAMES = {"LICENSE", "VERSION"}
 TEXT_SUFFIXES = {".cff", ".json", ".md", ".py", ".toml", ".yaml", ".yml"}
 IGNORED_NAMES = {".DS_Store", "Thumbs.db"}
@@ -61,8 +63,8 @@ def _frontmatter_scalar(value: str) -> str:
 
 
 def _validate_github(values: dict[str, str]) -> None:
-    if set(values) != GITHUB_KEYS:
-        missing = sorted(GITHUB_KEYS - set(values))
+    if not GITHUB_REQUIRED_KEYS.issubset(values) or not set(values).issubset(GITHUB_KEYS):
+        missing = sorted(GITHUB_REQUIRED_KEYS - set(values))
         unknown = sorted(set(values) - GITHUB_KEYS)
         details = []
         if missing:
@@ -76,6 +78,11 @@ def _validate_github(values: dict[str, str]) -> None:
         raise PackageContractError("GitHub metadata has an unexpected repository")
     if values["github-ref"] not in EXPECTED_REFS:
         raise PackageContractError("GitHub metadata has an unexpected ref")
+    pinned = values.get("github-pinned")
+    if pinned is not None and values["github-ref"] not in {
+        f"refs/heads/{pinned}", f"refs/tags/{pinned}"
+    }:
+        raise PackageContractError("GitHub metadata pin does not match its ref")
     if not TREE_SHA.fullmatch(values["github-tree-sha"]):
         raise PackageContractError("GitHub metadata has an invalid tree SHA")
 

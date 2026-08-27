@@ -1,0 +1,102 @@
+{
+  "accepted_map_id": "component-map-90e4a2a3c26d",
+  "action": "drift_detected",
+  "candidate_map_id": "component-map-5e9ceca0fc98",
+  "changes": {
+    "added_components": [],
+    "added_elements": [],
+    "changed_components": [],
+    "changed_elements": [],
+    "contract_changes": [
+      "objective"
+    ],
+    "removed_components": [],
+    "removed_elements": [],
+    "source_changes": [
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "PUBLISHING.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "README.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "VERSION"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "pyproject.toml"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/SKILL.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/manifest.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/scripts/package_contract.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/src/server_ops/cli.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/src/server_ops/planner.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_install_lifecycle.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_public_package.py"
+      }
+    ]
+  },
+  "integrity": {
+    "canonical_payload_sha256": "4deb9d606c1638590a6930d7be989790c1e1d7778ef62fd3a355d2f36c35174f"
+  },
+  "recorded_at_utc": "2026-08-27T06:33:18.410559Z",
+  "scan_id": "20260827T063318410559Z-15688876",
+  "schema_version": "1.0"
+}
