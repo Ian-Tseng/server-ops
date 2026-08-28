@@ -3,13 +3,14 @@ from __future__ import annotations
 import platform
 import uuid
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any
 
 from .errors import EXIT_REFUSED, OpsError
 from .models import Adapter, ProcessCandidate, ServiceSpec
-from .state import canonical_digest
+from .state import canonical_digest, ensure_workspace_mutation_clear
 from .discovery import psutil_available
-from .provider import certified_start_available, launch_intent
+from .provider import certified_start_available, launch_intent, prove_listener_guard_free
 from . import __version__
 
 
@@ -75,14 +76,16 @@ def plan_mutation(adapter: Adapter, service: ServiceSpec, action: str, candidate
             EXIT_REFUSED,
             {"strategy": service.strategy, "action": action},
         )
+    ensure_workspace_mutation_clear(Path(workspace))
     if candidates:
         raise OpsError(
             "PROCESS_ALREADY_PRESENT",
-            f"Service `{service.service_id}` is not absent, so start is refused.",
+            f"A matching process for service `{service.service_id}` is already observed, so start is refused.",
             "Inspect ownership and health; do not create a duplicate process.",
             EXIT_REFUSED,
             {"matched_candidates": len(candidates)},
         )
+    listener_ports = prove_listener_guard_free(service)
     created = datetime.now(timezone.utc)
     body: dict[str, Any] = {
         "schema_version": 2,
@@ -105,15 +108,23 @@ def plan_mutation(adapter: Adapter, service: ServiceSpec, action: str, candidate
             "certification": "certified",
         },
         "launch_intent": launch_intent(service),
-        "verification_scope": "process_identity_and_optional_health_after_apply",
+        "listener_guard": {
+            "observation": "complete_global_listener_snapshot",
+            "ports": list(listener_ports),
+            "state": "free_at_plan",
+        },
+        "verification_scope": "exclusive_listener_guard_and_process_identity_after_apply",
         "mutation_state": "planned",
         "verification_state": "not_run",
-        "process_state": "absent",
+        "process_state": "listener_free_before_launch",
         "health_state": "not_checked",
         "side_effect_occurred": False,
         "target_candidates": [],
         "error": None,
-        "next_action": "Review and approve this exact operation ID and receipt digest before apply.",
+        "next_action": (
+            "Review and approve this exact operation ID, receipt digest, and exclusive listener "
+            f"guard {list(listener_ports)} before apply."
+        ),
     }
     body["receipt_digest"] = canonical_digest(body)
     return body

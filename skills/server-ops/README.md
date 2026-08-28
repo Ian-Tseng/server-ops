@@ -2,7 +2,8 @@
 
 Local Server Ops is an agent skill and Python CLI for evidence-bound inspection of local
 workspace services. Version 0.3.0 preserves strict read-only inspection and adds one
-narrowly certified mutation cell: Windows `psutil/direct_child/start`.
+narrowly certified mutation cell: listener-guarded Windows
+`psutil/direct_child/start`.
 
 Install from GitHub:
 
@@ -55,6 +56,16 @@ unknown until manually reconciled.
 ## Evidence boundary
 
 Passing tests establishes only the tested adapter, discovery, health, output, refusal,
-and Windows direct-child start contracts. Version 0.3.0 does not claim certified stop,
-restart, watchdog, non-Windows mutation, live production reliability, or ownership when
-the exact launch receipt and process identity do not match.
+and listener-guarded Windows direct-child start contracts. The start cell requires at
+least one unique configured listener port, a complete global listener snapshot that is
+free at plan and locked apply, and a bounded local non-reparse executable whose SHA-256 is
+plan-bound and rechecked under a Windows replacement-denying handle through process creation.
+It verifies the exact spawned PID, effective argv, cwd, listener ownership, adapter match, and launch receipt.
+Any Python control-flow exception, including Ctrl+C or SystemExit, inside process creation is recovery-required when an exact child handle cannot be
+recovered; the provider records `launch_outcome_unproven` and keeps the workspace interlock.
+Recovery retains the raw workspace lock before termination and failure journaling, so a
+control-flow exception in either step leaves later mutations fail-closed.
+Typed plan drift clears the raw lock only when process creation is proven not entered.
+Version 0.3.0 does not claim generic process absence, certified stop/restart/watchdog,
+non-Windows mutation, production reliability, external-start race exclusion, hard-crash
+recovery, descendant containment, or ownership when the exact evidence does not match.

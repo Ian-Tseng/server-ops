@@ -1,0 +1,64 @@
+{
+  "accepted_map_id": "component-map-4064f503e9fb",
+  "action": "drift_detected",
+  "candidate_map_id": "component-map-1b71ca68d45f",
+  "changes": {
+    "added_components": [],
+    "added_elements": [],
+    "changed_components": [],
+    "changed_elements": [],
+    "contract_changes": [],
+    "removed_components": [],
+    "removed_elements": [],
+    "source_changes": [
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/manifest.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/src/server_ops/adapter.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_adapter_validation.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_cli_contract.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_validation_contract.py"
+      }
+    ]
+  },
+  "integrity": {
+    "canonical_payload_sha256": "27420877aa262c1c763d5bf318148448d0d6b1ff888990bae3315c9670ee9c3b"
+  },
+  "recorded_at_utc": "2026-08-28T12:15:46.878759Z",
+  "scan_id": "20260828T121546878759Z-cf0bbbcb",
+  "schema_version": "1.0"
+}

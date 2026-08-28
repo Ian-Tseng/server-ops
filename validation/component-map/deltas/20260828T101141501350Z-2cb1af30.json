@@ -1,0 +1,96 @@
+{
+  "accepted_map_id": "component-map-aabf8af8bb5c",
+  "action": "conflict_detected",
+  "candidate_map_id": "component-map-062b460761b8",
+  "changes": {
+    "added_components": [],
+    "added_elements": [],
+    "changed_components": [],
+    "changed_elements": [
+      {
+        "component_id": "read-only-runtime",
+        "element_id": "windows-direct-child-start-provider",
+        "fields": [
+          "target"
+        ]
+      }
+    ],
+    "contract_changes": [],
+    "removed_components": [],
+    "removed_elements": [],
+    "source_changes": [
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "README.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/README.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/SKILL.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/manifest.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/references/operations.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/references/safety-and-evidence.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/src/server_ops/provider.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_validation_contract.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_windows_direct_child_provider.py"
+      }
+    ]
+  },
+  "integrity": {
+    "canonical_payload_sha256": "805841f41c4288f4e2627ced429376fdf691be2cad9f0fcef34cbe22579d1386"
+  },
+  "recorded_at_utc": "2026-08-28T10:11:41.501350Z",
+  "scan_id": "20260828T101141501350Z-2cb1af30",
+  "schema_version": "1.0"
+}

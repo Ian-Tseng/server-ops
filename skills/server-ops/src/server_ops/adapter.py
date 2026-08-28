@@ -170,8 +170,13 @@ def load_adapter(path: Path) -> Adapter:
         if executable is not None:
             executable = _text(executable, f"{location}.match.executable")
         ports_raw = match_raw.get("ports", [])
-        if not isinstance(ports_raw, list) or len(ports_raw) > 16 or any(type(port) is not int or not 1 <= port <= 65535 for port in ports_raw):
-            raise _fail("MATCH_PORTS", f"{location}.match.ports must contain at most 16 valid ports.", "Repair the port list.")
+        if (
+            not isinstance(ports_raw, list)
+            or len(ports_raw) > 16
+            or any(type(port) is not int or not 1 <= port <= 65535 for port in ports_raw)
+            or len(set(ports_raw)) != len(ports_raw)
+        ):
+            raise _fail("MATCH_PORTS", f"{location}.match.ports must contain at most 16 unique valid ports.", "Repair the port list.")
         match = MatchSpec(argv_contains, executable, tuple(ports_raw))
 
         launch = None

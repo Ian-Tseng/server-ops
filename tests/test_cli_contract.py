@@ -87,6 +87,30 @@ def test_draft_is_valid_read_only_and_never_overwrites(tmp_path: Path, capsys) -
     assert refused["side_effect_occurred"] is False
 
 
+@pytest.mark.parametrize("invalid_port", [[], {}])
+def test_validate_reports_match_ports_for_non_hashable_json_values(
+    tmp_path: Path,
+    capsys,
+    invalid_port: object,
+) -> None:
+    adapter = {
+        "schema_version": 1,
+        "services": [{
+            "id": "demo",
+            "workspace": ".",
+            "mutation_enabled": False,
+            "strategy": "read_only",
+            "match": {"ports": [invalid_port]},
+        }],
+    }
+    (tmp_path / ".server-ops.json").write_text(json.dumps(adapter), encoding="utf-8")
+
+    assert main(["--workspace", str(tmp_path), "--json", "validate"]) == 2
+    refusal = json_output(capsys)
+    assert refusal["error"]["code"] == "MATCH_PORTS"
+    assert refusal["side_effect_occurred"] is False
+
+
 def test_validate_then_plan_writes_refusal_receipt(tmp_path: Path, monkeypatch, capsys) -> None:
     monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "owner-state"))
     monkeypatch.setattr(planner, "psutil_available", lambda: False)
@@ -208,17 +232,36 @@ def test_process_output_redacts_arguments_and_terminal_controls(tmp_path: Path, 
     assert "\x1b" not in human.out
 
 
-def test_capabilities_advertise_only_the_certified_start_cell(tmp_path: Path, capsys) -> None:
+@pytest.mark.parametrize(
+    ("provider_available", "expected_mutation", "expected_status"),
+    [
+        (True, "certified_start_only", "certified"),
+        (False, "unavailable", "dependency_or_os_unavailable"),
+    ],
+)
+def test_capabilities_advertise_only_the_certified_start_cell(
+    tmp_path: Path,
+    monkeypatch,
+    capsys,
+    provider_available: bool,
+    expected_mutation: str,
+    expected_status: str,
+) -> None:
+    monkeypatch.setattr(cli, "certified_start_available", lambda: provider_available)
     assert main(["--workspace", str(tmp_path), "--json", "capabilities"]) == 0
     output = json_output(capsys)
-    assert output["mutation"] == "certified_start_only"
-    certified = [cell for cell in output["cells"] if cell["status"] == "certified"]
-    assert certified == [{
+    assert output["mutation"] == expected_mutation
+    direct_child_start = [
+        cell
+        for cell in output["cells"]
+        if cell["strategy"] == "direct_child" and cell["action"] == "start"
+    ]
+    assert direct_child_start == [{
         "os": "windows",
         "provider": "psutil",
         "strategy": "direct_child",
         "action": "start",
-        "status": "certified",
+        "status": expected_status,
     }]
 
 

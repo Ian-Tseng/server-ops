@@ -19,15 +19,35 @@ def test_release_evidence_contract_is_current() -> None:
     receipt = json.loads((VALIDATION / "release-candidate-test-receipt.json").read_text(encoding="utf-8"))
     manifest = json.loads((PACKAGE / "manifest.json").read_text(encoding="utf-8"))
     assert receipt["version"] == manifest["version"] == "0.3.0"
-    assert receipt["tests"] == {
-        "command": "py -3 -X utf8 -m pytest -q",
-        "tests_run": 84,
-        "passed": 84,
-        "failed": 0,
-        "skipped": 0,
-        "environment": "local Windows candidate",
-        "status": "PASS",
-    }
+    if receipt.get("release_gate_status") == "BLOCKED_PENDING_OWNER_ACCEPTANCE":
+        assert receipt["tests"] == {
+            "command": "py -3 -X utf8 -m pytest -q --ignore=tests/test_validation_contract.py",
+            "tests_run": 109,
+            "passed": 109,
+            "failed": 0,
+            "skipped": 0,
+            "environment": "local Windows candidate",
+            "status": "PASS",
+        }
+        assert receipt["acceptance_contract"] == {
+            "command": "py -3 -X utf8 -m pytest -q",
+            "tests_run": 110,
+            "passed": 109,
+            "failed": 1,
+            "status": "BLOCKED_EXPECTED",
+            "failure": "accepted component-map source snapshot predates the repaired adapter candidate",
+        }
+    else:
+        assert receipt["release_gate_status"] == "LOCAL_ACCEPTANCE_COMPLETE"
+        assert receipt["tests"] == {
+            "command": "py -3 -X utf8 -m pytest -q",
+            "tests_run": 110,
+            "passed": 110,
+            "failed": 0,
+            "skipped": 0,
+            "environment": "local Windows candidate",
+            "status": "PASS",
+        }
     assert receipt["package"]["manifest_digest"] == manifest["manifest_digest"]
     assert receipt["package"]["status"] == "PACKAGE_VERIFIED"
     assert receipt["official_skill_validator"] == {
@@ -38,6 +58,7 @@ def test_release_evidence_contract_is_current() -> None:
     }
     workflow = (ROOT / ".github" / "workflows" / "validate.yml").read_text(encoding="utf-8")
     assert '"pytest==8.3.5" "jsonschema==4.23.0" "tomli==2.2.1"' in workflow
+    assert '"psutil>=5.9,<7"' in workflow
     pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     assert pyproject["project"]["requires-python"] == ">=3.10,<4"
 

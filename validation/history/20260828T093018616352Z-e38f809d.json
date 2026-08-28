@@ -1,0 +1,241 @@
+{
+  "bindings": [
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:local-test-receipt",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:package-manifest",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:accepted-component-map",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:authorized-candidate-map",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:publishing-boundary",
+      "role": "limits"
+    },
+    {
+      "claim_id": "claim:v030-public-release-complete",
+      "evidence_id": "evidence:publishing-boundary",
+      "role": "limits"
+    }
+  ],
+  "claims": [
+    {
+      "claim_digest": "bd79701168a5ff94d423cb3b332d03fa78532af5635f767de55e51e35eae6dc3",
+      "claim_id": "claim:v030-local-release-candidate",
+      "element_ref": {
+        "component_id": "release-evidence-and-provenance",
+        "element_id": "local-release-candidate-authority"
+      },
+      "material": true,
+      "rationale": "The deterministic package verifies, exact component-map-aabf8af8bb5c is accepted, and the persisted local Windows receipt records the 99-test non-acceptance suite passing while the final 100-test acceptance-contract rerun is pending. Public lifecycle gates remain separate and unobserved.",
+      "statement": "Server Ops v0.3.0 is a package-verified local release candidate with exact component-map-aabf8af8bb5c accepted and its 99-test non-acceptance local Windows gate passing; the final 100-test acceptance-contract rerun remains pending.",
+      "status": "supported"
+    },
+    {
+      "claim_digest": "c79a0d5d9b09e5440ccd7ce2b89024b2983b4bfccd9ba097e7f5f71ef61e77ea",
+      "claim_id": "claim:v030-public-release-complete",
+      "element_ref": {
+        "component_id": "public-skill-interface",
+        "element_id": "routing-install-and-boundaries"
+      },
+      "material": true,
+      "rationale": "No authorization or evidence in this audit covers PR CI, exact merged-main CI, tag protection, immutable publication, public install/update, or fresh client activation.",
+      "statement": "Server Ops v0.3.0 has completed its public release, installation, update, and fresh-client activation lifecycle.",
+      "status": "untested"
+    }
+  ],
+  "evidence_items": [
+    {
+      "evidence_id": "evidence:local-test-receipt",
+      "freshness": "current",
+      "identity_sha256": "077a3025761b33c03aba69d82edd57e50ff1e374a2bc17cc163c6ebc05423d19",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "executed_test",
+      "observed_summary": "The persisted local Windows v0.3.0 receipt records 99 of 99 non-acceptance tests passing, package verification, official validation, and an outbound-free publisher dry-run; its final 100-test acceptance-contract rerun is pending.",
+      "selection_sha256": "0b99ec8a48e37df2358c3f47aad9311f477d19678f77d0caa80d258aced5f7de",
+      "source": {
+        "byte_size": 1830,
+        "kind": "file",
+        "media_type": "application/json",
+        "path": "validation/release-candidate-test-receipt.json",
+        "sha256": "0b99ec8a48e37df2358c3f47aad9311f477d19678f77d0caa80d258aced5f7de"
+      }
+    },
+    {
+      "evidence_id": "evidence:package-manifest",
+      "freshness": "current",
+      "identity_sha256": "387c65e68a9c05554f86a09124579e01d6f413f72b5af8aad33f1506bf66b044",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The v0.3.0 deterministic package manifest is the package-verification authority referenced by the passing receipt.",
+      "selection_sha256": "ead810a5b280dfb849f843e55c8e7204f76a615d8b9d72bdf41425a905b310ff",
+      "source": {
+        "byte_size": 3648,
+        "kind": "file",
+        "media_type": "application/json",
+        "path": "skills/server-ops/manifest.json",
+        "sha256": "ead810a5b280dfb849f843e55c8e7204f76a615d8b9d72bdf41425a905b310ff"
+      }
+    },
+    {
+      "evidence_id": "evidence:accepted-component-map",
+      "freshness": "current",
+      "identity_sha256": "4ddd7321c4f04dfc13f4c6e633adfb889ae37bb8402cced119bc14859faa0db3",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The current accepted map is component-map-aabf8af8bb5c, with previous map component-map-03ef25335da3 and a durable acceptance timestamp.",
+      "selection_sha256": "3ac52561f91dad903e59a4974b8bed48e39864412eb25406f9fd3ddd2fcd0859",
+      "source": {
+        "byte_size": 28991,
+        "kind": "file",
+        "media_type": "application/json",
+        "path": "validation/component-map/accepted-map.json",
+        "sha256": "3ac52561f91dad903e59a4974b8bed48e39864412eb25406f9fd3ddd2fcd0859"
+      }
+    },
+    {
+      "evidence_id": "evidence:authorized-candidate-map",
+      "freshness": "current",
+      "identity_sha256": "d593b1c33883198f76bf4d8d5ddef88f7c2014afc33ebb848c8c60a11815bd42",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The immutable candidate has map_id component-map-aabf8af8bb5c and SHA-256 98b3360330905c2fc82e8ea17fd4d132236008df74e3113193d570176e83030c, matching the user's exact authorization.",
+      "selection_sha256": "98b3360330905c2fc82e8ea17fd4d132236008df74e3113193d570176e83030c",
+      "source": {
+        "byte_size": 28976,
+        "kind": "file",
+        "media_type": "application/json",
+        "path": "validation/component-map/candidates/20260828T092344612263Z-ba7fa18c-component-map-aabf8af8bb5c.json",
+        "sha256": "98b3360330905c2fc82e8ea17fd4d132236008df74e3113193d570176e83030c"
+      }
+    },
+    {
+      "evidence_id": "evidence:publishing-boundary",
+      "freshness": "current",
+      "identity_sha256": "ca19e8b0c2d49aa37370415ed3352433835f165265a7e3747dd975baf021e1d2",
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The publishing contract keeps PR CI, exact-main CI, tag protection, publication, public installation/update, and fresh activation as independent future gates.",
+      "selection_sha256": "f751c24b87f2c0f0daa92e6bc00babaaea4a1066c5ae1df7187986f03a8c7146",
+      "source": {
+        "byte_size": 2034,
+        "kind": "file",
+        "media_type": "application/octet-stream",
+        "path": "PUBLISHING.md",
+        "sha256": "f751c24b87f2c0f0daa92e6bc00babaaea4a1066c5ae1df7187986f03a8c7146"
+      }
+    }
+  ],
+  "integrity": {
+    "canonical_payload_sha256": "e6e9a05259757c8fafb862d049b0a45804910062102dc0c276d242ecade0f103",
+    "output_schema_sha256": "a2a009aeb319922010cdf3e5702884fbe55d013dc3f2f09c3f64914299820e65",
+    "recorder_sha256": "c95e9ac13e8156b5c959153556a86d4e182ffeba5195530133cda9c675fb5d63",
+    "renderer_id": "evidence-bound-markdown-v1",
+    "renderer_sha256": "c95e9ac13e8156b5c959153556a86d4e182ffeba5195530133cda9c675fb5d63"
+  },
+  "limitations": [
+    {
+      "claim_ids": [
+        "claim:v030-local-release-candidate",
+        "claim:v030-public-release-complete"
+      ],
+      "evidence_ids": [
+        "evidence:publishing-boundary"
+      ],
+      "limitation_id": "limitation:public-lifecycle-unobserved",
+      "text": "Component-map acceptance and local validation do not establish PR CI, exact merged-main CI, tag protection, immutable publication, public install/update, or fresh client activation."
+    },
+    {
+      "claim_ids": [
+        "claim:v030-local-release-candidate"
+      ],
+      "evidence_ids": [],
+      "limitation_id": "limitation:uncertified-lifecycle-cells",
+      "text": "Stop, restart, watchdog, non-Windows mutation, and protected managed-repair execution remain uncertified and outside this local candidate claim."
+    }
+  ],
+  "record_kind": "evidence_bound_audit_record",
+  "scan": {
+    "accepted_map": {
+      "map_id": "component-map-aabf8af8bb5c",
+      "path": "validation/component-map/accepted-map.json",
+      "sha256": "3ac52561f91dad903e59a4974b8bed48e39864412eb25406f9fd3ddd2fcd0859"
+    },
+    "authority": [
+      "VERSION",
+      "skills/server-ops/manifest.json",
+      "validation/component-map/accepted-map.json",
+      "validation/component-map/candidates/20260828T092344612263Z-ba7fa18c-component-map-aabf8af8bb5c.json",
+      "validation/release-candidate-test-receipt.json",
+      "PUBLISHING.md"
+    ],
+    "engine_identity": {
+      "engine_digest": "7e713ae78e8bd0008926008c75fc4ae0a977f82cc9cc23158cc927c212255f6b",
+      "engine_name": "component-evidence",
+      "engine_version": "1.3.0",
+      "map_schema_version": "1.0",
+      "provider_kind": "embedded",
+      "receipt_protocol_version": "2.0",
+      "status": "verified"
+    },
+    "objective": "Determine the strongest safe Server Ops v0.3.0 claim after exact component-map acceptance and full local testing while preserving the separate public-release boundary.",
+    "recorded_at_utc": "2026-08-28T09:30:18.616352Z",
+    "recorder_version": "2.1.0",
+    "scan_id": "20260828T093018616352Z-e38f809d",
+    "scope": [
+      "exact component-map acceptance",
+      "Windows psutil direct-child start provider",
+      "immutable plan, replay, drift, rollback, and ownership evidence",
+      "local package integrity and 99-test non-acceptance gate with final 100-test acceptance-contract rerun pending",
+      "pending public release lifecycle"
+    ],
+    "skill_name": "analyze-project-claims",
+    "skill_sha256": "b0c29b21680f02657af6533fba19c94067b44f1e651408c7b1f835c920b9a260"
+  },
+  "schema_version": "2.0",
+  "summary": {
+    "claim_boundary_ids": [
+      "limitation:public-lifecycle-unobserved",
+      "limitation:uncertified-lifecycle-cells"
+    ],
+    "claim_count": 2,
+    "claim_counts": {
+      "supported": 1,
+      "untested": 1
+    },
+    "evidence_count": 5,
+    "material_claim_count": 2,
+    "no_supported_claim": false,
+    "scan_status": "PARTIAL",
+    "strongest_safe_claim": "Server Ops v0.3.0 is a package-verified local release candidate with exact component-map-aabf8af8bb5c accepted and its 99-test non-acceptance local Windows gate passing; the final 100-test acceptance-contract rerun remains pending.",
+    "strongest_safe_claim_id": "claim:v030-local-release-candidate",
+    "unresolved_uncertainties": [
+      "Whether hosted Windows CI reproduces the local provider and performance results.",
+      "Whether v0.3.0 will be merged, tagged, published, installed, updated, and activated in fresh clients.",
+      "Stop, restart, watchdog, non-Windows mutation, and protected managed-repair execution remain uncertified."
+    ]
+  }
+}

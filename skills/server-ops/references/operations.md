@@ -18,7 +18,8 @@ server-ops [--workspace PATH] [--adapter FILE] [--json] [--no-color] COMMAND
 - `validate`: strict adapter validation and digest.
 - `capabilities`: exact OS/provider/strategy/action cells. Never infer an OS-wide promise.
 - `migrate --check`: read-only schema compatibility.
-- `recover inspect OPERATION_ID`: read one owner-scoped local receipt.
+- `recover inspect OPERATION_ID`: read one owner-scoped receipt, the workspace recovery
+  interlock, and surviving result/transition locators; it changes and clears nothing.
 
 Human output is concise. `--json` emits a versioned envelope and stable typed error codes.
 Exit codes are: 0 success, 2 invalid input, 3 unsupported/refused, 4 mutation failure,
@@ -62,8 +63,37 @@ requires an exact operation ID and digest and fails closed if either changed.
 
 Version 0.3.0 certifies only Windows `psutil/direct_child/start`. A successful plan is
 stored for ten minutes, contains no raw argv, and binds the adapter, canonical workspaces,
-resolved executable, argv digest, provider cell, verification scope, and operation digest.
-`apply` requires the exact stored operation ID and digest, rejects input drift or replay,
-journals before launch, starts one direct child without a shell, and records identity and
-result receipts. Stop, restart, watchdog, and non-Windows cells still refuse with
-`CAPABILITY_NOT_CERTIFIED`.
+bounded local non-reparse resolved executable and content SHA-256, effective argv digest, unique exclusive configured
+listener ports, complete free-listener observation, provider cell, verification scope, and
+operation digest. `apply` requires the exact stored operation ID and digest, rejects input
+drift or replay, rechecks the listener guard under the workspace lock, rechecks the executable
+digest while a Windows read handle denies write/delete replacement through process creation,
+journals before launch, starts one direct child without a shell, verifies the exact child owns a configured
+listener, and records identity and result receipts. `listener_free_before_launch` is a
+snapshot, not generic process absence. Stop, restart, watchdog, and non-Windows cells still
+refuse with `CAPABILITY_NOT_CERTIFIED`.
+
+An external start can race after the locked snapshot. Normal Ctrl+C during post-launch
+observation is contained by terminating the exact child. If any Python control-flow
+exception, including Ctrl+C or SystemExit, exits process
+creation before the exact handle becomes available, the provider records
+`launch_outcome_unproven`, conservatively reports a possible side effect with a null PID,
+and retains the recovery interlock. A hard kill can still leave an
+`applying` transition, workspace lock, or surviving child, and descendants are not
+contained. `recover inspect` is read-only and does not clear this state; preserve it for
+manual identity reconciliation. A rollback or failure-journal error returns exit 6 with
+`rollback=termination_unproven` or `result_persistence=failed` and the surviving safe
+transition/log locators. When `Popen` returned, it also reports
+`side_effect_occurred=true` and the spawned PID. A failure before process creation is
+entered reports false and a null PID; an unproven creation boundary reports
+true and a null PID.
+Before rollback or failure journaling begins, the handler retains the raw mutation lock.
+A Python control-flow exception during termination or result persistence is recorded as
+unproven recovery; if structured marker persistence is interrupted, the raw operation-ID
+lock remains and is reported as `active_or_unreconciled`.
+A `PLAN_INPUT_DRIFT` refusal uses the clean pre-launch path only when the launch state also
+proves process creation was never entered; error-code identity alone cannot clear the lock.
+The provider then retains a digest-bound `recovery_required` workspace interlock. Both a
+new plan and any previously created plan fail closed while it remains. `recover inspect`
+reports the interlock and surviving receipt locators but never clears them; owner-led
+identity reconciliation is required before any out-of-band state repair.

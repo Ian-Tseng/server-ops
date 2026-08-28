@@ -2,19 +2,20 @@
   "schema_version": 1,
   "product": "server-ops",
   "version": "0.3.0",
-  "recorded_at_utc": "2026-08-27T07:01:42Z",
+  "recorded_at_utc": "2026-08-28T12:26:26Z",
+  "release_gate_status": "LOCAL_ACCEPTANCE_COMPLETE",
   "tests": {
     "command": "py -3 -X utf8 -m pytest -q",
-    "tests_run": 84,
-    "passed": 83,
-    "failed": 1,
+    "tests_run": 110,
+    "passed": 110,
+    "failed": 0,
     "skipped": 0,
     "environment": "local Windows candidate",
-    "status": "BLOCKED_PENDING_COMPONENT_MAP_ACCEPTANCE"
+    "status": "PASS"
   },
   "package": {
     "command": "py -3 -X utf8 skills/server-ops/scripts/verify_package.py",
-    "manifest_digest": "508d2fff6f8a6f6a1ed653c9945d237fcc36b709863ad734313aaee99e54925b",
+    "manifest_digest": "30ce2206f7c9e14264f439fb53a473095017091b03f7e3fc8288fbfe2d607c37",
     "status": "PACKAGE_VERIFIED"
   },
   "official_skill_validator": {

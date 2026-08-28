@@ -1,6 +1,7 @@
 {
   "objective": "Map the Server Ops 0.3.0 local candidate: public interfaces, bounded read-only health-stability verification, evidence-led diagnosis, the certified Windows psutil direct-child start cell, fail-closed lifecycle boundaries, trust-critical package lifecycle, consent-gated maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, and public release boundaries.",
   "scope": [
+    ".gitattributes",
     ".github/workflows/validate.yml",
     ".github/workflows/managed-skill-repair.yml",
     ".github/managed-skill-policy.json",
@@ -57,6 +58,7 @@
     "tests/test_windows_direct_child_provider.py"
   ],
   "authority": [
+    ".gitattributes",
     "VERSION",
     "skills/server-ops/manifest.json",
     "skills/server-ops/SKILL.md",
@@ -221,7 +223,7 @@
         },
         {
           "element_id": "windows-direct-child-start-provider",
-          "target": "The local v0.3.0 candidate certifies only Windows psutil direct-child start: adapter opt-in and an absent target produce a ten-minute immutable redacted plan; exact-digest apply journals before one shell-free child start, verifies complete process identity and adapter match, persists launch/result receipts, proves ownership, refuses replay/drift, and rolls back only the exact spawned child on verification failure.",
+          "target": "The local v0.3.0 candidate certifies only listener-guarded Windows psutil direct-child start: adapter opt-in, a unique exclusive configured port, and a complete free-listener snapshot produce a ten-minute immutable redacted plan; exact-digest apply rechecks that guard under the workspace lock, binds the bounded non-reparse local-drive executable content SHA-256 and effective argv, denies executable write/delete replacement through process creation, verifies PID, creation time, executable, argv, cwd, configured listener ownership, and adapter match, persists launch/result receipts, proves ownership, refuses replay/drift, routes verification failure or normal Ctrl+C through exact-child rollback when a handle exists, records launch_outcome_unproven when any Python control-flow exception including Ctrl+C or SystemExit exits process creation before exact-handle recovery, retains the raw lock before rollback or failure journaling, clears typed plan drift only when launch entry is proven false, and preserves a structured recovery interlock or fail-closed raw lock after unproven launch, cleanup, journal, or marker persistence.",
           "relation_type": "validated_by",
           "evidence": [
             {
@@ -266,9 +268,13 @@
       "elements": [
         {
           "element_id": "package-origin-and-integrity",
-          "target": "Synchronized version authorities and a deterministic, bounded, no-follow manifest build bind regular package files while verified GitHub metadata permits only the Ian-Tseng/server-ops origin, expected package path, and supported release refs.",
+          "target": "Synchronized version authorities, explicit LF Git policy for citation metadata, and a deterministic bounded no-follow manifest build bind reproducible regular package files while verified GitHub metadata permits only the Ian-Tseng/server-ops origin, expected package path, and supported release refs.",
           "relation_type": "validated_by",
           "evidence": [
+            {
+              "source": ".gitattributes",
+              "locator": "whole-file"
+            },
             {
               "source": "VERSION",
               "locator": "whole-file"
@@ -441,13 +447,14 @@
       ]
     }
   ],
-  "strongest_safe_claim": "Server Ops 0.3.0 is a locally tested, package-verified candidate that preserves strict read-only inspection and certifies only Windows psutil direct-child start with immutable exact-digest consent, one-use journaling, complete spawned-child identity evidence, ownership receipts, and fail-closed rollback; every other mutation cell remains uncertified.",
-  "claim_boundary": "This structural map, local package verification, and bounded Windows tests do not establish public v0.3.0 CI, publication, installed-client activation, production reliability, stop/restart/watchdog safety, non-Windows mutation, or ownership for a process without the exact matching launch receipt.",
+  "strongest_safe_claim": "Server Ops 0.3.0 is a locally tested, package-verified candidate that preserves strict read-only inspection and certifies only listener-guarded Windows psutil direct-child start with immutable exact-digest consent, complete free-listener evidence at plan and locked apply, bounded local non-reparse executable SHA-256 plus effective argv binding, replacement denial through process creation, one-use journaling, complete spawned-child identity and listener evidence, ownership receipts, exact-child rollback when a handle exists, conservative launch_outcome_unproven evidence when any Python control-flow exception including Ctrl+C or SystemExit exits process creation before handle recovery, launch-entry-bound typed drift refusal, and a raw-lock-first fail-closed workspace recovery interlock after unproven launch, cleanup, result persistence, or marker persistence; every other mutation cell remains uncertified.",
+  "claim_boundary": "This structural map, local package verification, and bounded Windows tests do not turn a free-listener snapshot into generic process-absence proof and do not establish exclusion of external-start races, hard-crash recovery, descendant containment, public v0.3.0 CI, publication, installed-client activation, production reliability, stop/restart/watchdog safety, non-Windows mutation, or ownership for a process without the exact matching launch receipt.",
   "unresolved_uncertainties": [
     "The v0.3.0 candidate component map has not been explicitly accepted.",
     "The v0.3.0 PR and exact-main CI have not passed.",
     "The v0.3.0 tag and immutable release do not exist.",
     "Public v0.3.0 install/update and fresh Codex or Claude Code activation are unobserved.",
+    "External-start races after the locked listener snapshot, hard-kill recovery, and descendant containment remain outside the certified cell.",
     "One cold adapter-free performance baseline exceeded two seconds before an exact rerun passed at 1.76 seconds; hosted Windows timing remains unobserved.",
     "Protected managed-repair environments, hosted canary, agent execution, and draft publication remain external pending gates."
   ]

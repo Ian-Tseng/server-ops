@@ -1,0 +1,171 @@
+{
+  "authority": [
+    "VERSION",
+    "skills/server-ops/manifest.json",
+    "validation/component-map/accepted-map.json",
+    "validation/component-map/candidates/20260828T121546878759Z-cf0bbbcb-component-map-1b71ca68d45f.json",
+    "validation/release-candidate-test-receipt.json",
+    "PUBLISHING.md"
+  ],
+  "bindings": [
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:local-test-receipt",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:package-manifest",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:accepted-component-map",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:authorized-candidate-map",
+      "role": "supports"
+    },
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "evidence_id": "evidence:publishing-boundary",
+      "role": "limits"
+    },
+    {
+      "claim_id": "claim:v030-public-release-complete",
+      "evidence_id": "evidence:publishing-boundary",
+      "role": "limits"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim:v030-local-release-candidate",
+      "element_ref": {
+        "component_id": "release-evidence-and-provenance",
+        "element_id": "local-release-candidate-authority"
+      },
+      "material": true,
+      "rationale": "The deterministic package verifies, exact component-map-1b71ca68d45f is accepted, and the persisted local Windows receipt records the full 110-test post-acceptance suite passing. Public lifecycle gates remain separate and unobserved.",
+      "statement": "Server Ops v0.3.0 is a package-verified local release candidate with exact component-map-1b71ca68d45f accepted and its full 110-test local Windows gate passing.",
+      "status": "supported"
+    },
+    {
+      "claim_id": "claim:v030-public-release-complete",
+      "element_ref": {
+        "component_id": "public-skill-interface",
+        "element_id": "routing-install-and-boundaries"
+      },
+      "material": true,
+      "rationale": "No authorization or evidence in this audit covers PR CI, exact merged-main CI, tag protection, immutable publication, public install/update, or fresh client activation.",
+      "statement": "Server Ops v0.3.0 has completed its public release, installation, update, and fresh-client activation lifecycle.",
+      "status": "untested"
+    }
+  ],
+  "evidence_items": [
+    {
+      "evidence_id": "evidence:local-test-receipt",
+      "source": {
+        "kind": "file",
+        "path": "validation/release-candidate-test-receipt.json"
+      },
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "executed_test",
+      "observed_summary": "The persisted local Windows v0.3.0 receipt records 110 of 110 post-acceptance tests passing, package verification, official validation, and an outbound-free publisher dry-run."
+    },
+    {
+      "evidence_id": "evidence:package-manifest",
+      "source": {
+        "kind": "file",
+        "path": "skills/server-ops/manifest.json"
+      },
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The v0.3.0 deterministic package manifest is the package-verification authority referenced by the passing receipt."
+    },
+    {
+      "evidence_id": "evidence:accepted-component-map",
+      "source": {
+        "kind": "file",
+        "path": "validation/component-map/accepted-map.json"
+      },
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The current accepted map is component-map-1b71ca68d45f, with previous map component-map-4064f503e9fb and a durable acceptance timestamp."
+    },
+    {
+      "evidence_id": "evidence:authorized-candidate-map",
+      "source": {
+        "kind": "file",
+        "path": "validation/component-map/candidates/20260828T121546878759Z-cf0bbbcb-component-map-1b71ca68d45f.json"
+      },
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The immutable candidate has map_id component-map-1b71ca68d45f and SHA-256 d9982232d458e09307d88875950d5e0470eaa6db108e62112aa9735315d72547, matching the user's exact authorization."
+    },
+    {
+      "evidence_id": "evidence:publishing-boundary",
+      "source": {
+        "kind": "file",
+        "path": "PUBLISHING.md"
+      },
+      "locator": {
+        "kind": "whole_file"
+      },
+      "method": "inspected",
+      "observed_summary": "The publishing contract keeps PR CI, exact-main CI, tag protection, publication, public installation/update, and fresh activation as independent future gates."
+    }
+  ],
+  "limitations": [
+    {
+      "limitation_id": "limitation:public-lifecycle-unobserved",
+      "claim_ids": [
+        "claim:v030-local-release-candidate",
+        "claim:v030-public-release-complete"
+      ],
+      "evidence_ids": [
+        "evidence:publishing-boundary"
+      ],
+      "text": "Component-map acceptance and local validation do not establish PR CI, exact merged-main CI, tag protection, immutable publication, public install/update, or fresh client activation."
+    },
+    {
+      "limitation_id": "limitation:uncertified-lifecycle-cells",
+      "claim_ids": [
+        "claim:v030-local-release-candidate"
+      ],
+      "evidence_ids": [],
+      "text": "Stop, restart, watchdog, non-Windows mutation, and protected managed-repair execution remain uncertified and outside this local candidate claim."
+    }
+  ],
+  "objective": "Determine the strongest safe Server Ops v0.3.0 claim after exact component-map acceptance and full local testing while preserving the separate public-release boundary.",
+  "schema_version": "2.0",
+  "scope": [
+    "exact component-map acceptance",
+    "Windows psutil direct-child start provider",
+    "immutable plan, replay, drift, rollback, and ownership evidence",
+    "local package integrity and full 110-test post-acceptance gate",
+    "pending public release lifecycle"
+  ],
+  "summary": {
+    "claim_boundary_ids": [
+      "limitation:public-lifecycle-unobserved",
+      "limitation:uncertified-lifecycle-cells"
+    ],
+    "no_supported_claim": false,
+    "strongest_safe_claim_id": "claim:v030-local-release-candidate"
+  },
+  "unresolved_uncertainties": [
+    "Whether hosted Windows CI reproduces the local provider and performance results.",
+    "Whether v0.3.0 will be merged, tagged, published, installed, updated, and activated in fresh clients.",
+    "Stop, restart, watchdog, non-Windows mutation, and protected managed-repair execution remain uncertified."
+  ]
+}

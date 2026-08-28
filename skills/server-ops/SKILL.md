@@ -54,12 +54,31 @@ Before any start, stop, restart, force, or recovery side effect:
 
 Version 0.3.0 certifies only the Windows + psutil + direct-child + start cell. It
 requires a mutation-enabled `direct_child` adapter, an absolute or trusted-PATH
-executable, a bounded launch argv/cwd, an absent target, an unexpired immutable plan,
-and the exact plan digest at apply. It journals intent before one child start, verifies
-PID, creation time, executable, argv, cwd, and the adapter match, then persists launch
-and result receipts. Stop, restart, watchdog, non-Windows, missing-psutil, ambiguous,
-drifted, replayed, or unverifiable operations remain typed refusals. Do not bypass those
-refusals with raw process, shell, task-manager, port-kill, or supervisor commands. Read
+executable that resolves to a non-reparse local-drive file no larger than 512 MiB, a
+plan-bound executable SHA-256, a bounded launch argv/cwd,
+at least one unique configured listener port treated by the owner as exclusive for the
+service lifetime, a complete global listener snapshot showing that guard free, an
+unexpired immutable plan, and the exact plan digest at apply. Apply checks the same guard
+again under the workspace lock, rechecks executable content while a Windows handle denies
+write/delete replacement through process creation. It journals intent before one child start and verifies
+PID, creation time, executable, effective argv, cwd, configured listener ownership, and
+the adapter match before persisting launch and result receipts. The listener snapshot is
+not generic process-absence proof. If post-spawn cleanup or result persistence is not
+proved, the operation returns recovery-required with the spawned PID, transition and log
+locators, `side_effect_occurred=true`, and a retained workspace interlock that refuses
+later mutation plans and applies. If any Python control-flow exception, including Ctrl+C or SystemExit, exits process creation before the exact
+child handle becomes available, report `launch_outcome_unproven`, a null PID, and a
+conservative possible side effect under the same retained interlock. `recover inspect`
+exposes that state without clearing it.
+Recovery retains the raw workspace lock before rollback or failure journaling; a
+control-flow exception during rollback, result persistence, or structured marker writing
+therefore leaves either a verified recovery marker or an unreconciled raw lock.
+A `PLAN_INPUT_DRIFT` exception clears the lock only when launch entry is proven false;
+an identical error code after launch entry remains recovery-required.
+Stop, restart, watchdog, non-Windows, missing-psutil,
+ambiguous, drifted, replayed, or unverifiable operations remain typed refusals. Do not
+bypass those refusals with raw process, shell, task-manager, port-kill, or supervisor
+commands. Read
 [references/safety-and-evidence.md](references/safety-and-evidence.md) when mutation,
 ownership, interruption, or recovery is involved.
 
@@ -72,6 +91,10 @@ ownership, interruption, or recovery is involved.
   presentation; this skill owns local service identity and operation evidence.
 - Missing `psutil`, hidden process fields, ambiguous matches, changed adapters, or failed
   receipt persistence downgrade capability and never trigger installation or fallback.
+- An external start can race after a free-listener snapshot. Hard termination can leave an
+  applying transition, workspace lock, or surviving child; descendants are not contained.
+  Preserve the state and reconcile identity manually. Do not remove the lock or claim
+  recovery merely because the original CLI process exited.
 - Keep fast status to one bounded probe. When the user asks to wait for readiness or
   verify stability, run `verify SERVICE`: it requires consecutive healthy observations
   within a bounded deadline and changes nothing.

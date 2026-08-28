@@ -20,7 +20,7 @@ from .health import HealthResult, probe_health
 from .models import Adapter, ServiceSpec
 from .planner import plan_mutation, refusal_receipt
 from .provider import apply_start_plan, certified_start_available
-from .state import read_launch_receipt, read_receipt, state_root, write_receipt
+from .state import read_launch_receipt, read_receipt, read_workspace_interlock, state_root, workspace_state, write_receipt
 from .models import argv_digest
 
 
@@ -179,7 +179,15 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
             "health": health_result.as_dict() if health_result else {"state": "unconfigured"},
             "mutation": (
                 "disabled" if not service.mutation_enabled
-                else "certified_start_only" if service.strategy == "direct_child" and certified_start_available()
+                else "certified_start_only" if (
+                    service.strategy == "direct_child"
+                    and certified_start_available()
+                    and service.launch is not None
+                    and bool(service.match.ports)
+                )
+                else "not_configured_for_certified_start" if (
+                    service.strategy == "direct_child" and certified_start_available()
+                )
                 else "not_certified"
             ),
             "verification": "not_run",
@@ -421,7 +429,19 @@ def _apply(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _recover(args: argparse.Namespace) -> dict[str, Any]:
-    return {"outcome": "observed", "receipt": read_receipt(_workspace(args), args.operation_id), "changed": "nothing"}
+    workspace = _workspace(args)
+    state = workspace_state(workspace)
+    result_path = state / "results" / f"{args.operation_id}.json"
+    transition_path = state / "transitions" / f"{args.operation_id}.json"
+    return {
+        "outcome": "observed",
+        "receipt": read_receipt(workspace, args.operation_id),
+        "recovery_interlock": read_workspace_interlock(workspace),
+        "transition_receipt": str(transition_path) if transition_path.is_file() else None,
+        "result_receipt": str(result_path) if result_path.is_file() else None,
+        "changed": "nothing",
+        "next_action": "Reconcile the recorded exact child and artifacts; recovery inspection does not clear or mutate workspace state.",
+    }
 
 
 def _migrate(args: argparse.Namespace) -> dict[str, Any]:
@@ -543,7 +563,16 @@ def emit_error(args: argparse.Namespace, error: OpsError) -> None:
     print(f"REFUSED [{_terminal_safe(error.code)}]" if error.exit_code == EXIT_REFUSED else f"ERROR [{_terminal_safe(error.code)}]", file=sys.stderr)
     print(_terminal_safe(error.message), file=sys.stderr)
     if error.details:
-        safe_details = {key: value for key, value in error.details.items() if key in {"operation_id", "receipt", "receipt_digest", "strategy", "action"}}
+        safe_details = {
+            key: value
+            for key, value in error.details.items()
+            if key in {
+                "operation_id", "receipt", "receipt_digest", "strategy", "action",
+                "transition_receipt", "result_receipt", "log", "rollback",
+                "result_persistence", "spawned_pid", "recovery_interlock",
+                "recovery_interlock_persisted", "interlock_state",
+            }
+        }
         for key, value in safe_details.items():
             print(f"{key.replace('_', ' ').title()}: {_terminal_safe(value)}", file=sys.stderr)
     print(f"No process was changed: {str(not error.side_effect_occurred).lower()}.", file=sys.stderr)

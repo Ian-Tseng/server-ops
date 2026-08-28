@@ -196,11 +196,16 @@ def test_public_install_docs_and_ci_contract() -> None:
     assert "actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97" in workflow
     assert '"pytest==8.3.5"' in workflow
     assert '"jsonschema==4.23.0"' in workflow
+    assert '"psutil>=5.9,<7"' in workflow
 
 
 def test_manifest_declares_current_release_and_citation() -> None:
     manifest = json.loads((PACKAGE / "manifest.json").read_text(encoding="utf-8"))
     citation = (PACKAGE / "CITATION.cff").read_text(encoding="utf-8")
+    root_citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     assert manifest["version"] == "0.3.0"
     assert "CITATION.cff" in manifest["files"]
     assert "version: 0.3.0" in citation
+    assert "date-released: 2026-08-28" in citation
+    assert "version: 0.3.0" in root_citation
+    assert "date-released: 2026-08-28" in root_citation

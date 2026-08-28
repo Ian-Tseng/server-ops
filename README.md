@@ -2,8 +2,8 @@
 
 Local Server Ops is an evidence-bound agent skill and Python CLI for inspecting local
 workspace HTTP services. Version 0.3.0 preserves deterministic read-only inspection and
-adds one narrowly certified mutation cell: Windows `psutil/direct_child/start`. Every
-other lifecycle cell remains refused.
+adds one narrowly certified mutation cell: listener-guarded Windows
+`psutil/direct_child/start`. Every other lifecycle cell remains refused.
 
 ## Install
 
@@ -45,10 +45,27 @@ Verify the installed package:
 
     py "<skill-root>\scripts\verify_package.py"
 
-Version 0.3.0 can plan and apply only Windows direct-child start after adapter opt-in and
-exact-plan approval. It journals before launch, verifies the spawned child's complete
-identity, and records local launch/result receipts. Stop, restart, watchdog, non-Windows,
-and unverifiable operations return typed refusals; do not bypass them with raw commands.
+Version 0.3.0 can plan and apply only Windows direct-child start after adapter opt-in,
+an exclusive configured listener port, a complete listener snapshot that shows the guard
+free at plan time, and exact-plan approval. Apply checks the listener again under the
+workspace lock, launches the resolved non-reparse executable from a local drive without a
+shell, and binds its bounded content SHA-256 while a Windows file handle denies replacement
+through process creation. It verifies the spawned PID's executable, effective argv, cwd, configured listener,
+and adapter match, and records local launch/result receipts. Stop, restart, watchdog,
+non-Windows, and unverifiable operations return typed refusals; do not bypass them with
+raw commands.
+If a Python control-flow exception, including Ctrl+C or SystemExit, exits the process-creation boundary before an exact child handle is
+available, the provider conservatively records `launch_outcome_unproven`, reports a
+possible side effect, and retains the recovery interlock instead of claiming no launch.
+The recovery handler retains the raw workspace lock before rollback or journal work; if
+either step is interrupted, the structured marker or raw lock still blocks later mutation.
+A typed plan-drift refusal clears that lock only when process creation was never entered.
+
+The listener snapshot is not generic proof that no related process exists. An unrelated
+external start can race after the snapshot, hard process termination can leave an
+`applying` transition, lock, or surviving child for manual reconciliation, and descendant
+containment is not certified. This cell is for bounded local development, not production
+supervision.
 
 ## GitHub-managed repair boundary
 
@@ -76,6 +93,6 @@ The standalone package carries synchronized release authorities, including its
 [privacy contract](skills/server-ops/PRIVACY.md).
 
 Passing tests establishes only the tested adapter, discovery, health, output, refusal,
-and Windows direct-child start contracts. It does not establish production reliability,
+and listener-guarded Windows direct-child start contracts. It does not establish production reliability,
 stop/restart safety, complete cross-platform support, or ownership without an exact
 matching launch receipt.
