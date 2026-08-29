@@ -1,0 +1,138 @@
+{
+  "accepted_map_id": "component-map-1b71ca68d45f",
+  "action": "conflict_detected",
+  "candidate_map_id": "component-map-612853c2df78",
+  "changes": {
+    "added_components": [],
+    "added_elements": [],
+    "changed_components": [],
+    "changed_elements": [
+      {
+        "component_id": "read-only-runtime",
+        "element_id": "windows-direct-child-start-provider",
+        "fields": [
+          "target"
+        ]
+      }
+    ],
+    "contract_changes": [],
+    "removed_components": [],
+    "removed_elements": [],
+    "source_changes": [
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "CITATION.cff"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "README.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "SECURITY.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "SOURCE.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/CITATION.cff"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/README.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/SKILL.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/manifest.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/references/operations.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/references/safety-and-evidence.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/src/server_ops/cli.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/src/server_ops/provider.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_cli_contract.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_public_package.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_validation_contract.py"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_windows_direct_child_provider.py"
+      }
+    ]
+  },
+  "integrity": {
+    "canonical_payload_sha256": "9ebe3b5621d118f34aa44f880504d5904997ea8ad2ca92a28026ccd27116723f"
+  },
+  "recorded_at_utc": "2026-08-29T15:16:55.101597Z",
+  "scan_id": "20260829T151655101597Z-e699a390",
+  "schema_version": "1.0"
+}

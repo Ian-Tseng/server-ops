@@ -22,8 +22,8 @@ def test_release_evidence_contract_is_current() -> None:
     if receipt.get("release_gate_status") == "BLOCKED_PENDING_OWNER_ACCEPTANCE":
         assert receipt["tests"] == {
             "command": "py -3 -X utf8 -m pytest -q --ignore=tests/test_validation_contract.py",
-            "tests_run": 109,
-            "passed": 109,
+            "tests_run": 111,
+            "passed": 111,
             "failed": 0,
             "skipped": 0,
             "environment": "local Windows candidate",
@@ -31,18 +31,18 @@ def test_release_evidence_contract_is_current() -> None:
         }
         assert receipt["acceptance_contract"] == {
             "command": "py -3 -X utf8 -m pytest -q",
-            "tests_run": 110,
-            "passed": 109,
+            "tests_run": 112,
+            "passed": 111,
             "failed": 1,
             "status": "BLOCKED_EXPECTED",
-            "failure": "accepted component-map source snapshot predates the repaired adapter candidate",
+            "failure": "accepted component-map source snapshot predates the public authority and provider safety repairs",
         }
     else:
         assert receipt["release_gate_status"] == "LOCAL_ACCEPTANCE_COMPLETE"
         assert receipt["tests"] == {
             "command": "py -3 -X utf8 -m pytest -q",
-            "tests_run": 110,
-            "passed": 110,
+            "tests_run": 112,
+            "passed": 112,
             "failed": 0,
             "skipped": 0,
             "environment": "local Windows candidate",

@@ -185,6 +185,14 @@ def test_apply_starts_one_child_and_persists_identity_receipts(
     monkeypatch.setenv("LOCALAPPDATA", str(tmp_path / "owner-state"))
     write_adapter(tmp_path)
     assert platform.system() == "Windows"
+    popen_options: list[dict] = []
+    real_popen = provider.subprocess.Popen
+
+    def capture_popen(*args, **kwargs):
+        popen_options.append(kwargs)
+        return real_popen(*args, **kwargs)
+
+    monkeypatch.setattr(provider.subprocess, "Popen", capture_popen)
 
     assert main(["--workspace", str(tmp_path), "--json", "plan", "start", "demo-server"]) == 0
     plan = json_output(capsys)
@@ -205,6 +213,13 @@ def test_apply_starts_one_child_and_persists_identity_receipts(
         assert child.is_running()
         assert Path(result["launch_receipt"]).is_file()
         assert Path(result["result_receipt"]).is_file()
+        assert popen_options[0]["stdout"] == provider.subprocess.DEVNULL
+        assert popen_options[0]["stderr"] == provider.subprocess.DEVNULL
+        provider_log = Path(result["log"])
+        assert provider_log.read_text(encoding="utf-8") == (
+            "server-ops provider: child stdout/stderr discarded; inspect structured receipts.\n"
+        )
+        assert provider_log.stat().st_size < 256
         assert main(["--workspace", str(tmp_path), "--json", "diagnose", "demo-server"]) == 0
         diagnosed = json_output(capsys)["services"][0]
         assert diagnosed["identity"] == "owned"

@@ -23,6 +23,13 @@ from .state import (
 )
 
 MAX_EXECUTABLE_BYTES = 512 * 1024 * 1024
+PROVIDER_LOG_LINE = (
+    "server-ops provider: child stdout/stderr discarded; inspect structured receipts.\n"
+)
+WINDOWS_GENERIC_READ = 0x80000000
+WINDOWS_FILE_SHARE_READ = 0x00000001
+WINDOWS_OPEN_EXISTING = 3
+WINDOWS_FILE_ATTRIBUTE_NORMAL = 0x00000080
 
 
 def certified_start_available() -> bool:
@@ -207,7 +214,6 @@ def launch_intent(service: ServiceSpec) -> dict[str, Any]:
 def _launch_bound_child(
     service: ServiceSpec,
     intent: dict[str, Any],
-    log_stream: Any,
     launch_state: dict[str, Any],
 ) -> subprocess.Popen[bytes]:
     assert service.launch is not None
@@ -238,11 +244,11 @@ def _launch_bound_child(
     close_handle.restype = wintypes.BOOL
     handle = create_file(
         intent["executable"],
-        0x80000000,
-        0x00000001,
+        WINDOWS_GENERIC_READ,
+        WINDOWS_FILE_SHARE_READ,
         None,
-        3,
-        0x00000080,
+        WINDOWS_OPEN_EXISTING,
+        WINDOWS_FILE_ATTRIBUTE_NORMAL,
         None,
     )
     if handle == wintypes.HANDLE(-1).value:
@@ -269,8 +275,8 @@ def _launch_bound_child(
                 executable=intent["executable"],
                 cwd=service.launch.cwd,
                 stdin=subprocess.DEVNULL,
-                stdout=log_stream,
-                stderr=log_stream,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
                 shell=False,
                 close_fds=True,
                 creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.CREATE_NO_WINDOW,
@@ -391,8 +397,9 @@ def apply_start_plan(
         child: subprocess.Popen[bytes] | None = None
         launch_state: dict[str, Any] = {"child": None, "outcome_unproven": False}
         try:
-            with log_path.open("ab", buffering=0) as log_stream:
-                child = _launch_bound_child(service, intent, log_stream, launch_state)
+            with log_path.open("x", encoding="utf-8", newline="\n") as provider_log:
+                provider_log.write(PROVIDER_LOG_LINE)
+            child = _launch_bound_child(service, intent, launch_state)
             candidate = _observe_started_child(child.pid, service, intent)
             launched_at = datetime.now(timezone.utc).isoformat()
             launch_receipt = {

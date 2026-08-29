@@ -3,12 +3,36 @@
 This directory contains the current release-candidate evidence for Server Ops
 0.3.0.
 
-Status: `validated_local_acceptance_pr_ci_pending`
+Status: `local_acceptance_complete`
 
 - [`release-candidate-test-receipt.json`](release-candidate-test-receipt.json)
-  records 110/110 passing post-acceptance tests, package digest
-  `30ce2206f7c9e14264f439fb53a473095017091b03f7e3fc8288fbfe2d607c37`,
+  records 112/112 passing post-acceptance tests, package digest
+  `6c1c3c06b53a3899cf71475575370e491943c0c13f471799ad2ebd90008b5e62`,
   validator success, and `LOCAL_ACCEPTANCE_COMPLETE`.
+- [`component-map/candidates/20260829T151655101597Z-e699a390-component-map-612853c2df78.json`](component-map/candidates/20260829T151655101597Z-e699a390-component-map-612853c2df78.json)
+  is the exact immutable public-authority and provider-safety repair candidate
+  accepted by the owner as `component-map-612853c2df78`. Its exact file
+  SHA-256 is
+  `b39ea9550ea20cad63802e0763e2efdc34e8b4a96e8697fe1ab8a31a9993f536`.
+  All 55 source hashes and all 55 raw-versus-Git-clean identities match.
+  Eighteen source hashes change, and the Windows start-provider element target
+  now explicitly binds discarded child stdout/stderr, a fixed bounded provider
+  marker, recovery-aware status/diagnosis, the repaired v0.3.0 security and
+  provenance authorities, and their regressions.
+- [`component-map/candidates/20260829T151507994427Z-74c1c749-component-map-d0a21cb16283.json`](component-map/candidates/20260829T151507994427Z-74c1c749-component-map-d0a21cb16283.json)
+  is immutable superseded evidence with file SHA-256
+  `b6b62e619c1352720515bb0cd23b6cefcf2f7d3214cd254920390e6b764b7c8a`;
+  it predates the final mechanical validation-test cleanup and must not be
+  accepted.
+- [`component-map/candidates/20260829T150505210069Z-f1bf7614-component-map-a1d3e443e532.json`](component-map/candidates/20260829T150505210069Z-f1bf7614-component-map-a1d3e443e532.json)
+  is immutable superseded public-authority-only evidence with file SHA-256
+  `7ba9de270f6a03f3240535c8a40948b837c8653b648b86dd8a4b0b3d034ecb51`;
+  it predates both provider-safety repairs and must not be accepted.
+- [`component-map/candidates/20260829T150318953688Z-c4629f3e-component-map-ccae980f79a9.json`](component-map/candidates/20260829T150318953688Z-c4629f3e-component-map-ccae980f79a9.json)
+  is immutable superseded evidence with file SHA-256
+  `26cd98adc0d8e7bf01c555691bdfd15f22d287bf91ab05449924896171a0ae10`;
+  it predates the truthful pending-acceptance test contract and must not be
+  accepted.
 - [`component-map/candidates/20260828T121546878759Z-cf0bbbcb-component-map-1b71ca68d45f.json`](component-map/candidates/20260828T121546878759Z-cf0bbbcb-component-map-1b71ca68d45f.json)
   is the exact immutable repaired candidate accepted by the owner as
   `component-map-1b71ca68d45f`.
@@ -60,25 +84,25 @@ Status: `validated_local_acceptance_pr_ci_pending`
   Earlier candidates remain immutable superseded history and are not
   acceptable substitutes for this acceptance.
 - [`component-map/accepted-map.json`](component-map/accepted-map.json) is the
-  current accepted map `component-map-1b71ca68d45f`, canonical-file SHA-256
-  `2781fb78ac9627fe445ebb0bb983bfa8c896667502f5c5b2f8e823ab7ad8f2ab`.
+  current accepted map `component-map-612853c2df78`, canonical-file SHA-256
+  `8465ed19b3cfbfcaf4bf3f24d1c86ae5e081257f1dee293828006ec0ebff6445`.
   The immediately preceding accepted map is preserved at
-  [`component-map/accepted-history/20260828T122212944269Z-be924617-component-map-4064f503e9fb.json`](component-map/accepted-history/20260828T122212944269Z-be924617-component-map-4064f503e9fb.json).
+  [`component-map/accepted-history/20260829T152552954964Z-78399ac0-component-map-1b71ca68d45f.json`](component-map/accepted-history/20260829T152552954964Z-78399ac0-component-map-1b71ca68d45f.json).
 - [`component-map/accepted-history/20260828T071258344058Z-3fbc1e96-component-map-9f1011b674b7.json`](component-map/accepted-history/20260828T071258344058Z-3fbc1e96-component-map-9f1011b674b7.json)
   preserves an earlier accepted map; the later
   `component-map-e959500caf18` is preserved at
   [`component-map/accepted-history/20260828T085305102551Z-f7ae1757-component-map-e959500caf18.json`](component-map/accepted-history/20260828T085305102551Z-f7ae1757-component-map-e959500caf18.json).
   The earlier `component-map-03ef25335da3` is preserved at
   [`component-map/accepted-history/20260828T092908980290Z-c188467d-component-map-03ef25335da3.json`](component-map/accepted-history/20260828T092908980290Z-c188467d-component-map-03ef25335da3.json).
-- [`history/20260828T093239804671Z-765723d4.json`](history/20260828T093239804671Z-765723d4.json)
+- [`history/20260828T122744159205Z-3ae711ec.json`](history/20260828T122744159205Z-3ae711ec.json)
   remains immutable semantic history. The current append-only semantic authority is
-  [`history/20260828T122744159205Z-3ae711ec.json`](history/20260828T122744159205Z-3ae711ec.json),
+  [`history/20260829T152956210365Z-a1c9dfa4.json`](history/20260829T152956210365Z-a1c9dfa4.json),
   with deterministic
-  [report](reports/20260828T122744159205Z-3ae711ec.md) and canonical payload
+  [report](reports/20260829T152956210365Z-a1c9dfa4.md) and canonical payload
   digest
-  `765a7ff1f8a5256db64962f030f950d035788914de356c122a565cfd45e67b29`.
+  `5a0f2e6cf092445c6f6e424e2cae9b81674a565f1bd78b9f1a1d33607696a024`.
   The accepted-map bridge audit
-  `20260828T122519806610Z-c3210eb5` remains immutable history.
+  `20260829T152756829910Z-cbde332c` remains immutable history.
 - [`managed-workflow-pin-v083-receipt.json`](managed-workflow-pin-v083-receipt.json)
   and [`managed-workflow-pin-v083-input.json`](managed-workflow-pin-v083-input.json)
   remain the reviewed managed-repair pin evidence.
@@ -131,6 +155,40 @@ merged-main CI, tag protection, publication, public installation or
 update, fresh activation, protected managed-repair environments, hosted
 canary, agent execution, or draft publication.
 
-Next action: complete fresh pre-landing audits, commit/push the accepted v0.3.0
-source, open the version-prefixed PR, and require all six matrix jobs to pass. Merge,
-publication, installation, and activation remain separate later gates.
+Fresh pre-landing documentation review found that `SECURITY.md` and
+`SOURCE.md` still described v0.2.1 while the candidate advertised v0.3.0,
+and that citation dates predated publication. Specialist review then found an
+unbounded inherited child-output log and status/diagnosis that could omit an
+unresolved recovery interlock. The two provider regressions failed first and
+now pass: the child uses `DEVNULL` with one fixed bounded provider marker,
+and structured or raw recovery state overrides ordinary next-step advice.
+The repaired pre-acceptance suite passes 111/111 in 36.67 seconds; the exact
+112-test command reports only the expected stale accepted-map failure
+(111 passed, one failed, 44.18 seconds).
+
+The owner accepted exact candidate `component-map-612853c2df78` at SHA-256
+`b39ea9550ea20cad63802e0763e2efdc34e8b4a96e8697fe1ab8a31a9993f536`.
+Bridge audit `20260829T152756829910Z-cbde332c` verified the accepted structure;
+the exact post-acceptance suite then passed 112/112 in 31.69 seconds, and final
+audit `20260829T152956210365Z-a1c9dfa4` bound that receipt to the accepted map.
+
+Next action: rerun the complete local release validation, commit and push the
+accepted snapshot, open the approved version-prefixed PR, and require all six
+matrix jobs to pass. Merge, publication, installation, and activation remain
+separate later gates.
+
+Final pre-landing audit status: `validated_for_pr_creation`. The independent
+coverage audit counted 112 tests versus 75 on `origin/main` (+37), assessed 87%
+coverage across 30 material paths, and found no P0/P1 gap. The independent plan
+audit found no implementation or evidence contradiction, and the specialist
+review found no race, shell-injection, recovery, identity, lifecycle, secret, or
+release-claim blocker.
+
+Pending non-blocking next implementation: add focused regressions for expired
+plans, a matching process appearing between plan and apply, terminate-timeout
+kill escalation, and tampered launch receipts in status/diagnose. Also link
+`references/product-lifecycle.md` from a package entry point. Those mapped-source
+changes are intentionally deferred because making them after exact acceptance
+would invalidate `component-map-612853c2df78`; they require a later candidate,
+validation run, and explicit acceptance. The immediate current gate remains the
+approved PR plus all six matrix jobs.

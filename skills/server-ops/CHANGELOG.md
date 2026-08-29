@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0 - 2026-08-28
+## 0.3.0 - 2026-08-29
 
 - Certify only the listener-guarded Windows `psutil/direct_child/start` cell with explicit adapter opt-in,
   ten-minute immutable plans, exact-digest consent, and single-use replay protection.
@@ -27,6 +27,10 @@
   control-flow exceptions in both steps, and preserve a fail-closed raw lock if structured
   recovery-marker persistence is itself interrupted; clear typed plan drift only when the
   process-creation boundary is proven not entered.
+- Discard child stdout/stderr instead of retaining an unbounded service-output log; keep
+  only one fixed bounded provider-policy marker.
+- Surface every non-clear recovery interlock in `status` and `diagnose`, and prioritize
+  manual reconciliation over ordinary health or ownership next steps.
 - Keep stop, restart, watchdog, non-Windows, drifted, ambiguous, and unverifiable cells
   fail-closed.
 - Record external-start races, hard-crash recovery, and descendant containment as explicit

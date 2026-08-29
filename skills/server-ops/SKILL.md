@@ -63,7 +63,9 @@ again under the workspace lock, rechecks executable content while a Windows hand
 write/delete replacement through process creation. It journals intent before one child start and verifies
 PID, creation time, executable, effective argv, cwd, configured listener ownership, and
 the adapter match before persisting launch and result receipts. The listener snapshot is
-not generic process-absence proof. If post-spawn cleanup or result persistence is not
+not generic process-absence proof. Child stdout/stderr is discarded by default; the
+provider log is a fixed bounded policy marker and never an unbounded service-output sink.
+If post-spawn cleanup or result persistence is not
 proved, the operation returns recovery-required with the spawned PID, transition and log
 locators, `side_effect_occurred=true`, and a retained workspace interlock that refuses
 later mutation plans and applies. If any Python control-flow exception, including Ctrl+C or SystemExit, exits process creation before the exact
@@ -75,6 +77,8 @@ control-flow exception during rollback, result persistence, or structured marker
 therefore leaves either a verified recovery marker or an unreconciled raw lock.
 A `PLAN_INPUT_DRIFT` exception clears the lock only when launch entry is proven false;
 an identical error code after launch entry remains recovery-required.
+`status` and `diagnose` always expose the workspace recovery state and prioritize
+reconciliation when the interlock is structured, raw, invalid, or unreadable.
 Stop, restart, watchdog, non-Windows, missing-psutil,
 ambiguous, drifted, replayed, or unverifiable operations remain typed refusals. Do not
 bypass those refusals with raw process, shell, task-manager, port-kill, or supervisor

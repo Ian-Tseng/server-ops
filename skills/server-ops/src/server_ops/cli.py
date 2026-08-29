@@ -115,6 +115,15 @@ def _health_map(services: list[ServiceSpec]) -> dict[str, HealthResult | None]:
 def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, Any]:
     adapter = _adapter(args, required=False)
     workspace = _workspace(args)
+    recovery_interlock = read_workspace_interlock(workspace)
+    recovery_pending = recovery_interlock["state"] != "clear"
+    recovery_operation = recovery_interlock.get("operation_id")
+    recovery_next_action = (
+        f"Run `server-ops recover inspect {recovery_operation}` and reconcile the "
+        "workspace recovery interlock before any later conclusion."
+        if recovery_operation
+        else "Inspect and reconcile the workspace recovery interlock before any later conclusion."
+    )
     if adapter is None:
         candidates = discover_workspace(workspace)
         return {
@@ -124,8 +133,15 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
             "process_provider": "psutil" if psutil_available() else "unavailable",
             "candidates": [candidate.public_dict() for candidate in candidates],
             "mutation": "unavailable",
+            "recovery_interlock": recovery_interlock,
             "changed": "nothing",
-            "next_action": "Create a mutation-disabled draft only after selecting a candidate." if candidates else "Add a valid adapter or install psutil for workspace discovery.",
+            "next_action": (
+                recovery_next_action
+                if recovery_pending
+                else "Create a mutation-disabled draft only after selecting a candidate."
+                if candidates
+                else "Add a valid adapter or install psutil for workspace discovery."
+            ),
         }
 
     selected = [_service(adapter, args.service)] if getattr(args, "service", None) else list(adapter.services)
@@ -170,6 +186,8 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
             identity = "not_observed"
             process = "absent_or_hidden"
             next_action = "Check the launch command and permissions; no process was changed."
+        if recovery_pending:
+            next_action = recovery_next_action
         health_result = health[service.service_id]
         row: dict[str, Any] = {
             "service": service.service_id,
@@ -191,6 +209,7 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
                 else "not_certified"
             ),
             "verification": "not_run",
+            "recovery": recovery_interlock["state"],
             "matched_candidates": [candidate.public_dict() for candidate in matched[:8]],
             "next_action": next_action,
         }
@@ -206,6 +225,7 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
         "mode": "configured",
         "adapter": str(adapter.path),
         "adapter_digest": adapter.digest,
+        "recovery_interlock": recovery_interlock,
         "services": rows,
         "changed": "nothing",
     }
@@ -486,6 +506,7 @@ def _human_status(data: dict[str, Any]) -> str:
     lines = ["LOCAL SERVER OPS - READ-ONLY"]
     if data["mode"] == "adapter_free_discovery":
         lines.append(f"Workspace: {_terminal_safe(data['workspace'])}")
+        lines.append(f"Recovery: {_terminal_safe(data['recovery_interlock']['state'])}")
         lines.append(f"Candidates: {len(data['candidates'])}")
         for candidate in data["candidates"][:10]:
             command = candidate["command"] or "unknown"
@@ -502,14 +523,15 @@ def _human_status(data: dict[str, Any]) -> str:
             f"Process: {row['process']}",
             f"Health: {row['health']['state']}",
             f"Mutation: {row['mutation']}",
+            f"Recovery: {row['recovery']}",
             f"Verification: {row['verification']}",
             "Changed: nothing",
             f"Next: {row['next_action']}",
         ])
         return "\n".join(lines)
-    lines.append("Service | Identity | Process | Health | Mutation | Verify | Next")
+    lines.append("Service | Identity | Process | Health | Mutation | Recovery | Verify | Next")
     for row in rows:
-        lines.append(f"{row['service']} | {row['identity']} | {row['process']} | {row['health']['state']} | {row['mutation']} | {row['verification']} | {row['next_action']}")
+        lines.append(f"{row['service']} | {row['identity']} | {row['process']} | {row['health']['state']} | {row['mutation']} | {row['recovery']} | {row['verification']} | {row['next_action']}")
     lines.append("Changed: nothing")
     return "\n".join(lines)
 

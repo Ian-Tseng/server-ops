@@ -53,6 +53,9 @@ transition/log locators. This rollback is failure containment, not stop-provider
 certification. Recovery-required outcomes retain a digest-bound workspace interlock;
 subsequent plans and applies refuse before launch. Read-only recovery inspection reports
 the marker and surviving locators without changing them.
+The child writes stdout/stderr to `DEVNULL`; the provider log is a fixed bounded policy
+marker. This prevents long-lived service output from exhausting owner-local state or
+silently persisting arbitrary application data.
 
 Normal Ctrl+C during child observation is routed through the same exact-child rollback.
 If any Python control-flow exception, including Ctrl+C or SystemExit, occurs after process creation is entered but before an exact child handle
@@ -67,6 +70,8 @@ false, preventing an exception-code collision from clearing an already-unproven 
 Hard termination can still leave an applying transition, lock, or surviving child, and
 descendant containment is not certified. Preserve that state for manual reconciliation;
 the read-only recovery command does not prove cleanup or authorize lock deletion.
+`status` and `diagnose` surface structured and unreconciled workspace interlocks and
+make reconciliation the next action instead of presenting health verification as safe.
 
 ## Claim boundary
 

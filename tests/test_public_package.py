@@ -206,6 +206,6 @@ def test_manifest_declares_current_release_and_citation() -> None:
     assert manifest["version"] == "0.3.0"
     assert "CITATION.cff" in manifest["files"]
     assert "version: 0.3.0" in citation
-    assert "date-released: 2026-08-28" in citation
+    assert "date-released: 2026-08-29" in citation
     assert "version: 0.3.0" in root_citation
-    assert "date-released: 2026-08-28" in root_citation
+    assert "date-released: 2026-08-29" in root_citation

@@ -51,7 +51,9 @@ free at plan time, and exact-plan approval. Apply checks the listener again unde
 workspace lock, launches the resolved non-reparse executable from a local drive without a
 shell, and binds its bounded content SHA-256 while a Windows file handle denies replacement
 through process creation. It verifies the spawned PID's executable, effective argv, cwd, configured listener,
-and adapter match, and records local launch/result receipts. Stop, restart, watchdog,
+and adapter match, and records local launch/result receipts. Child stdout/stderr is
+discarded by default; the reported provider log is a fixed bounded policy marker, not
+service output. Stop, restart, watchdog,
 non-Windows, and unverifiable operations return typed refusals; do not bypass them with
 raw commands.
 If a Python control-flow exception, including Ctrl+C or SystemExit, exits the process-creation boundary before an exact child handle is
@@ -60,6 +62,8 @@ possible side effect, and retains the recovery interlock instead of claiming no 
 The recovery handler retains the raw workspace lock before rollback or journal work; if
 either step is interrupted, the structured marker or raw lock still blocks later mutation.
 A typed plan-drift refusal clears that lock only when process creation was never entered.
+Read-only `status` and `diagnose` always expose the workspace interlock and prioritize
+manual reconciliation whenever recovery is not clear.
 
 The listener snapshot is not generic proof that no related process exists. An unrelated
 external start can race after the snapshot, hard process termination can leave an

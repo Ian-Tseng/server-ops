@@ -28,6 +28,8 @@ Exit codes are: 0 success, 2 invalid input, 3 unsupported/refused, 4 mutation fa
 Process arguments may be inspected locally for bounded matching, but public JSON exposes
 only their count and canonical digest, never raw argument values. Human command names and
 errors are stripped of terminal control characters.
+Both status forms expose the current workspace recovery interlock. Any non-clear state
+overrides ordinary health or ownership next-step advice with manual reconciliation.
 
 ## Health
 
@@ -72,6 +74,8 @@ journals before launch, starts one direct child without a shell, verifies the ex
 listener, and records identity and result receipts. `listener_free_before_launch` is a
 snapshot, not generic process absence. Stop, restart, watchdog, and non-Windows cells still
 refuse with `CAPABILITY_NOT_CERTIFIED`.
+The child inherits `DEVNULL` for stdout and stderr. The reported log contains one fixed
+bounded provider-policy line; it does not retain arbitrary or unbounded service output.
 
 An external start can race after the locked snapshot. Normal Ctrl+C during post-launch
 observation is contained by terminating the exact child. If any Python control-flow

@@ -1,5 +1,5 @@
 {
-  "accepted_at_utc": "2026-08-29T15:25:52.954964Z",
+  "accepted_at_utc": null,
   "authority": [
     ".gitattributes",
     "VERSION",
@@ -344,7 +344,7 @@
             }
           ],
           "relation_type": "validated_by",
-          "target": "The local v0.3.0 candidate certifies only listener-guarded Windows psutil direct-child start: adapter opt-in, a unique exclusive configured port, and a complete free-listener snapshot produce a ten-minute immutable redacted plan; exact-digest apply rechecks that guard under the workspace lock, binds the bounded non-reparse local-drive executable content SHA-256 and effective argv, denies executable write/delete replacement through process creation, discards child stdout/stderr while retaining only a fixed bounded provider marker, verifies PID, creation time, executable, argv, cwd, configured listener ownership, and adapter match, persists launch/result receipts, proves ownership, refuses replay/drift, routes verification failure or normal Ctrl+C through exact-child rollback when a handle exists, records launch_outcome_unproven when any Python control-flow exception including Ctrl+C or SystemExit exits process creation before exact-handle recovery, retains the raw lock before rollback or failure journaling, clears typed plan drift only when launch entry is proven false, preserves a structured recovery interlock or fail-closed raw lock after unproven launch, cleanup, journal, or marker persistence, and exposes every non-clear interlock through status and diagnosis with reconciliation as the next action."
+          "target": "The local v0.3.0 candidate certifies only listener-guarded Windows psutil direct-child start: adapter opt-in, a unique exclusive configured port, and a complete free-listener snapshot produce a ten-minute immutable redacted plan; exact-digest apply rechecks that guard under the workspace lock, binds the bounded non-reparse local-drive executable content SHA-256 and effective argv, denies executable write/delete replacement through process creation, verifies PID, creation time, executable, argv, cwd, configured listener ownership, and adapter match, persists launch/result receipts, proves ownership, refuses replay/drift, routes verification failure or normal Ctrl+C through exact-child rollback when a handle exists, records launch_outcome_unproven when any Python control-flow exception including Ctrl+C or SystemExit exits process creation before exact-handle recovery, retains the raw lock before rollback or failure journaling, clears typed plan drift only when launch entry is proven false, and preserves a structured recovery interlock or fail-closed raw lock after unproven launch, cleanup, journal, or marker persistence."
         }
       ]
     },
@@ -390,15 +390,15 @@
       ]
     }
   ],
-  "created_at_utc": "2026-08-29T15:16:55.101597Z",
+  "created_at_utc": "2026-08-29T15:05:05.210069Z",
   "integrity": {
-    "canonical_payload_sha256": "be1980934292954a6000b308c50e7d416b5f3d132138daa631a70d80fd7e2cbe"
+    "canonical_payload_sha256": "ce870321dc793b45fe792fe2c77ceef80b5e56975ccdf98ae5fd87e502c96c76"
   },
-  "map_id": "component-map-612853c2df78",
-  "map_state": "accepted",
+  "map_id": "component-map-a1d3e443e532",
+  "map_state": "drift_candidate",
   "mapper_version": "1.3.0",
   "objective": "Map the Server Ops 0.3.0 local candidate: public interfaces, bounded read-only health-stability verification, evidence-led diagnosis, the certified Windows psutil direct-child start cell, fail-closed lifecycle boundaries, trust-critical package lifecycle, consent-gated maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, and public release boundaries.",
-  "origin_scan_id": "20260829T151655101597Z-e699a390",
+  "origin_scan_id": "20260829T150505210069Z-f1bf7614",
   "previous_map_id": "component-map-1b71ca68d45f",
   "schema_version": "1.0",
   "scope": [
@@ -488,7 +488,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "2a00f494caf275998367de5ae2b94254901164de8647593350fb41034afc0393",
+      "sha256": "91f3b38542313639e4e4109756b7b245bb0690f935a63c3289afd4d13e871c2e",
       "source": "CHANGELOG.md"
     },
     {
@@ -512,7 +512,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "2f028e344c8f87d3c3896a8085e9431b4f4af77110138f83578284cb7281dc39",
+      "sha256": "aeb35405ad639df0be8c91aeeb89c4b6b3b3e2fa789144cd0fbed4598475a1ce",
       "source": "README.md"
     },
     {
@@ -542,7 +542,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "2a00f494caf275998367de5ae2b94254901164de8647593350fb41034afc0393",
+      "sha256": "91f3b38542313639e4e4109756b7b245bb0690f935a63c3289afd4d13e871c2e",
       "source": "skills/server-ops/CHANGELOG.md"
     },
     {
@@ -560,13 +560,13 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "2d1d8d50a713b1580484e2731148f610d9e7b80bdb5b4e7a21bbd5c0c6322a32",
+      "sha256": "e0756937e3f97964fe4049562db57877b53177666faf6d35850ee25acb24b385",
       "source": "skills/server-ops/README.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "b3c96f73b0460cf8083501df1b84f067ade470eb37a562ce821207d2f3bd85bb",
+      "sha256": "577721cd4fc5414e7ff2b04b75d3e8841937d62b59ab3a4f42d622c1de8553df",
       "source": "skills/server-ops/SKILL.md"
     },
     {
@@ -584,7 +584,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "6c8b6cad5892cd3661add248636c36c8293c16f5ee71279e50bd472df57e8d0c",
+      "sha256": "92e749c853facbfba316ea1ce1f36327d07d952787dac4e1b2b1281088e614b2",
       "source": "skills/server-ops/manifest.json"
     },
     {
@@ -596,7 +596,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "90b293af375d9affb98d128382704edd8bcb3ee40d354d2d438d18b95f49ac50",
+      "sha256": "f43ce85bbb3135363696a991aa372b525cd130315f9814acad096c6bd34d275a",
       "source": "skills/server-ops/references/operations.md"
     },
     {
@@ -608,7 +608,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "0724a016ddecb0178bf194d720f5c0c27170e668bea9c8c25d265e760fbcaa8a",
+      "sha256": "36b8d712a12b03c141e1e8a08fd1a364003e34e461975760db030b8b4e5f2d0c",
       "source": "skills/server-ops/references/safety-and-evidence.md"
     },
     {
@@ -686,7 +686,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "43e4c60a88843862927e70d3126b386a0b6885fb18c23224acb3572169c2a182",
+      "sha256": "991e4d785ebdfff85e0dde01c055f248ccd6923b26efc53bc9f33f12ee62182a",
       "source": "skills/server-ops/src/server_ops/cli.py"
     },
     {
@@ -716,7 +716,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "b49fbb6f5badb66b1aba55ce60ab851e11f9c0580467dc8ae8e3ca491786ed3e",
+      "sha256": "bfadfce2d899aec7313479a5f5fe35e012dcb88931ea47e846ba54e6696e2777",
       "source": "skills/server-ops/src/server_ops/provider.py"
     },
     {
@@ -734,7 +734,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "9948db695183037651908a43cbd1ca4cb2d14cedddb2fda0ea3bba8c072444ba",
+      "sha256": "5e31c7e7b66c6a579f0e90283fd6b006499d66458474b3696843af6036e44e8d",
       "source": "tests/test_cli_contract.py"
     },
     {
@@ -782,13 +782,13 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "3a93c62033154f04d7881f1aed809052c702ed3841a67b380485d72bc721dfb0",
+      "sha256": "2bd8bdadd8ecdfa99a2f5759e5cf0f6932b1ab876be8de24daa9dfbbdc9256d5",
       "source": "tests/test_validation_contract.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "eb85c75e195e452a0d5f9b7505974a310603c1441030269141dbd50e8e0394ed",
+      "sha256": "fed7c95be0f96ad70da61d0247aad3156545679e6a815fc793b4cc01c17e9436",
       "source": "tests/test_windows_direct_child_provider.py"
     }
   ]

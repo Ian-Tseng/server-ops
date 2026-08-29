@@ -233,6 +233,47 @@ def test_process_output_redacts_arguments_and_terminal_controls(tmp_path: Path, 
 
 
 @pytest.mark.parametrize(
+    ("command", "interlock"),
+    [
+        (
+            "status",
+            {
+                "state": "recovery_required",
+                "operation_id": "11111111-1111-4111-8111-111111111111",
+                "reason": "termination_unproven",
+                "path": "owner-state/mutation.lock",
+            },
+        ),
+        (
+            "diagnose",
+            {
+                "state": "active_or_unreconciled",
+                "operation_id": None,
+                "path": "owner-state/mutation.lock",
+            },
+        ),
+    ],
+)
+def test_status_and_diagnose_surface_workspace_recovery_before_next_steps(
+    tmp_path: Path,
+    monkeypatch,
+    capsys,
+    command: str,
+    interlock: dict,
+) -> None:
+    write_health_adapter(tmp_path, health=False)
+    monkeypatch.setattr(cli, "read_workspace_interlock", lambda _workspace: interlock)
+
+    assert main(["--workspace", str(tmp_path), "--json", command, "demo-1"]) == 0
+    output = json_output(capsys)
+    assert output["recovery_interlock"] == interlock
+    row = output["services"][0]
+    assert row["recovery"] == interlock["state"]
+    assert "reconcile" in row["next_action"].casefold()
+    assert "health verification" not in row["next_action"].casefold()
+
+
+@pytest.mark.parametrize(
     ("provider_available", "expected_mutation", "expected_status"),
     [
         (True, "certified_start_only", "certified"),
