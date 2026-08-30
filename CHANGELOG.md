@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.3.0 - 2026-08-29
+
+- Certify only the listener-guarded Windows `psutil/direct_child/start` cell with explicit adapter opt-in,
+  ten-minute immutable plans, exact-digest consent, and single-use replay protection.
+- Require a unique exclusive configured port and complete free-listener evidence at plan
+  and locked apply; never describe that snapshot as generic process absence.
+- Reject malformed non-integer `match.ports` values through the stable `MATCH_PORTS`
+  contract, including JSON arrays and objects that cannot be hashed, without falling
+  through to an internal CLI error.
+- Bind one shell-free launch to a bounded local non-reparse executable's SHA-256 and
+  effective argv; recheck the digest while a Windows file handle denies replacement
+  through process creation, then verify PID, creation time, executable, argv, listener ownership,
+  cwd, and adapter match; persist launch/result evidence and prove ownership in status.
+- Normalize CFF metadata under an explicit LF Git policy so accepted raw-byte evidence
+  survives clean Windows, macOS, and Linux checkouts.
+- Roll back only the exact spawned child when post-launch identity evidence fails; return
+  recovery-required with the spawned PID and transition/log locators if cleanup or result
+  persistence is unproven, and retain a workspace interlock that blocks later plans and
+  applies until owner-led reconciliation.
+- Treat any Python control-flow exception, including Ctrl+C or SystemExit, inside the process-creation boundary as
+  `launch_outcome_unproven` when no
+  exact child handle is available, conservatively retain the recovery interlock, and never
+  claim that no side effect occurred in that window.
+- Retain the raw workspace lock before rollback and failure journaling, catch Python
+  control-flow exceptions in both steps, and preserve a fail-closed raw lock if structured
+  recovery-marker persistence is itself interrupted; clear typed plan drift only when the
+  process-creation boundary is proven not entered.
+- Discard child stdout/stderr instead of retaining an unbounded service-output log; keep
+  only one fixed bounded provider-policy marker.
+- Surface every non-clear recovery interlock in `status` and `diagnose`, and prioritize
+  manual reconciliation over ordinary health or ownership next steps.
+- Keep stop, restart, watchdog, non-Windows, drifted, ambiguous, and unverifiable cells
+  fail-closed.
+- Record external-start races, hard-crash recovery, and descendant containment as explicit
+  non-production limitations.
+
 ## 0.2.1 - 2026-08-27
 
 - Accept and integrity-bind GitHub CLI's installer-added `github-pinned` metadata so

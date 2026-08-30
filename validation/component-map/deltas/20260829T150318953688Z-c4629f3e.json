@@ -1,0 +1,70 @@
+{
+  "accepted_map_id": "component-map-1b71ca68d45f",
+  "action": "drift_detected",
+  "candidate_map_id": "component-map-ccae980f79a9",
+  "changes": {
+    "added_components": [],
+    "added_elements": [],
+    "changed_components": [],
+    "changed_elements": [],
+    "contract_changes": [],
+    "removed_components": [],
+    "removed_elements": [],
+    "source_changes": [
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "CITATION.cff"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "SECURITY.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "SOURCE.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/CHANGELOG.md"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/CITATION.cff"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "skills/server-ops/manifest.json"
+      },
+      {
+        "fields": [
+          "sha256"
+        ],
+        "source": "tests/test_public_package.py"
+      }
+    ]
+  },
+  "integrity": {
+    "canonical_payload_sha256": "1092e0968d6d9ee086be5a851717a2031a28853a4893c461b2bde6adb9d55784"
+  },
+  "recorded_at_utc": "2026-08-29T15:03:18.953688Z",
+  "scan_id": "20260829T150318953688Z-c4629f3e",
+  "schema_version": "1.0"
+}

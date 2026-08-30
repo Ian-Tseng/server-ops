@@ -1,0 +1,795 @@
+{
+  "accepted_at_utc": null,
+  "authority": [
+    ".gitattributes",
+    "VERSION",
+    "skills/server-ops/manifest.json",
+    "skills/server-ops/SKILL.md",
+    "skills/server-ops/schemas/adapter.schema.json",
+    "skills/server-ops/scripts/package_contract.py",
+    "skills/server-ops/scripts/install_skill.py",
+    "skills/server-ops/scripts/skill_outcome.py",
+    "skills/server-ops/scripts/update_policy.py",
+    "skills/server-ops/references/skill-outcome-receipt.schema.json",
+    "skills/server-ops/src/server_ops/provider.py"
+  ],
+  "components": [
+    {
+      "component_id": "managed-package-lifecycle",
+      "component_type": "identity-install-update-and-privacy-contract",
+      "elements": [
+        {
+          "element_id": "managed-update-and-quality-handoff",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": ".github/managed-skill-policy.json"
+            },
+            {
+              "locator": "whole-file",
+              "source": ".github/workflows/managed-skill-repair.yml"
+            },
+            {
+              "locator": "managed repair release gates",
+              "source": "PUBLISHING.md"
+            },
+            {
+              "locator": "GitHub-managed repair boundary",
+              "source": "README.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/SKILL.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/skill-outcome-receipt.schema.json"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/scripts/_internal/safe_process.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/scripts/skill_outcome.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/scripts/update_policy.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_managed_lifecycle.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_product_identity.py"
+            }
+          ],
+          "relation_type": "validated_by",
+          "target": "After substantive use, the skill runs consent-gated update maintenance and emits one content-free receipt; separately, a disabled closed policy and thin full-SHA-pinned caller preserve owner triage, two protected approvals, draft-only publication, and human evidence/release authority without enabling project or process-data transport."
+        },
+        {
+          "element_id": "package-origin-and-integrity",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": ".gitattributes"
+            },
+            {
+              "locator": "whole-file",
+              "source": "CITATION.cff"
+            },
+            {
+              "locator": "whole-file",
+              "source": "VERSION"
+            },
+            {
+              "locator": "whole-file",
+              "source": "pyproject.toml"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/CITATION.cff"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/VERSION"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/manifest.json"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/scripts/build_manifest.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/scripts/package_contract.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/scripts/verify_package.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/__init__.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_product_identity.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_public_package.py"
+            }
+          ],
+          "relation_type": "validated_by",
+          "target": "Synchronized version authorities, explicit LF Git policy for citation metadata, and a deterministic bounded no-follow manifest build bind reproducible regular package files while verified GitHub metadata permits only the Ian-Tseng/server-ops origin, expected package path, and supported release refs."
+        },
+        {
+          "element_id": "verified-install-and-default-off-privacy",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/PRIVACY.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/product-lifecycle.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/scripts/install_skill.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_install_lifecycle.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_product_identity.py"
+            }
+          ],
+          "relation_type": "validated_by",
+          "target": "The custom installer uses bounded no-follow metadata reads, verifies source and target identity, fails closed on unsafe or modified state, keeps rollback outside active discovery, and the lifecycle enables no reporting, analytics, or update transport by default."
+        }
+      ]
+    },
+    {
+      "component_id": "public-skill-interface",
+      "component_type": "distribution-and-agent-interface",
+      "elements": [
+        {
+          "element_id": "routing-install-and-boundaries",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": "README.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/README.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/SKILL.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/agents/openai.yaml"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_product_identity.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_public_package.py"
+            }
+          ],
+          "relation_type": "validated_by",
+          "target": "A single installable server-ops package exposes Codex and Claude Code distribution instructions, local inspection routing, explicit non-production boundaries, and an exact-plan approval boundary for its one certified mutation cell."
+        }
+      ]
+    },
+    {
+      "component_id": "read-only-runtime",
+      "component_type": "adapter-discovery-health-and-lifecycle-runtime",
+      "elements": [
+        {
+          "element_id": "bounded-discovery-and-mutation-refusal",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/adapter-contract.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/operations.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/safety-and-evidence.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/cli.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/discovery.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/models.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/planner.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/state.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_cli_contract.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_discovery.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_generality_and_performance.py"
+            }
+          ],
+          "relation_type": "validated_by",
+          "target": "Exact-workspace discovery is bounded, public output redacts raw process arguments, and disabled or uncertified lifecycle cells return typed, schema-checked, digest-verified local refusal receipts without process side effects."
+        },
+        {
+          "element_id": "focused-stability-verification",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/operations.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/source-ledger.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/cli.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/health.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_cli_contract.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_health_identity.py"
+            }
+          ],
+          "relation_type": "validated_by",
+          "target": "An explicit read-only verify command evaluates only the configured strict loopback health predicate until a bounded consecutive-success condition is met or the deadline expires, and diagnosis keeps symptom, recent-change evidence, hypothesis, health, stability, ownership, and compatibility distinct."
+        },
+        {
+          "element_id": "strict-adapter-and-health",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/schemas/adapter.schema.json"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/adapter.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/health.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_adapter_validation.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_health_identity.py"
+            }
+          ],
+          "relation_type": "validated_by",
+          "target": "Versioned adapters fail closed and configured health is credential-free, literal-loopback, bounded, redirect-free, and exact-predicate."
+        },
+        {
+          "element_id": "windows-direct-child-start-provider",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/operations.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/safety-and-evidence.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/cli.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/planner.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/provider.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/state.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_cli_contract.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_windows_direct_child_provider.py"
+            }
+          ],
+          "relation_type": "validated_by",
+          "target": "The local v0.3.0 candidate certifies only listener-guarded Windows psutil direct-child start: adapter opt-in, a unique exclusive configured port, and a complete free-listener snapshot produce a ten-minute immutable redacted plan; exact-digest apply rechecks that guard under the workspace lock, binds the bounded non-reparse local-drive executable content SHA-256 and effective argv, denies executable write/delete replacement through process creation, verifies PID, creation time, executable, argv, cwd, configured listener ownership, and adapter match, persists launch/result receipts, proves ownership, refuses replay/drift, routes verification failure or normal Ctrl+C through exact-child rollback when a handle exists, records launch_outcome_unproven when any Python control-flow exception including Ctrl+C or SystemExit exits process creation before exact-handle recovery, retains the raw lock before rollback or failure journaling, clears typed plan drift only when launch entry is proven false, and preserves a structured recovery interlock or fail-closed raw lock after unproven launch, cleanup, journal, or marker persistence."
+        }
+      ]
+    },
+    {
+      "component_id": "release-evidence-and-provenance",
+      "component_type": "claim-evidence-and-publication-boundary",
+      "elements": [
+        {
+          "element_id": "local-release-candidate-authority",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": ".github/workflows/validate.yml"
+            },
+            {
+              "locator": "whole-file",
+              "source": "CHANGELOG.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "PUBLISHING.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "SECURITY.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "SOURCE.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/source-ledger.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_validation_contract.py"
+            }
+          ],
+          "relation_type": "documented_and_validated_by",
+          "target": "The local candidate records its tested package, validator, publisher-dry-run, provenance, and explicitly pending remote lifecycle gates without claiming publication."
+        }
+      ]
+    }
+  ],
+  "created_at_utc": "2026-08-29T15:05:05.210069Z",
+  "integrity": {
+    "canonical_payload_sha256": "ce870321dc793b45fe792fe2c77ceef80b5e56975ccdf98ae5fd87e502c96c76"
+  },
+  "map_id": "component-map-a1d3e443e532",
+  "map_state": "drift_candidate",
+  "mapper_version": "1.3.0",
+  "objective": "Map the Server Ops 0.3.0 local candidate: public interfaces, bounded read-only health-stability verification, evidence-led diagnosis, the certified Windows psutil direct-child start cell, fail-closed lifecycle boundaries, trust-critical package lifecycle, consent-gated maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, and public release boundaries.",
+  "origin_scan_id": "20260829T150505210069Z-f1bf7614",
+  "previous_map_id": "component-map-1b71ca68d45f",
+  "schema_version": "1.0",
+  "scope": [
+    ".gitattributes",
+    ".github/workflows/validate.yml",
+    ".github/workflows/managed-skill-repair.yml",
+    ".github/managed-skill-policy.json",
+    "CITATION.cff",
+    "CHANGELOG.md",
+    "README.md",
+    "PUBLISHING.md",
+    "PRIVACY.md",
+    "SECURITY.md",
+    "SOURCE.md",
+    "VERSION",
+    "pyproject.toml",
+    "skills/server-ops/SKILL.md",
+    "skills/server-ops/CHANGELOG.md",
+    "skills/server-ops/CITATION.cff",
+    "skills/server-ops/README.md",
+    "skills/server-ops/VERSION",
+    "skills/server-ops/agents/openai.yaml",
+    "skills/server-ops/schemas/adapter.schema.json",
+    "skills/server-ops/src/server_ops/adapter.py",
+    "skills/server-ops/src/server_ops/cli.py",
+    "skills/server-ops/src/server_ops/discovery.py",
+    "skills/server-ops/src/server_ops/health.py",
+    "skills/server-ops/src/server_ops/__init__.py",
+    "skills/server-ops/src/server_ops/models.py",
+    "skills/server-ops/src/server_ops/planner.py",
+    "skills/server-ops/src/server_ops/provider.py",
+    "skills/server-ops/src/server_ops/state.py",
+    "skills/server-ops/scripts/build_manifest.py",
+    "skills/server-ops/scripts/install_skill.py",
+    "skills/server-ops/scripts/package_contract.py",
+    "skills/server-ops/scripts/skill_outcome.py",
+    "skills/server-ops/scripts/update_policy.py",
+    "skills/server-ops/scripts/_internal/safe_process.py",
+    "skills/server-ops/scripts/verify_package.py",
+    "skills/server-ops/manifest.json",
+    "skills/server-ops/PRIVACY.md",
+    "skills/server-ops/references/adapter-contract.md",
+    "skills/server-ops/references/operations.md",
+    "skills/server-ops/references/product-lifecycle.md",
+    "skills/server-ops/references/safety-and-evidence.md",
+    "skills/server-ops/references/skill-outcome-receipt.schema.json",
+    "skills/server-ops/references/source-ledger.md",
+    "tests/test_adapter_validation.py",
+    "tests/test_cli_contract.py",
+    "tests/test_discovery.py",
+    "tests/test_generality_and_performance.py",
+    "tests/test_health_identity.py",
+    "tests/test_install_lifecycle.py",
+    "tests/test_managed_lifecycle.py",
+    "tests/test_product_identity.py",
+    "tests/test_public_package.py",
+    "tests/test_validation_contract.py",
+    "tests/test_windows_direct_child_provider.py"
+  ],
+  "skill_name": "analyze-project-claims",
+  "skill_sha256": "ecfeebfdafe5b960d77641149a3fccb15f66246f6dfedc56ff3a8b4ee9d03639",
+  "source_snapshot": [
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "c28d1288b2b63c3a3409e02e506777a588bf2bc5734df0e8c864ed590684943f",
+      "source": ".gitattributes"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "1aab25a5704b1dad7607bbeb1a1aa3a3c7e236cb38c8dec943bcd2448529716c",
+      "source": ".github/managed-skill-policy.json"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "eb9fbe1df7f31d462ed7a9b874b290067ad6861c5075dd329a9b97cf7130faf3",
+      "source": ".github/workflows/managed-skill-repair.yml"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "0f8464e775e491208fa8246ef8f5fc9092b57aaafbf09c20aea9ac899162739a",
+      "source": ".github/workflows/validate.yml"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "91f3b38542313639e4e4109756b7b245bb0690f935a63c3289afd4d13e871c2e",
+      "source": "CHANGELOG.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "daea69eda1758d966658ba426b18c112d318cf93be6d08f85dafb8ffc7289e98",
+      "source": "CITATION.cff"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "5c3a019fa7d1cf63ad69bb501d6f53291e1cf7ffef668ec6e161374a2a31711c",
+      "source": "PRIVACY.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "f751c24b87f2c0f0daa92e6bc00babaaea4a1066c5ae1df7187986f03a8c7146",
+      "source": "PUBLISHING.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "aeb35405ad639df0be8c91aeeb89c4b6b3b3e2fa789144cd0fbed4598475a1ce",
+      "source": "README.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "9fcdab076f9e5897e897a559e2782e38a7d4c2638fded07a7debd880398ee5a6",
+      "source": "SECURITY.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "7aaac84f9cb6024abe4c9e078575d1cf019b66e5677334547fb3a6864902cf15",
+      "source": "SOURCE.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "d915cc95d6ca8f47ae297713ed46d4e5c5d99ddd29fc3c61e263bdf305f2b5b0",
+      "source": "VERSION"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "d7e752262d13e96301f56b899251c0de8c0b30f45aa4bfaee60b7b0dff7f6fcd",
+      "source": "pyproject.toml"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "91f3b38542313639e4e4109756b7b245bb0690f935a63c3289afd4d13e871c2e",
+      "source": "skills/server-ops/CHANGELOG.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "daea69eda1758d966658ba426b18c112d318cf93be6d08f85dafb8ffc7289e98",
+      "source": "skills/server-ops/CITATION.cff"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "5c3a019fa7d1cf63ad69bb501d6f53291e1cf7ffef668ec6e161374a2a31711c",
+      "source": "skills/server-ops/PRIVACY.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "e0756937e3f97964fe4049562db57877b53177666faf6d35850ee25acb24b385",
+      "source": "skills/server-ops/README.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "577721cd4fc5414e7ff2b04b75d3e8841937d62b59ab3a4f42d622c1de8553df",
+      "source": "skills/server-ops/SKILL.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "d915cc95d6ca8f47ae297713ed46d4e5c5d99ddd29fc3c61e263bdf305f2b5b0",
+      "source": "skills/server-ops/VERSION"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "19eb8c5412ccb7e1be6b9cb6aac82037c38096446e9458056e1f3898428ce1bb",
+      "source": "skills/server-ops/agents/openai.yaml"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "92e749c853facbfba316ea1ce1f36327d07d952787dac4e1b2b1281088e614b2",
+      "source": "skills/server-ops/manifest.json"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "12b8a8d0b645c7515e84ac400ed56759d3867779f3cf83ce09805f6141e09865",
+      "source": "skills/server-ops/references/adapter-contract.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "f43ce85bbb3135363696a991aa372b525cd130315f9814acad096c6bd34d275a",
+      "source": "skills/server-ops/references/operations.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "cc17e38023f5ecf65c95494c5607341ce1c3541928fee87cc9868d96423ad3d8",
+      "source": "skills/server-ops/references/product-lifecycle.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "36b8d712a12b03c141e1e8a08fd1a364003e34e461975760db030b8b4e5f2d0c",
+      "source": "skills/server-ops/references/safety-and-evidence.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "3e4a4e8187eb94472454558f4c57ead56d764ed9921cbad27e8bc66846b29d96",
+      "source": "skills/server-ops/references/skill-outcome-receipt.schema.json"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "c3191390445bd58b585d265be7d98f3c4f214c1e55c37568ed74054fad426a49",
+      "source": "skills/server-ops/references/source-ledger.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "7215f2c9230aef3fd9498dc83040afd14f5551d746f0162084da0560b7846cc7",
+      "source": "skills/server-ops/schemas/adapter.schema.json"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "a2042ec7d6c52523ffe6f053c15660632697454c366bf0d709f4b00eb92a0a13",
+      "source": "skills/server-ops/scripts/_internal/safe_process.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "5c8c1c8bcd6218fae2dc532cd7042023c75c60f1a9be2d8a0fbb24826bc20c40",
+      "source": "skills/server-ops/scripts/build_manifest.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "d2282ea37c05cdc5e0c25653b9a9fad4dd6af94467db7aa5bba4e345184ff972",
+      "source": "skills/server-ops/scripts/install_skill.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "0fa2f5f039bca9bd1a611a8033689008dbfa7ddccdf2f70b6cbc133fa8ed773f",
+      "source": "skills/server-ops/scripts/package_contract.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "950a47cd43bd25fbde5fd42203b947206df2b2113535818f2136b35ca9878e40",
+      "source": "skills/server-ops/scripts/skill_outcome.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "3d04616e908f5b975d268e448b93cbc96eb419288590457f6fd1d58b9be8223f",
+      "source": "skills/server-ops/scripts/update_policy.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "976ab6e8d02ea352c000b91b2e5750ffe1b20bf3fb4baed75210d874bd3260a1",
+      "source": "skills/server-ops/scripts/verify_package.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "c694da25adca90d164b9facb589a4ae3898f2bd42669deea4df75a51aaa559eb",
+      "source": "skills/server-ops/src/server_ops/__init__.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "b97544c6da4949c45fdd98377e48701681aeff9cd0151fd5dfcd0b4735b086e1",
+      "source": "skills/server-ops/src/server_ops/adapter.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "991e4d785ebdfff85e0dde01c055f248ccd6923b26efc53bc9f33f12ee62182a",
+      "source": "skills/server-ops/src/server_ops/cli.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "baa826894cc0c5efe1b067365bcdd08352a0398c92ea3f50bdf173171fd00649",
+      "source": "skills/server-ops/src/server_ops/discovery.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "68c29c63294dcb135bbb2b589c958d481d86f25244a85b6d21bfe474f1f9da07",
+      "source": "skills/server-ops/src/server_ops/health.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "73b309d2650b23df9d20e4d6a6ce28856e761e5cd62e8d61ef96496a6b45a233",
+      "source": "skills/server-ops/src/server_ops/models.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "7d4414385b5d1820ede5a032c6a77b7a9b520b1e67f4a8af5e663011b9eda696",
+      "source": "skills/server-ops/src/server_ops/planner.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "bfadfce2d899aec7313479a5f5fe35e012dcb88931ea47e846ba54e6696e2777",
+      "source": "skills/server-ops/src/server_ops/provider.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "bcfc5125c5b565de0d7a8d2971567c9e5585340cb87dc4ad4c519aa26c7b9c9d",
+      "source": "skills/server-ops/src/server_ops/state.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "e8ff036faa6b8f9e200a4a9c47f5beba79a2a387fc95958dc82b164bc8c3c84a",
+      "source": "tests/test_adapter_validation.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "5e31c7e7b66c6a579f0e90283fd6b006499d66458474b3696843af6036e44e8d",
+      "source": "tests/test_cli_contract.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "9b9c4a605da871e31e77a82ff316df6e25caf3900f9501c78eb812f4b91947de",
+      "source": "tests/test_discovery.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "bfda37cdc288c305f313c9d8d1d873d1570df7dd4849727c96387a4e4f173431",
+      "source": "tests/test_generality_and_performance.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "7aae7fd329d60de4211ce981b1929c391ac2571278f0856d6c77deace4e3160c",
+      "source": "tests/test_health_identity.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "ecff935f933e352c6e358ca90b23a5fa1566695fa734c774e1f46bcba7988b7a",
+      "source": "tests/test_install_lifecycle.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "de7211d16564bca4e96dcd3e7f8623163ec3e2bce1645c3077bebc618c5cc093",
+      "source": "tests/test_managed_lifecycle.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "219abd0677a353e5883f0b9c762c6b1c3783164dd233c8633d82308e7072892a",
+      "source": "tests/test_product_identity.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "10039d1d90980e5e776f390b1b78c5c3d751538141403a34fa5b0129996cc45f",
+      "source": "tests/test_public_package.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "2bd8bdadd8ecdfa99a2f5759e5cf0f6932b1ab876be8de24daa9dfbbdc9256d5",
+      "source": "tests/test_validation_contract.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "fed7c95be0f96ad70da61d0247aad3156545679e6a815fc793b4cc01c17e9436",
+      "source": "tests/test_windows_direct_child_provider.py"
+    }
+  ]
+}

@@ -1,9 +1,9 @@
 # Local Server Ops
 
 Local Server Ops is an agent skill and Python CLI for evidence-bound inspection of local
-workspace services. Version 0.2.1 is deliberately read-only: it discovers processes,
-strictly validates project adapters, runs bounded literal-loopback health predicates,
-reports exact capability cells, and records mutation refusals without changing processes.
+workspace services. Version 0.3.0 preserves strict read-only inspection and adds one
+narrowly certified mutation cell: listener-guarded Windows
+`psutil/direct_child/start`.
 
 Install from GitHub:
 
@@ -45,7 +45,7 @@ py scripts/install_skill.py --dry-run --json
 
 Run the installer without `--dry-run` only after reviewing its destination. Updates require
 `--update`, refuse modified installed files, and preserve verified rollback copies under
-`$CODEX_HOME/backups/server-ops`, outside the active skill registry. Version 0.2.1 also
+`$CODEX_HOME/backups/server-ops`, outside the active skill registry. Version 0.3.0 also
 migrates verified legacy `skills/server-ops.backup-*` directories to that location and
 refuses unverified legacy backups.
 
@@ -55,6 +55,21 @@ unknown until manually reconciled.
 
 ## Evidence boundary
 
-Passing tests establishes only the tested adapter, discovery, health, output, and refusal
-contracts. Version 0.2.1 does not claim a certified start, stop, or restart provider, live
-production reliability, or complete cross-platform support.
+Passing tests establishes only the tested adapter, discovery, health, output, refusal,
+and listener-guarded Windows direct-child start contracts. The start cell requires at
+least one unique configured listener port, a complete global listener snapshot that is
+free at plan and locked apply, and a bounded local non-reparse executable whose SHA-256 is
+plan-bound and rechecked under a Windows replacement-denying handle through process creation.
+It verifies the exact spawned PID, effective argv, cwd, listener ownership, adapter match, and launch receipt.
+Child stdout/stderr is discarded by default, and the provider log is a fixed bounded
+policy marker rather than retained service output.
+Any Python control-flow exception, including Ctrl+C or SystemExit, inside process creation is recovery-required when an exact child handle cannot be
+recovered; the provider records `launch_outcome_unproven` and keeps the workspace interlock.
+Recovery retains the raw workspace lock before termination and failure journaling, so a
+control-flow exception in either step leaves later mutations fail-closed.
+Typed plan drift clears the raw lock only when process creation is proven not entered.
+`status` and `diagnose` expose any structured or unreconciled recovery interlock and
+make reconciliation the next action.
+Version 0.3.0 does not claim generic process absence, certified stop/restart/watchdog,
+non-Windows mutation, production reliability, external-start race exclusion, hard-crash
+recovery, descendant containment, or ownership when the exact evidence does not match.

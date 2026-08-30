@@ -92,6 +92,31 @@ def test_duplicate_service_id_is_rejected(tmp_path: Path, adapter_document: dict
     assert raised.value.code == "SERVICE_DUPLICATE"
 
 
+def test_schema_and_runtime_reject_duplicate_match_ports(tmp_path: Path, adapter_document: dict) -> None:
+    adapter_document["services"][0]["match"]["ports"] = [8090, 8090]
+    schema = json.loads((PACKAGE / "schemas" / "adapter.schema.json").read_text(encoding="utf-8"))
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.Draft202012Validator(schema).validate(adapter_document)
+    with pytest.raises(OpsError) as raised:
+        load_adapter(write_adapter(tmp_path, adapter_document))
+    assert raised.value.code == "MATCH_PORTS"
+
+
+@pytest.mark.parametrize("invalid_port", [[], {}])
+def test_schema_and_runtime_reject_non_hashable_match_ports(
+    tmp_path: Path,
+    adapter_document: dict,
+    invalid_port: object,
+) -> None:
+    adapter_document["services"][0]["match"]["ports"] = [invalid_port]
+    schema = json.loads((PACKAGE / "schemas" / "adapter.schema.json").read_text(encoding="utf-8"))
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.Draft202012Validator(schema).validate(adapter_document)
+    with pytest.raises(OpsError) as raised:
+        load_adapter(write_adapter(tmp_path, adapter_document))
+    assert raised.value.code == "MATCH_PORTS"
+
+
 def test_adapter_discovery_does_not_walk_parent_directories(tmp_path: Path, adapter_document: dict) -> None:
     write_adapter(tmp_path, adapter_document)
     child = tmp_path / "child"

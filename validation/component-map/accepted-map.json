@@ -1,6 +1,7 @@
 {
-  "accepted_at_utc": "2026-08-27T06:54:54.197274Z",
+  "accepted_at_utc": "2026-08-29T15:25:52.954964Z",
   "authority": [
+    ".gitattributes",
     "VERSION",
     "skills/server-ops/manifest.json",
     "skills/server-ops/SKILL.md",
@@ -9,7 +10,8 @@
     "skills/server-ops/scripts/install_skill.py",
     "skills/server-ops/scripts/skill_outcome.py",
     "skills/server-ops/scripts/update_policy.py",
-    "skills/server-ops/references/skill-outcome-receipt.schema.json"
+    "skills/server-ops/references/skill-outcome-receipt.schema.json",
+    "skills/server-ops/src/server_ops/provider.py"
   ],
   "components": [
     {
@@ -72,11 +74,27 @@
           "evidence_locators": [
             {
               "locator": "whole-file",
+              "source": ".gitattributes"
+            },
+            {
+              "locator": "whole-file",
+              "source": "CITATION.cff"
+            },
+            {
+              "locator": "whole-file",
               "source": "VERSION"
             },
             {
               "locator": "whole-file",
               "source": "pyproject.toml"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/CITATION.cff"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/VERSION"
             },
             {
               "locator": "whole-file",
@@ -96,6 +114,10 @@
             },
             {
               "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/__init__.py"
+            },
+            {
+              "locator": "whole-file",
               "source": "tests/test_product_identity.py"
             },
             {
@@ -104,7 +126,7 @@
             }
           ],
           "relation_type": "validated_by",
-          "target": "Synchronized version authorities and a deterministic, bounded, no-follow manifest build bind regular package files while verified GitHub metadata permits only the Ian-Tseng/server-ops origin, expected package path, and supported release refs."
+          "target": "Synchronized version authorities, explicit LF Git policy for citation metadata, and a deterministic bounded no-follow manifest build bind reproducible regular package files while verified GitHub metadata permits only the Ian-Tseng/server-ops origin, expected package path, and supported release refs."
         },
         {
           "element_id": "verified-install-and-default-off-privacy",
@@ -168,17 +190,21 @@
             }
           ],
           "relation_type": "validated_by",
-          "target": "A single installable server-ops package exposes Codex and Claude Code distribution instructions, local read-only routing, and explicit non-production and non-mutation boundaries."
+          "target": "A single installable server-ops package exposes Codex and Claude Code distribution instructions, local inspection routing, explicit non-production boundaries, and an exact-plan approval boundary for its one certified mutation cell."
         }
       ]
     },
     {
       "component_id": "read-only-runtime",
-      "component_type": "adapter-discovery-health-and-refusal-runtime",
+      "component_type": "adapter-discovery-health-and-lifecycle-runtime",
       "elements": [
         {
           "element_id": "bounded-discovery-and-mutation-refusal",
           "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/adapter-contract.md"
+            },
             {
               "locator": "whole-file",
               "source": "skills/server-ops/references/operations.md"
@@ -221,7 +247,7 @@
             }
           ],
           "relation_type": "validated_by",
-          "target": "Listener-first exact-workspace discovery is bounded, public output redacts raw process arguments, and uncertified lifecycle mutations return typed, schema-checked, digest-verified local refusal receipts without process side effects."
+          "target": "Exact-workspace discovery is bounded, public output redacts raw process arguments, and disabled or uncertified lifecycle cells return typed, schema-checked, digest-verified local refusal receipts without process side effects."
         },
         {
           "element_id": "focused-stability-verification",
@@ -280,6 +306,45 @@
           ],
           "relation_type": "validated_by",
           "target": "Versioned adapters fail closed and configured health is credential-free, literal-loopback, bounded, redirect-free, and exact-predicate."
+        },
+        {
+          "element_id": "windows-direct-child-start-provider",
+          "evidence_locators": [
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/operations.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/references/safety-and-evidence.md"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/cli.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/planner.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/provider.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "skills/server-ops/src/server_ops/state.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_cli_contract.py"
+            },
+            {
+              "locator": "whole-file",
+              "source": "tests/test_windows_direct_child_provider.py"
+            }
+          ],
+          "relation_type": "validated_by",
+          "target": "The local v0.3.0 candidate certifies only listener-guarded Windows psutil direct-child start: adapter opt-in, a unique exclusive configured port, and a complete free-listener snapshot produce a ten-minute immutable redacted plan; exact-digest apply rechecks that guard under the workspace lock, binds the bounded non-reparse local-drive executable content SHA-256 and effective argv, denies executable write/delete replacement through process creation, discards child stdout/stderr while retaining only a fixed bounded provider marker, verifies PID, creation time, executable, argv, cwd, configured listener ownership, and adapter match, persists launch/result receipts, proves ownership, refuses replay/drift, routes verification failure or normal Ctrl+C through exact-child rollback when a handle exists, records launch_outcome_unproven when any Python control-flow exception including Ctrl+C or SystemExit exits process creation before exact-handle recovery, retains the raw lock before rollback or failure journaling, clears typed plan drift only when launch entry is proven false, preserves a structured recovery interlock or fail-closed raw lock after unproven launch, cleanup, journal, or marker persistence, and exposes every non-clear interlock through status and diagnosis with reconciliation as the next action."
         }
       ]
     },
@@ -325,39 +390,46 @@
       ]
     }
   ],
-  "created_at_utc": "2026-08-27T06:42:57.206339Z",
+  "created_at_utc": "2026-08-29T15:16:55.101597Z",
   "integrity": {
-    "canonical_payload_sha256": "cc1caf1d1f4497905bdfda23b89d9336bddb66a9fc86a0f0297f45f437bd6e89"
+    "canonical_payload_sha256": "be1980934292954a6000b308c50e7d416b5f3d132138daa631a70d80fd7e2cbe"
   },
-  "map_id": "component-map-09678f4a5fc5",
+  "map_id": "component-map-612853c2df78",
   "map_state": "accepted",
   "mapper_version": "1.3.0",
-  "objective": "Map Server Ops 0.2.1 public interfaces, bounded read-only health-stability verification, evidence-led diagnosis, trust-critical package lifecycle, consent-gated update maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, and public release boundaries.",
-  "origin_scan_id": "20260827T064257206339Z-bc60193a",
-  "previous_map_id": "component-map-90e4a2a3c26d",
+  "objective": "Map the Server Ops 0.3.0 local candidate: public interfaces, bounded read-only health-stability verification, evidence-led diagnosis, the certified Windows psutil direct-child start cell, fail-closed lifecycle boundaries, trust-critical package lifecycle, consent-gated maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, and public release boundaries.",
+  "origin_scan_id": "20260829T151655101597Z-e699a390",
+  "previous_map_id": "component-map-1b71ca68d45f",
   "schema_version": "1.0",
   "scope": [
+    ".gitattributes",
     ".github/workflows/validate.yml",
     ".github/workflows/managed-skill-repair.yml",
     ".github/managed-skill-policy.json",
+    "CITATION.cff",
     "CHANGELOG.md",
     "README.md",
     "PUBLISHING.md",
+    "PRIVACY.md",
     "SECURITY.md",
     "SOURCE.md",
     "VERSION",
     "pyproject.toml",
     "skills/server-ops/SKILL.md",
     "skills/server-ops/CHANGELOG.md",
+    "skills/server-ops/CITATION.cff",
     "skills/server-ops/README.md",
+    "skills/server-ops/VERSION",
     "skills/server-ops/agents/openai.yaml",
     "skills/server-ops/schemas/adapter.schema.json",
     "skills/server-ops/src/server_ops/adapter.py",
     "skills/server-ops/src/server_ops/cli.py",
     "skills/server-ops/src/server_ops/discovery.py",
     "skills/server-ops/src/server_ops/health.py",
+    "skills/server-ops/src/server_ops/__init__.py",
     "skills/server-ops/src/server_ops/models.py",
     "skills/server-ops/src/server_ops/planner.py",
+    "skills/server-ops/src/server_ops/provider.py",
     "skills/server-ops/src/server_ops/state.py",
     "skills/server-ops/scripts/build_manifest.py",
     "skills/server-ops/scripts/install_skill.py",
@@ -368,6 +440,7 @@
     "skills/server-ops/scripts/verify_package.py",
     "skills/server-ops/manifest.json",
     "skills/server-ops/PRIVACY.md",
+    "skills/server-ops/references/adapter-contract.md",
     "skills/server-ops/references/operations.md",
     "skills/server-ops/references/product-lifecycle.md",
     "skills/server-ops/references/safety-and-evidence.md",
@@ -382,11 +455,18 @@
     "tests/test_managed_lifecycle.py",
     "tests/test_product_identity.py",
     "tests/test_public_package.py",
-    "tests/test_validation_contract.py"
+    "tests/test_validation_contract.py",
+    "tests/test_windows_direct_child_provider.py"
   ],
   "skill_name": "analyze-project-claims",
-  "skill_sha256": "b0c29b21680f02657af6533fba19c94067b44f1e651408c7b1f835c920b9a260",
+  "skill_sha256": "ecfeebfdafe5b960d77641149a3fccb15f66246f6dfedc56ff3a8b4ee9d03639",
   "source_snapshot": [
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "c28d1288b2b63c3a3409e02e506777a588bf2bc5734df0e8c864ed590684943f",
+      "source": ".gitattributes"
+    },
     {
       "exists": true,
       "kind": "file",
@@ -402,74 +482,98 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "356314a0dd969d43a987aecc172a17794fdd9661ce05a8c87d04d894531f6f30",
+      "sha256": "0f8464e775e491208fa8246ef8f5fc9092b57aaafbf09c20aea9ac899162739a",
       "source": ".github/workflows/validate.yml"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "575f87fcb000edbbb921dbe1eac291b2fdcd6b4be60114eff6b9f1caf941277e",
+      "sha256": "2a00f494caf275998367de5ae2b94254901164de8647593350fb41034afc0393",
       "source": "CHANGELOG.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "2baf52e2dc5d76045cd3293da4fa2fe34a28079d79e29ab0543aa143dc35036f",
+      "sha256": "daea69eda1758d966658ba426b18c112d318cf93be6d08f85dafb8ffc7289e98",
+      "source": "CITATION.cff"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "5c3a019fa7d1cf63ad69bb501d6f53291e1cf7ffef668ec6e161374a2a31711c",
+      "source": "PRIVACY.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "f751c24b87f2c0f0daa92e6bc00babaaea4a1066c5ae1df7187986f03a8c7146",
       "source": "PUBLISHING.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "3a9d689eaf5fb714f32b78b7c4c8a50460a8a3cf9354c7e5500a63c3318bbf87",
+      "sha256": "2f028e344c8f87d3c3896a8085e9431b4f4af77110138f83578284cb7281dc39",
       "source": "README.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "77c4e5059fb79c7ef412a19c3cc14ead56ca78451bb3cb35e502a055550fc1b8",
+      "sha256": "9fcdab076f9e5897e897a559e2782e38a7d4c2638fded07a7debd880398ee5a6",
       "source": "SECURITY.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "ab0bd8e43c71bc4ec243c84b92cd8c77c65f3cdfcfd5cd18b554980c27ee48ec",
+      "sha256": "7aaac84f9cb6024abe4c9e078575d1cf019b66e5677334547fb3a6864902cf15",
       "source": "SOURCE.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "71015c979ccb0fc8a0be7ca0ae83046ab045cdc2c8faa09fb2f0f7e440f9b4a6",
+      "sha256": "d915cc95d6ca8f47ae297713ed46d4e5c5d99ddd29fc3c61e263bdf305f2b5b0",
       "source": "VERSION"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "06b1a3ff66a09157602edcd0dd94602f25a4dcfdc58176388baf6b82c7906503",
+      "sha256": "d7e752262d13e96301f56b899251c0de8c0b30f45aa4bfaee60b7b0dff7f6fcd",
       "source": "pyproject.toml"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "575f87fcb000edbbb921dbe1eac291b2fdcd6b4be60114eff6b9f1caf941277e",
+      "sha256": "2a00f494caf275998367de5ae2b94254901164de8647593350fb41034afc0393",
       "source": "skills/server-ops/CHANGELOG.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "54d9f54c898397cdd793836a5b482ec34049390cf731bf54bb3f59d12715407d",
+      "sha256": "daea69eda1758d966658ba426b18c112d318cf93be6d08f85dafb8ffc7289e98",
+      "source": "skills/server-ops/CITATION.cff"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "5c3a019fa7d1cf63ad69bb501d6f53291e1cf7ffef668ec6e161374a2a31711c",
       "source": "skills/server-ops/PRIVACY.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "5c8887f34bd704c02039689a1ba03479ce4e829cb54b0cd9648d566d54ef30c2",
+      "sha256": "2d1d8d50a713b1580484e2731148f610d9e7b80bdb5b4e7a21bbd5c0c6322a32",
       "source": "skills/server-ops/README.md"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "cc2c49b1d8ef22d82b6f08334302bf324124f6936c3b99bda70b7e56fdbea777",
+      "sha256": "b3c96f73b0460cf8083501df1b84f067ade470eb37a562ce821207d2f3bd85bb",
       "source": "skills/server-ops/SKILL.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "d915cc95d6ca8f47ae297713ed46d4e5c5d99ddd29fc3c61e263bdf305f2b5b0",
+      "source": "skills/server-ops/VERSION"
     },
     {
       "exists": true,
@@ -480,13 +584,19 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "1da51d9fea4776bbe8c2f3e01e83493210289484f09e803d5d5810cdf9ee91ec",
+      "sha256": "6c8b6cad5892cd3661add248636c36c8293c16f5ee71279e50bd472df57e8d0c",
       "source": "skills/server-ops/manifest.json"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "0afb2d67d0b1ec12b8a883536298557bbc1f3d0c65915e62eb980a7543250797",
+      "sha256": "12b8a8d0b645c7515e84ac400ed56759d3867779f3cf83ce09805f6141e09865",
+      "source": "skills/server-ops/references/adapter-contract.md"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "90b293af375d9affb98d128382704edd8bcb3ee40d354d2d438d18b95f49ac50",
       "source": "skills/server-ops/references/operations.md"
     },
     {
@@ -498,7 +608,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "6b34b97e00b6a6c9b426723f2b523a6c969a290df31425f66be9db3dcdf8fe7f",
+      "sha256": "0724a016ddecb0178bf194d720f5c0c27170e668bea9c8c25d265e760fbcaa8a",
       "source": "skills/server-ops/references/safety-and-evidence.md"
     },
     {
@@ -516,7 +626,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "6e0ab8c83937969201e1c72707b16e2832f66a36fee527194856e4ea2384ae3c",
+      "sha256": "7215f2c9230aef3fd9498dc83040afd14f5551d746f0162084da0560b7846cc7",
       "source": "skills/server-ops/schemas/adapter.schema.json"
     },
     {
@@ -540,7 +650,7 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "d82f9374d0eeae3e239c1a0f3f9da5e58847be7a76b59d02c06cc953c37e4321",
+      "sha256": "0fa2f5f039bca9bd1a611a8033689008dbfa7ddccdf2f70b6cbc133fa8ed773f",
       "source": "skills/server-ops/scripts/package_contract.py"
     },
     {
@@ -564,13 +674,19 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "8f8b4431452d2e0fbcb404322ed2daa8a4698258d3533b7a66943258f7224b95",
+      "sha256": "c694da25adca90d164b9facb589a4ae3898f2bd42669deea4df75a51aaa559eb",
+      "source": "skills/server-ops/src/server_ops/__init__.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "b97544c6da4949c45fdd98377e48701681aeff9cd0151fd5dfcd0b4735b086e1",
       "source": "skills/server-ops/src/server_ops/adapter.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "df92d73b2bd7a8056dbfc134436f72c03ce3be60c79e92fa09834bf87d430189",
+      "sha256": "43e4c60a88843862927e70d3126b386a0b6885fb18c23224acb3572169c2a182",
       "source": "skills/server-ops/src/server_ops/cli.py"
     },
     {
@@ -588,31 +704,37 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "de54221d6726c3197d639cb0664b84097e55c532292f940860da753dc26468d8",
+      "sha256": "73b309d2650b23df9d20e4d6a6ce28856e761e5cd62e8d61ef96496a6b45a233",
       "source": "skills/server-ops/src/server_ops/models.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "d6ff9eb68df7d56946e8683f5eeb9d9cf83114b8eeb45a6f0cf3956916a1dfa4",
+      "sha256": "7d4414385b5d1820ede5a032c6a77b7a9b520b1e67f4a8af5e663011b9eda696",
       "source": "skills/server-ops/src/server_ops/planner.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "009e1a479aab4df6130d082a196ae534cb741c7ccd0184b1666e677e677684d5",
+      "sha256": "b49fbb6f5badb66b1aba55ce60ab851e11f9c0580467dc8ae8e3ca491786ed3e",
+      "source": "skills/server-ops/src/server_ops/provider.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "bcfc5125c5b565de0d7a8d2971567c9e5585340cb87dc4ad4c519aa26c7b9c9d",
       "source": "skills/server-ops/src/server_ops/state.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "9d226d3418d4d0f8c6b6c0c110100b390292aea686fa6cfb29b11a45990c2a17",
+      "sha256": "e8ff036faa6b8f9e200a4a9c47f5beba79a2a387fc95958dc82b164bc8c3c84a",
       "source": "tests/test_adapter_validation.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "f451d1b3ea2253612923870f629a5f526933bb15dd63f204e7c6728b143682a0",
+      "sha256": "9948db695183037651908a43cbd1ca4cb2d14cedddb2fda0ea3bba8c072444ba",
       "source": "tests/test_cli_contract.py"
     },
     {
@@ -636,13 +758,13 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "1629534c331ab0bbfcc2f4e7ddc0417ccb0eb68d676a6b199082693c395f342c",
+      "sha256": "ecff935f933e352c6e358ca90b23a5fa1566695fa734c774e1f46bcba7988b7a",
       "source": "tests/test_install_lifecycle.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "1a5e4155b8701685120702a6e1aea390b66b3e9f45cb8b2933410611728cb9e3",
+      "sha256": "de7211d16564bca4e96dcd3e7f8623163ec3e2bce1645c3077bebc618c5cc093",
       "source": "tests/test_managed_lifecycle.py"
     },
     {
@@ -654,14 +776,20 @@
     {
       "exists": true,
       "kind": "file",
-      "sha256": "83a890de3966fa7eacfe6b29527354e4fd057a896ec6dde2b9d072042261ba4a",
+      "sha256": "10039d1d90980e5e776f390b1b78c5c3d751538141403a34fa5b0129996cc45f",
       "source": "tests/test_public_package.py"
     },
     {
       "exists": true,
       "kind": "file",
-      "sha256": "1d67f538233003b7c92b03dbd367ade719896108d5b100409903915396691ca4",
+      "sha256": "3a93c62033154f04d7881f1aed809052c702ed3841a67b380485d72bc721dfb0",
       "source": "tests/test_validation_contract.py"
+    },
+    {
+      "exists": true,
+      "kind": "file",
+      "sha256": "eb85c75e195e452a0d5f9b7505974a310603c1441030269141dbd50e8e0394ed",
+      "source": "tests/test_windows_direct_child_provider.py"
     }
   ]
 }

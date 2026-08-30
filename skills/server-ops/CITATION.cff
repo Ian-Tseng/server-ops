@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: "If you use Local Server Ops, please cite this software."
+message: 'If you use Local Server Ops, please cite this software.'
 title: "Local Server Ops"
-version: 0.2.1
-date-released: 2026-08-27
+version: 0.3.0
+date-released: 2026-08-29
 authors:
   - family-names: Tseng
     given-names: Yin-Yan

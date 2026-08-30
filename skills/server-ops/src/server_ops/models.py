@@ -92,16 +92,20 @@ class ProcessCandidate:
         return safe[:120]
 
     def public_dict(self) -> dict[str, Any]:
-        encoded_argv = json.dumps(list(self.argv), ensure_ascii=False, separators=(",", ":")).encode("utf-8")
         return {
             "pid": self.pid,
             "create_time": self.create_time,
             "executable": self.executable,
             "command": self._display_command(self.executable or (self.argv[0] if self.argv else None)),
             "argv_count": len(self.argv),
-            "argv_digest": hashlib.sha256(encoded_argv).hexdigest(),
+            "argv_digest": argv_digest(self.argv),
             "cwd": self.cwd,
             "parent_pid": self.parent_pid,
             "listening_ports": list(self.listening_ports),
             "evidence": list(self.evidence),
         }
+
+
+def argv_digest(argv: tuple[str, ...]) -> str:
+    encoded = json.dumps(list(argv), ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()

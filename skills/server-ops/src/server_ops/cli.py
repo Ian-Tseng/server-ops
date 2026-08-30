@@ -19,7 +19,9 @@ from .errors import EXIT_INTERNAL_ERROR, EXIT_REFUSED, EXIT_SUCCESS, EXIT_VERIFI
 from .health import HealthResult, probe_health
 from .models import Adapter, ServiceSpec
 from .planner import plan_mutation, refusal_receipt
-from .state import read_receipt, state_root, write_receipt
+from .provider import apply_start_plan, certified_start_available
+from .state import read_launch_receipt, read_receipt, read_workspace_interlock, state_root, workspace_state, write_receipt
+from .models import argv_digest
 
 
 SCHEMA_VERSION = 1
@@ -113,6 +115,15 @@ def _health_map(services: list[ServiceSpec]) -> dict[str, HealthResult | None]:
 def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, Any]:
     adapter = _adapter(args, required=False)
     workspace = _workspace(args)
+    recovery_interlock = read_workspace_interlock(workspace)
+    recovery_pending = recovery_interlock["state"] != "clear"
+    recovery_operation = recovery_interlock.get("operation_id")
+    recovery_next_action = (
+        f"Run `server-ops recover inspect {recovery_operation}` and reconcile the "
+        "workspace recovery interlock before any later conclusion."
+        if recovery_operation
+        else "Inspect and reconcile the workspace recovery interlock before any later conclusion."
+    )
     if adapter is None:
         candidates = discover_workspace(workspace)
         return {
@@ -122,8 +133,15 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
             "process_provider": "psutil" if psutil_available() else "unavailable",
             "candidates": [candidate.public_dict() for candidate in candidates],
             "mutation": "unavailable",
+            "recovery_interlock": recovery_interlock,
             "changed": "nothing",
-            "next_action": "Create a mutation-disabled draft only after selecting a candidate." if candidates else "Add a valid adapter or install psutil for workspace discovery.",
+            "next_action": (
+                recovery_next_action
+                if recovery_pending
+                else "Create a mutation-disabled draft only after selecting a candidate."
+                if candidates
+                else "Add a valid adapter or install psutil for workspace discovery."
+            ),
         }
 
     selected = [_service(adapter, args.service)] if getattr(args, "service", None) else list(adapter.services)
@@ -135,17 +153,31 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
         if service.match.configured:
             candidates = workspace_candidates.setdefault(
                 service.workspace,
-                discover_workspace(service.workspace, include_ports=True),
+                discover_workspace(service.workspace, include_ports=bool(service.match.ports)),
             )
         matched = match_candidates(candidates, service.match)
+        launch_receipt = read_launch_receipt(workspace, service.service_id)
+        ownership_proven = False
+        if len(matched) == 1 and launch_receipt is not None:
+            candidate = matched[0]
+            ownership_proven = (
+                launch_receipt["adapter_digest"] == adapter.digest
+                and launch_receipt["pid"] == candidate.pid
+                and abs(float(launch_receipt["create_time"]) - float(candidate.create_time or -1)) < 0.001
+                and os.path.normcase(str(Path(launch_receipt["executable"]).resolve()))
+                == os.path.normcase(str(Path(candidate.executable or "").resolve()))
+                and launch_receipt["argv_digest"] == argv_digest(candidate.argv)
+                and os.path.normcase(str(Path(launch_receipt["cwd"]).resolve()))
+                == os.path.normcase(str(Path(candidate.cwd or "").resolve()))
+            )
         if not service.match.configured:
             identity = "unbound"
             process = "unknown"
             next_action = f"Add bounded match evidence for `{service.service_id}`."
         elif len(matched) == 1:
-            identity = "partial"
+            identity = "owned" if ownership_proven else "partial"
             process = "running"
-            next_action = "Read-only match observed; ownership is not proven."
+            next_action = "Run focused health verification." if ownership_proven else "Read-only match observed; ownership is not proven."
         elif len(matched) > 1:
             identity = "ambiguous"
             process = "multiple"
@@ -154,6 +186,8 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
             identity = "not_observed"
             process = "absent_or_hidden"
             next_action = "Check the launch command and permissions; no process was changed."
+        if recovery_pending:
+            next_action = recovery_next_action
         health_result = health[service.service_id]
         row: dict[str, Any] = {
             "service": service.service_id,
@@ -161,16 +195,29 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
             "identity": identity,
             "process": process,
             "health": health_result.as_dict() if health_result else {"state": "unconfigured"},
-            "mutation": "disabled" if not service.mutation_enabled else "not_certified",
+            "mutation": (
+                "disabled" if not service.mutation_enabled
+                else "certified_start_only" if (
+                    service.strategy == "direct_child"
+                    and certified_start_available()
+                    and service.launch is not None
+                    and bool(service.match.ports)
+                )
+                else "not_configured_for_certified_start" if (
+                    service.strategy == "direct_child" and certified_start_available()
+                )
+                else "not_certified"
+            ),
             "verification": "not_run",
+            "recovery": recovery_interlock["state"],
             "matched_candidates": [candidate.public_dict() for candidate in matched[:8]],
             "next_action": next_action,
         }
         if diagnose:
             row["explanation"] = {
-                "ownership_proven": False,
+                "ownership_proven": ownership_proven,
                 "matched_evidence": sorted({evidence for candidate in matched for evidence in candidate.evidence}),
-                "missing_evidence": ["trusted launch receipt or attestation", "capability-cell certification"],
+                "missing_evidence": [] if ownership_proven else ["matching trusted launch receipt", "complete process identity match"],
             }
         rows.append(row)
     return {
@@ -178,6 +225,7 @@ def _status(args: argparse.Namespace, *, diagnose: bool = False) -> dict[str, An
         "mode": "configured",
         "adapter": str(adapter.path),
         "adapter_digest": adapter.digest,
+        "recovery_interlock": recovery_interlock,
         "services": rows,
         "changed": "nothing",
     }
@@ -289,7 +337,7 @@ def _doctor(args: argparse.Namespace) -> dict[str, Any]:
         "process_provider": {"name": "psutil", "available": psutil_available()},
         "state_root": str(state_root()),
         "network_policy": "no outbound transmission; configured loopback health probes only",
-        "mutation": "no certified providers in 0.2.1",
+        "mutation": "windows direct_child.start certified" if certified_start_available() else "certified provider unavailable on this host",
         "changed": "nothing",
     }
 
@@ -301,9 +349,10 @@ def _capabilities() -> dict[str, Any]:
         "cells": [
             {"os": "windows|macos|linux", "provider": "psutil", "strategy": "read_only", "action": "inspect", "status": "available" if psutil_available() else "dependency_missing"},
             {"os": "windows", "provider": "psutil", "strategy": "watchdog_child", "action": "restart", "status": "planned_not_certified"},
-            {"os": "windows|macos|linux", "provider": "psutil", "strategy": "direct_child", "action": "start|stop|restart", "status": "planned_not_certified"},
+            {"os": "windows", "provider": "psutil", "strategy": "direct_child", "action": "start", "status": "certified" if certified_start_available() else "dependency_or_os_unavailable"},
+            {"os": "windows|macos|linux", "provider": "psutil", "strategy": "direct_child", "action": "stop|restart", "status": "planned_not_certified"},
         ],
-        "mutation": "unavailable",
+        "mutation": "certified_start_only" if certified_start_available() else "unavailable",
         "changed": "nothing",
     }
 
@@ -361,11 +410,13 @@ def _plan(args: argparse.Namespace, action: str, service_id: str) -> dict[str, A
     candidates = []
     if service.match.configured:
         candidates = match_candidates(
-            discover_workspace(service.workspace, include_ports=True),
+            discover_workspace(service.workspace, include_ports=bool(service.match.ports)),
             service.match,
         )
     try:
-        return plan_mutation(adapter, service, action, candidates)
+        plan = plan_mutation(adapter, service, action, candidates, str(_workspace(args)))
+        path = write_receipt(_workspace(args), plan["operation_id"], plan)
+        return {"outcome": "planned", **plan, "receipt": str(path)}
     except OpsError as error:
         workspace = _workspace(args)
         receipt = refusal_receipt(adapter, service, action, candidates, error, str(workspace))
@@ -379,11 +430,38 @@ def _apply(args: argparse.Namespace) -> dict[str, Any]:
     actual = receipt.get("receipt_digest")
     if actual != args.expect_digest:
         raise OpsError("PLAN_DIGEST_MISMATCH", "Expected digest does not match the stored operation receipt.", "Inspect the receipt and request a fresh plan.", EXIT_REFUSED, {"operation_id": args.operation_id})
-    raise OpsError("OPERATION_NOT_APPLICABLE", "The stored operation is a refusal receipt, not an executable mutation plan.", "Use `server-ops capabilities`; Local Server Ops 0.2.1 has no certified mutation provider.", EXIT_REFUSED, {"operation_id": args.operation_id})
+    if receipt["schema_version"] != 2 or receipt["mutation_state"] != "planned":
+        raise OpsError("OPERATION_NOT_APPLICABLE", "The stored operation is a refusal receipt, not an executable mutation plan.", "Use `server-ops capabilities` and request a fresh certified plan.", EXIT_REFUSED, {"operation_id": args.operation_id})
+    adapter = _adapter(args, required=True)
+    assert adapter is not None
+    service = _service(adapter, receipt["service_id"])
+    candidates = match_candidates(
+        discover_workspace(service.workspace, include_ports=bool(service.match.ports)),
+        service.match,
+    )
+    return apply_start_plan(
+        workspace=_workspace(args),
+        adapter=adapter,
+        service=service,
+        plan=receipt,
+        current_candidates=candidates,
+    )
 
 
 def _recover(args: argparse.Namespace) -> dict[str, Any]:
-    return {"outcome": "observed", "receipt": read_receipt(_workspace(args), args.operation_id), "changed": "nothing"}
+    workspace = _workspace(args)
+    state = workspace_state(workspace)
+    result_path = state / "results" / f"{args.operation_id}.json"
+    transition_path = state / "transitions" / f"{args.operation_id}.json"
+    return {
+        "outcome": "observed",
+        "receipt": read_receipt(workspace, args.operation_id),
+        "recovery_interlock": read_workspace_interlock(workspace),
+        "transition_receipt": str(transition_path) if transition_path.is_file() else None,
+        "result_receipt": str(result_path) if result_path.is_file() else None,
+        "changed": "nothing",
+        "next_action": "Reconcile the recorded exact child and artifacts; recovery inspection does not clear or mutate workspace state.",
+    }
 
 
 def _migrate(args: argparse.Namespace) -> dict[str, Any]:
@@ -428,6 +506,7 @@ def _human_status(data: dict[str, Any]) -> str:
     lines = ["LOCAL SERVER OPS - READ-ONLY"]
     if data["mode"] == "adapter_free_discovery":
         lines.append(f"Workspace: {_terminal_safe(data['workspace'])}")
+        lines.append(f"Recovery: {_terminal_safe(data['recovery_interlock']['state'])}")
         lines.append(f"Candidates: {len(data['candidates'])}")
         for candidate in data["candidates"][:10]:
             command = candidate["command"] or "unknown"
@@ -444,14 +523,15 @@ def _human_status(data: dict[str, Any]) -> str:
             f"Process: {row['process']}",
             f"Health: {row['health']['state']}",
             f"Mutation: {row['mutation']}",
+            f"Recovery: {row['recovery']}",
             f"Verification: {row['verification']}",
             "Changed: nothing",
             f"Next: {row['next_action']}",
         ])
         return "\n".join(lines)
-    lines.append("Service | Identity | Process | Health | Mutation | Verify | Next")
+    lines.append("Service | Identity | Process | Health | Mutation | Recovery | Verify | Next")
     for row in rows:
-        lines.append(f"{row['service']} | {row['identity']} | {row['process']} | {row['health']['state']} | {row['mutation']} | {row['verification']} | {row['next_action']}")
+        lines.append(f"{row['service']} | {row['identity']} | {row['process']} | {row['health']['state']} | {row['mutation']} | {row['recovery']} | {row['verification']} | {row['next_action']}")
     lines.append("Changed: nothing")
     return "\n".join(lines)
 
@@ -473,7 +553,7 @@ def render_human(command: str, data: dict[str, Any]) -> str:
     if command == "capabilities":
         lines = ["LOCAL SERVER OPS CAPABILITIES"]
         lines.extend(f"{cell['os']} | {cell['provider']} | {cell['strategy']} | {cell['action']} | {cell['status']}" for cell in data["cells"])
-        lines.extend(["Mutation: unavailable", "Changed: nothing"])
+        lines.extend([f"Mutation: {data['mutation']}", "Changed: nothing"])
         return "\n".join(lines)
     if command == "verify":
         return "\n".join([
@@ -505,7 +585,16 @@ def emit_error(args: argparse.Namespace, error: OpsError) -> None:
     print(f"REFUSED [{_terminal_safe(error.code)}]" if error.exit_code == EXIT_REFUSED else f"ERROR [{_terminal_safe(error.code)}]", file=sys.stderr)
     print(_terminal_safe(error.message), file=sys.stderr)
     if error.details:
-        safe_details = {key: value for key, value in error.details.items() if key in {"operation_id", "receipt", "receipt_digest", "strategy", "action"}}
+        safe_details = {
+            key: value
+            for key, value in error.details.items()
+            if key in {
+                "operation_id", "receipt", "receipt_digest", "strategy", "action",
+                "transition_receipt", "result_receipt", "log", "rollback",
+                "result_persistence", "spawned_pid", "recovery_interlock",
+                "recovery_interlock_persisted", "interlock_state",
+            }
+        }
         for key, value in safe_details.items():
             print(f"{key.replace('_', ' ').title()}: {_terminal_safe(value)}", file=sys.stderr)
     print(f"No process was changed: {str(not error.side_effect_occurred).lower()}.", file=sys.stderr)

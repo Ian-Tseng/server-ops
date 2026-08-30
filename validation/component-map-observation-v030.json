@@ -1,0 +1,461 @@
+{
+  "objective": "Map the Server Ops 0.3.0 local candidate: public interfaces, bounded read-only health-stability verification, evidence-led diagnosis, the certified Windows psutil direct-child start cell, fail-closed lifecycle boundaries, trust-critical package lifecycle, consent-gated maintenance, content-free quality handoff, disabled full-SHA-pinned managed repair caller, and public release boundaries.",
+  "scope": [
+    ".gitattributes",
+    ".github/workflows/validate.yml",
+    ".github/workflows/managed-skill-repair.yml",
+    ".github/managed-skill-policy.json",
+    "CITATION.cff",
+    "CHANGELOG.md",
+    "README.md",
+    "PUBLISHING.md",
+    "PRIVACY.md",
+    "SECURITY.md",
+    "SOURCE.md",
+    "VERSION",
+    "pyproject.toml",
+    "skills/server-ops/SKILL.md",
+    "skills/server-ops/CHANGELOG.md",
+    "skills/server-ops/CITATION.cff",
+    "skills/server-ops/README.md",
+    "skills/server-ops/VERSION",
+    "skills/server-ops/agents/openai.yaml",
+    "skills/server-ops/schemas/adapter.schema.json",
+    "skills/server-ops/src/server_ops/adapter.py",
+    "skills/server-ops/src/server_ops/cli.py",
+    "skills/server-ops/src/server_ops/discovery.py",
+    "skills/server-ops/src/server_ops/health.py",
+    "skills/server-ops/src/server_ops/__init__.py",
+    "skills/server-ops/src/server_ops/models.py",
+    "skills/server-ops/src/server_ops/planner.py",
+    "skills/server-ops/src/server_ops/provider.py",
+    "skills/server-ops/src/server_ops/state.py",
+    "skills/server-ops/scripts/build_manifest.py",
+    "skills/server-ops/scripts/install_skill.py",
+    "skills/server-ops/scripts/package_contract.py",
+    "skills/server-ops/scripts/skill_outcome.py",
+    "skills/server-ops/scripts/update_policy.py",
+    "skills/server-ops/scripts/_internal/safe_process.py",
+    "skills/server-ops/scripts/verify_package.py",
+    "skills/server-ops/manifest.json",
+    "skills/server-ops/PRIVACY.md",
+    "skills/server-ops/references/adapter-contract.md",
+    "skills/server-ops/references/operations.md",
+    "skills/server-ops/references/product-lifecycle.md",
+    "skills/server-ops/references/safety-and-evidence.md",
+    "skills/server-ops/references/skill-outcome-receipt.schema.json",
+    "skills/server-ops/references/source-ledger.md",
+    "tests/test_adapter_validation.py",
+    "tests/test_cli_contract.py",
+    "tests/test_discovery.py",
+    "tests/test_generality_and_performance.py",
+    "tests/test_health_identity.py",
+    "tests/test_install_lifecycle.py",
+    "tests/test_managed_lifecycle.py",
+    "tests/test_product_identity.py",
+    "tests/test_public_package.py",
+    "tests/test_validation_contract.py",
+    "tests/test_windows_direct_child_provider.py"
+  ],
+  "authority": [
+    ".gitattributes",
+    "VERSION",
+    "skills/server-ops/manifest.json",
+    "skills/server-ops/SKILL.md",
+    "skills/server-ops/schemas/adapter.schema.json",
+    "skills/server-ops/scripts/package_contract.py",
+    "skills/server-ops/scripts/install_skill.py",
+    "skills/server-ops/scripts/skill_outcome.py",
+    "skills/server-ops/scripts/update_policy.py",
+    "skills/server-ops/references/skill-outcome-receipt.schema.json",
+    "skills/server-ops/src/server_ops/provider.py"
+  ],
+  "components": [
+    {
+      "component_id": "public-skill-interface",
+      "component_type": "distribution-and-agent-interface",
+      "elements": [
+        {
+          "element_id": "routing-install-and-boundaries",
+          "target": "A single installable server-ops package exposes Codex and Claude Code distribution instructions, local inspection routing, explicit non-production boundaries, and an exact-plan approval boundary for its one certified mutation cell.",
+          "relation_type": "validated_by",
+          "evidence": [
+            {
+              "source": "README.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/README.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/SKILL.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/agents/openai.yaml",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_product_identity.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_public_package.py",
+              "locator": "whole-file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "read-only-runtime",
+      "component_type": "adapter-discovery-health-and-lifecycle-runtime",
+      "elements": [
+        {
+          "element_id": "strict-adapter-and-health",
+          "target": "Versioned adapters fail closed and configured health is credential-free, literal-loopback, bounded, redirect-free, and exact-predicate.",
+          "relation_type": "validated_by",
+          "evidence": [
+            {
+              "source": "skills/server-ops/schemas/adapter.schema.json",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/adapter.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/health.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_adapter_validation.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_health_identity.py",
+              "locator": "whole-file"
+            }
+          ]
+        },
+        {
+          "element_id": "focused-stability-verification",
+          "target": "An explicit read-only verify command evaluates only the configured strict loopback health predicate until a bounded consecutive-success condition is met or the deadline expires, and diagnosis keeps symptom, recent-change evidence, hypothesis, health, stability, ownership, and compatibility distinct.",
+          "relation_type": "validated_by",
+          "evidence": [
+            {
+              "source": "skills/server-ops/src/server_ops/cli.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/health.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/operations.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/source-ledger.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_cli_contract.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_health_identity.py",
+              "locator": "whole-file"
+            }
+          ]
+        },
+        {
+          "element_id": "bounded-discovery-and-mutation-refusal",
+          "target": "Exact-workspace discovery is bounded, public output redacts raw process arguments, and disabled or uncertified lifecycle cells return typed, schema-checked, digest-verified local refusal receipts without process side effects.",
+          "relation_type": "validated_by",
+          "evidence": [
+            {
+              "source": "skills/server-ops/src/server_ops/cli.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/discovery.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/models.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/planner.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/state.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/operations.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/adapter-contract.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/safety-and-evidence.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_cli_contract.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_discovery.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_generality_and_performance.py",
+              "locator": "whole-file"
+            }
+          ]
+        },
+        {
+          "element_id": "windows-direct-child-start-provider",
+          "target": "The local v0.3.0 candidate certifies only listener-guarded Windows psutil direct-child start: adapter opt-in, a unique exclusive configured port, and a complete free-listener snapshot produce a ten-minute immutable redacted plan; exact-digest apply rechecks that guard under the workspace lock, binds the bounded non-reparse local-drive executable content SHA-256 and effective argv, denies executable write/delete replacement through process creation, discards child stdout/stderr while retaining only a fixed bounded provider marker, verifies PID, creation time, executable, argv, cwd, configured listener ownership, and adapter match, persists launch/result receipts, proves ownership, refuses replay/drift, routes verification failure or normal Ctrl+C through exact-child rollback when a handle exists, records launch_outcome_unproven when any Python control-flow exception including Ctrl+C or SystemExit exits process creation before exact-handle recovery, retains the raw lock before rollback or failure journaling, clears typed plan drift only when launch entry is proven false, preserves a structured recovery interlock or fail-closed raw lock after unproven launch, cleanup, journal, or marker persistence, and exposes every non-clear interlock through status and diagnosis with reconciliation as the next action.",
+          "relation_type": "validated_by",
+          "evidence": [
+            {
+              "source": "skills/server-ops/src/server_ops/provider.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/planner.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/state.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/cli.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/operations.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/safety-and-evidence.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_windows_direct_child_provider.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_cli_contract.py",
+              "locator": "whole-file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "managed-package-lifecycle",
+      "component_type": "identity-install-update-and-privacy-contract",
+      "elements": [
+        {
+          "element_id": "package-origin-and-integrity",
+          "target": "Synchronized version authorities, explicit LF Git policy for citation metadata, and a deterministic bounded no-follow manifest build bind reproducible regular package files while verified GitHub metadata permits only the Ian-Tseng/server-ops origin, expected package path, and supported release refs.",
+          "relation_type": "validated_by",
+          "evidence": [
+            {
+              "source": ".gitattributes",
+              "locator": "whole-file"
+            },
+            {
+              "source": "VERSION",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/VERSION",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/src/server_ops/__init__.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "pyproject.toml",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/manifest.json",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/scripts/build_manifest.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/scripts/package_contract.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/scripts/verify_package.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_product_identity.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_public_package.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "CITATION.cff",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/CITATION.cff",
+              "locator": "whole-file"
+            }
+          ]
+        },
+        {
+          "element_id": "verified-install-and-default-off-privacy",
+          "target": "The custom installer uses bounded no-follow metadata reads, verifies source and target identity, fails closed on unsafe or modified state, keeps rollback outside active discovery, and the lifecycle enables no reporting, analytics, or update transport by default.",
+          "relation_type": "validated_by",
+          "evidence": [
+            {
+              "source": "skills/server-ops/scripts/install_skill.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/PRIVACY.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/product-lifecycle.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_install_lifecycle.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_product_identity.py",
+              "locator": "whole-file"
+            }
+          ]
+        },
+        {
+          "element_id": "managed-update-and-quality-handoff",
+          "target": "After substantive use, the skill runs consent-gated update maintenance and emits one content-free receipt; separately, a disabled closed policy and thin full-SHA-pinned caller preserve owner triage, two protected approvals, draft-only publication, and human evidence/release authority without enabling project or process-data transport.",
+          "relation_type": "validated_by",
+          "evidence": [
+            {
+              "source": "skills/server-ops/SKILL.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/skill-outcome-receipt.schema.json",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/scripts/_internal/safe_process.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/scripts/skill_outcome.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/scripts/update_policy.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": ".github/managed-skill-policy.json",
+              "locator": "whole-file"
+            },
+            {
+              "source": ".github/workflows/managed-skill-repair.yml",
+              "locator": "whole-file"
+            },
+            {
+              "source": "README.md",
+              "locator": "GitHub-managed repair boundary"
+            },
+            {
+              "source": "PUBLISHING.md",
+              "locator": "managed repair release gates"
+            },
+            {
+              "source": "tests/test_managed_lifecycle.py",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_product_identity.py",
+              "locator": "whole-file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component_id": "release-evidence-and-provenance",
+      "component_type": "claim-evidence-and-publication-boundary",
+      "elements": [
+        {
+          "element_id": "local-release-candidate-authority",
+          "target": "The local candidate records its tested package, validator, publisher-dry-run, provenance, and explicitly pending remote lifecycle gates without claiming publication.",
+          "relation_type": "documented_and_validated_by",
+          "evidence": [
+            {
+              "source": ".github/workflows/validate.yml",
+              "locator": "whole-file"
+            },
+            {
+              "source": "CHANGELOG.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "PUBLISHING.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "SECURITY.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "SOURCE.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "skills/server-ops/references/source-ledger.md",
+              "locator": "whole-file"
+            },
+            {
+              "source": "tests/test_validation_contract.py",
+              "locator": "whole-file"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "strongest_safe_claim": "Server Ops 0.3.0 is a locally tested, package-verified candidate that preserves strict read-only inspection and certifies only listener-guarded Windows psutil direct-child start with immutable exact-digest consent, complete free-listener evidence at plan and locked apply, bounded local non-reparse executable SHA-256 plus effective argv binding, replacement denial through process creation, discarded child stdout/stderr plus one fixed bounded provider marker, one-use journaling, complete spawned-child identity and listener evidence, ownership receipts, exact-child rollback when a handle exists, conservative launch_outcome_unproven evidence when any Python control-flow exception including Ctrl+C or SystemExit exits process creation before handle recovery, launch-entry-bound typed drift refusal, a raw-lock-first fail-closed workspace recovery interlock after unproven launch, cleanup, result persistence, or marker persistence, and recovery-aware status and diagnosis; every other mutation cell remains uncertified.",
+  "claim_boundary": "This structural map, local package verification, and bounded Windows tests do not turn a free-listener snapshot into generic process-absence proof and do not establish exclusion of external-start races, hard-crash recovery, descendant containment, public v0.3.0 CI, publication, installed-client activation, production reliability, stop/restart/watchdog safety, non-Windows mutation, or ownership for a process without the exact matching launch receipt.",
+  "unresolved_uncertainties": [
+    "The v0.3.0 candidate component map has not been explicitly accepted.",
+    "The v0.3.0 PR and exact-main CI have not passed.",
+    "The v0.3.0 tag and immutable release do not exist.",
+    "Public v0.3.0 install/update and fresh Codex or Claude Code activation are unobserved.",
+    "External-start races after the locked listener snapshot, hard-kill recovery, and descendant containment remain outside the certified cell.",
+    "One cold adapter-free performance baseline exceeded two seconds before an exact rerun passed at 1.76 seconds; hosted Windows timing remains unobserved.",
+    "Protected managed-repair environments, hosted canary, agent execution, and draft publication remain external pending gates."
+  ]
+}
